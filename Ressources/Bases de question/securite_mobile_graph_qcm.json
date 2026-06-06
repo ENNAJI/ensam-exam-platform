@@ -1,0 +1,500 @@
+{
+  "matiere": "Sécurité des Applications Mobiles",
+  "type": "GraphQCM",
+  "description": "Questions de type glisser-déposer pour reconstituer des structures et architectures",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Reconstituez l'architecture Android en couches (du bas vers le haut)",
+      "type": "ordre",
+      "elements": ["Linux Kernel", "HAL (Hardware Abstraction Layer)", "ART + Native Libraries", "Application Framework", "Applications"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 2,
+      "question": "Reconstituez l'architecture iOS en couches (du bas vers le haut)",
+      "type": "ordre",
+      "elements": ["Core OS (Kernel XNU)", "Core Services", "Media Layer", "Cocoa Touch"],
+      "reponse_ordre": [0, 1, 2, 3],
+      "points": 3
+    },
+    {
+      "id": 3,
+      "question": "Reconstituez la Secure Boot Chain iOS (ordre de démarrage)",
+      "type": "ordre",
+      "elements": ["Boot ROM (iBoot)", "LLB (Low-Level Bootloader)", "iBoot (2nd stage)", "iOS Kernel (XNU)", "Kernel Extensions"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 4,
+      "question": "Classez les éléments dans la bonne catégorie : Architecture Android vs iOS",
+      "type": "classification",
+      "categories": ["Android", "iOS"],
+      "elements": [
+        {"nom": "SELinux", "categorie": 0},
+        {"nom": "Secure Enclave", "categorie": 1},
+        {"nom": "ARM TrustZone (TEE)", "categorie": 0},
+        {"nom": "XNU Kernel", "categorie": 1},
+        {"nom": "Linux Kernel", "categorie": 0},
+        {"nom": "Code Signing obligatoire", "categorie": 1},
+        {"nom": "StrongBox", "categorie": 0},
+        {"nom": "App Store Review", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 5,
+      "question": "Classez les types de permissions Android dans la bonne catégorie",
+      "type": "classification",
+      "categories": ["Normal", "Dangerous", "Signature", "Special"],
+      "elements": [
+        {"nom": "INTERNET", "categorie": 0},
+        {"nom": "CAMERA", "categorie": 1},
+        {"nom": "BLUETOOTH", "categorie": 0},
+        {"nom": "LOCATION", "categorie": 1},
+        {"nom": "INSTALL_PACKAGES", "categorie": 2},
+        {"nom": "SYSTEM_ALERT_WINDOW", "categorie": 3},
+        {"nom": "CONTACTS", "categorie": 1},
+        {"nom": "WRITE_SETTINGS", "categorie": 3}
+      ],
+      "points": 4
+    },
+    {
+      "id": 6,
+      "question": "Associez chaque composant Android à sa fonction",
+      "type": "association",
+      "elements_gauche": ["Activity", "Service", "BroadcastReceiver", "ContentProvider"],
+      "elements_droite": ["Interface utilisateur", "Traitement en arrière-plan", "Écoute événements système", "Partage de données entre apps"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 7,
+      "question": "Classez les menaces mobiles dans la bonne catégorie",
+      "type": "classification",
+      "categories": ["Malware", "Attaques Réseau", "Phishing", "Vol de Données"],
+      "elements": [
+        {"nom": "Banking Trojans", "categorie": 0},
+        {"nom": "Man-in-the-Middle", "categorie": 1},
+        {"nom": "Smishing (SMS)", "categorie": 2},
+        {"nom": "SQLite non chiffré", "categorie": 3},
+        {"nom": "Ransomware", "categorie": 0},
+        {"nom": "Evil Twin WiFi", "categorie": 1},
+        {"nom": "Fake Apps", "categorie": 2},
+        {"nom": "Clipboard exposé", "categorie": 3}
+      ],
+      "points": 4
+    },
+    {
+      "id": 8,
+      "question": "Reconstituez le flux des Runtime Permissions Android",
+      "type": "ordre",
+      "elements": ["checkSelfPermission()", "shouldShowRequestPermissionRationale()", "requestPermissions()", "onRequestPermissionsResult()"],
+      "reponse_ordre": [0, 1, 2, 3],
+      "points": 3
+    },
+    {
+      "id": 9,
+      "question": "Associez chaque classe Data Protection iOS à sa description",
+      "type": "association",
+      "elements_gauche": ["Complete", "CompleteUnlessOpen", "CompleteUntilFirstUserAuthentication", "None"],
+      "elements_droite": ["Inaccessible device verrouillé (max sécurité)", "Accessible si ouvert avant verrouillage", "Accessible après 1er déverrouillage (défaut)", "Toujours accessible"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 10,
+      "question": "Classez les éléments de sécurité par couche Android",
+      "type": "classification",
+      "categories": ["Couche UserLand", "Couche Kernel", "Couche Matérielle"],
+      "elements": [
+        {"nom": "Applications (UID unique)", "categorie": 0},
+        {"nom": "Linux Kernel", "categorie": 1},
+        {"nom": "ARM TrustZone (TEE)", "categorie": 2},
+        {"nom": "Android Framework/ART", "categorie": 0},
+        {"nom": "SELinux MAC", "categorie": 1},
+        {"nom": "StrongBox/Secure Element", "categorie": 2},
+        {"nom": "Binder IPC", "categorie": 0},
+        {"nom": "Drivers", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 11,
+      "question": "Classez les éléments de sécurité par couche iOS",
+      "type": "classification",
+      "categories": ["Couche UserLand", "Couche Kernel", "Couche Matérielle"],
+      "elements": [
+        {"nom": "Applications (Sandbox)", "categorie": 0},
+        {"nom": "XNU Kernel", "categorie": 1},
+        {"nom": "Secure Enclave (SEP)", "categorie": 2},
+        {"nom": "Cocoa Touch/Frameworks", "categorie": 0},
+        {"nom": "KASLR", "categorie": 1},
+        {"nom": "Touch ID/Face ID hardware", "categorie": 2},
+        {"nom": "Code Signing", "categorie": 1},
+        {"nom": "Apple Silicon", "categorie": 2}
+      ],
+      "points": 4
+    },
+    {
+      "id": 12,
+      "question": "Associez chaque type de certificat iOS à sa description",
+      "type": "association",
+      "elements_gauche": ["Development", "Ad Hoc", "App Store", "Enterprise"],
+      "elements_droite": ["Tests sur devices enregistrés (<100)", "Distribution limitée à 100 devices", "Distribution publique via App Store", "Distribution interne entreprise"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 13,
+      "question": "Reconstituez l'architecture du Sandbox Android",
+      "type": "ordre",
+      "elements": ["Application avec UID unique", "Répertoire privé /data/data/", "Communication via Binder IPC", "SELinux en mode Enforcing"],
+      "reponse_ordre": [0, 1, 2, 3],
+      "points": 3
+    },
+    {
+      "id": 14,
+      "question": "Classez les attaques selon la plateforme ciblée principalement",
+      "type": "classification",
+      "categories": ["Android (attaques de masse)", "iOS (attaques ciblées)"],
+      "elements": [
+        {"nom": "Malware trojanisé", "categorie": 0},
+        {"nom": "Exploits kernel zero-day", "categorie": 1},
+        {"nom": "Banking trojans", "categorie": 0},
+        {"nom": "Chaînes Pegasus-like", "categorie": 1},
+        {"nom": "Overlay attacks", "categorie": 0},
+        {"nom": "Attaques WebKit", "categorie": 1},
+        {"nom": "Sideloading APK malveillant", "categorie": 0},
+        {"nom": "Jailbreak exploitation", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 15,
+      "question": "Associez chaque groupe de permissions Android à ses permissions",
+      "type": "association",
+      "elements_gauche": ["CALENDAR", "CAMERA", "LOCATION", "SMS"],
+      "elements_droite": ["READ/WRITE_CALENDAR", "CAMERA", "FINE/COARSE/BACKGROUND", "SEND/RECEIVE/READ_SMS"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 16,
+      "question": "Reconstituez le processus App Store Review iOS",
+      "type": "ordre",
+      "elements": ["Analyse automatisée (malware, API privées)", "Review manuelle (guidelines, contenu)", "Tests fonctionnels (crash, comportement)", "Vérification métadonnées"],
+      "reponse_ordre": [0, 1, 2, 3],
+      "points": 3
+    },
+    {
+      "id": 17,
+      "question": "Classez les éléments du container iOS",
+      "type": "classification",
+      "categories": ["Bundle/", "Documents/", "Library/", "tmp/"],
+      "elements": [
+        {"nom": "Binaire et ressources (lecture seule)", "categorie": 0},
+        {"nom": "Données utilisateur (iCloud)", "categorie": 1},
+        {"nom": "Caches et Preferences", "categorie": 2},
+        {"nom": "Fichiers temporaires", "categorie": 3}
+      ],
+      "points": 4
+    },
+    {
+      "id": 18,
+      "question": "Associez chaque technologie de stockage sécurisé Android à son usage",
+      "type": "association",
+      "elements_gauche": ["Android KeyStore", "EncryptedSharedPreferences", "EncryptedFile", "SQLCipher"],
+      "elements_droite": ["Clés cryptographiques dans TEE", "Préférences chiffrées AES-256-GCM", "Fichiers chiffrés", "Base SQLite chiffrée"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 19,
+      "question": "Reconstituez l'architecture KeyStore Android",
+      "type": "ordre",
+      "elements": ["Application", "KeyStore API", "keystore daemon", "TEE/StrongBox"],
+      "reponse_ordre": [0, 1, 2, 3],
+      "points": 3
+    },
+    {
+      "id": 20,
+      "question": "Classez les caractéristiques selon Android ou iOS",
+      "type": "classification",
+      "categories": ["Android", "iOS"],
+      "elements": [
+        {"nom": "Open source", "categorie": 0},
+        {"nom": "App Store exclusif", "categorie": 1},
+        {"nom": "Sideloading APK possible", "categorie": 0},
+        {"nom": "Mises à jour OTA rapides", "categorie": 1},
+        {"nom": "Fragmentation élevée (1000+ versions)", "categorie": 0},
+        {"nom": ">80% sur dernière version en 6 mois", "categorie": 1},
+        {"nom": "Runtime permissions (6.0+)", "categorie": 0},
+        {"nom": "Privacy prompts contextuels (iOS 14+)", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 21,
+      "question": "Associez chaque fonction Secure Enclave à sa description",
+      "type": "association",
+      "elements_gauche": ["Stockage clés", "Biométrie", "Apple Pay", "TRNG"],
+      "elements_droite": ["Clés cryptographiques non exportables", "Templates Touch ID/Face ID", "Secure Element pour paiements NFC", "True Random Number Generator"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 22,
+      "question": "Classez les vecteurs d'attaque mobile par niveau de risque",
+      "type": "ordre",
+      "elements": ["Apps tierces malveillantes (>90% infections)", "Permissions excessives (90%+)", "Réseaux WiFi publics", "Bluetooth & NFC", "Composants exportés"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 23,
+      "question": "Associez chaque modèle de sécurité Android à sa fonction",
+      "type": "association",
+      "elements_gauche": ["Linux Kernel", "SELinux Enforcing", "Verified Boot", "SafetyNet/Play Integrity"],
+      "elements_droite": ["Base de sécurité, isolation processus", "Contrôle d'accès obligatoire (MAC)", "Démarrage vérifié cryptographiquement", "Attestation device, détection root"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 24,
+      "question": "Associez chaque modèle de sécurité iOS à sa fonction",
+      "type": "association",
+      "elements_gauche": ["Secure Boot Chain", "Kernel XNU", "Secure Enclave", "Code Signing"],
+      "elements_droite": ["Vérification signature à chaque étape", "Séparation noyau/userspace stricte", "Cryptoprocesseur ARM isolé", "Validation app à chaque lancement"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 25,
+      "question": "Reconstituez l'évolution des permissions Android",
+      "type": "ordre",
+      "elements": ["Android <6.0 : install-time (toutes à l'installation)", "Android 6.0+ : runtime permissions", "Android 11+ : one-time + auto-reset"],
+      "reponse_ordre": [0, 1, 2],
+      "points": 3
+    },
+    {
+      "id": 26,
+      "question": "Classez les types de Keychain iOS",
+      "type": "classification",
+      "categories": ["Types de données Keychain"],
+      "elements": [
+        {"nom": "GenericPassword", "categorie": 0},
+        {"nom": "InternetPassword", "categorie": 0},
+        {"nom": "Certificate", "categorie": 0},
+        {"nom": "Key", "categorie": 0},
+        {"nom": "Identity", "categorie": 0}
+      ],
+      "points": 2
+    },
+    {
+      "id": 27,
+      "question": "Associez chaque statistique de menace à sa valeur",
+      "type": "association",
+      "elements_gauche": ["Apps infectées (Malware)", "Apps vulnérables réseau", "Croissance phishing/an", "Apps vulnérables vol données"],
+      "elements_droite": ["15%", "30%", "+50%", "43%"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 28,
+      "question": "Classez les risques des composants exportés Android",
+      "type": "classification",
+      "categories": ["Activity exportée", "Service exporté", "ContentProvider exporté", "BroadcastReceiver exporté"],
+      "elements": [
+        {"nom": "N'importe quelle app peut la lancer", "categorie": 0},
+        {"nom": "Exécution de code arbitraire", "categorie": 1},
+        {"nom": "Accès aux données", "categorie": 2},
+        {"nom": "Injection d'intents malveillants", "categorie": 3}
+      ],
+      "points": 4
+    },
+    {
+      "id": 29,
+      "question": "Reconstituez le profil de provisioning iOS",
+      "type": "ordre",
+      "elements": ["Certificat développeur", "App ID (bundle ID)", "Devices autorisés", "Entitlements"],
+      "reponse_ordre": [0, 1, 2, 3],
+      "points": 3
+    },
+    {
+      "id": 30,
+      "question": "Associez chaque protection recommandée Android à son usage",
+      "type": "association",
+      "elements_gauche": ["android:exported=\"false\"", "android:permission", "Intent validation", "Signature-level protection"],
+      "elements_droite": ["Pas d'accès inter-apps", "Restreindre l'accès", "Valider les intents reçus", "Composants sensibles"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 31,
+      "question": "Reconstituez la hiérarchie de sécurité SELinux sur Android (du plus bas au plus haut niveau)",
+      "type": "ordre",
+      "elements": ["Kernel Linux", "SELinux Policy", "Domaines de processus", "Contextes de sécurité", "Règles d'accès"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 32,
+      "question": "Classez les composants selon leur environnement : Secure World vs Normal World (TrustZone)",
+      "type": "classification",
+      "categories": ["Secure World", "Normal World"],
+      "elements": [
+        {"nom": "Trusted OS", "categorie": 0},
+        {"nom": "Android OS", "categorie": 1},
+        {"nom": "Clés cryptographiques", "categorie": 0},
+        {"nom": "Applications utilisateur", "categorie": 1},
+        {"nom": "DRM (Digital Rights Management)", "categorie": 0},
+        {"nom": "Navigateur web", "categorie": 1},
+        {"nom": "Authentification biométrique", "categorie": 0},
+        {"nom": "Jeux et apps", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 33,
+      "question": "Associez chaque composant de sécurité à son système d'exploitation",
+      "type": "association",
+      "elements_gauche": ["SELinux", "Secure Enclave", "TrustZone TEE", "Mandatory Code Signing"],
+      "elements_droite": ["Android - MAC", "iOS - Crypto isolée", "Android - Environnement sécurisé", "iOS - Vérification code"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 34,
+      "question": "Reconstituez le flux de vérification du Mandatory Code Signing iOS",
+      "type": "ordre",
+      "elements": ["Téléchargement de l'app", "Vérification signature Apple", "Vérification certificat développeur", "Validation des entitlements", "Autorisation d'exécution"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 35,
+      "question": "Classez les fonctions selon leur emplacement : Secure Enclave vs Processeur principal (iOS)",
+      "type": "classification",
+      "categories": ["Secure Enclave", "Processeur principal (AP)"],
+      "elements": [
+        {"nom": "Stockage UID device", "categorie": 0},
+        {"nom": "Exécution des apps", "categorie": 1},
+        {"nom": "Traitement Touch ID/Face ID", "categorie": 0},
+        {"nom": "Affichage UI", "categorie": 1},
+        {"nom": "Génération clés AES", "categorie": 0},
+        {"nom": "Connexion réseau", "categorie": 1},
+        {"nom": "Compteur anti-brute force", "categorie": 0},
+        {"nom": "Lecture fichiers", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 36,
+      "question": "Associez chaque mode SELinux à sa description",
+      "type": "association",
+      "elements_gauche": ["Enforcing", "Permissive", "Disabled", "Targeted"],
+      "elements_droite": ["Bloque et journalise", "Journalise sans bloquer", "Aucune protection", "Politique ciblée"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 37,
+      "question": "Reconstituez l'architecture ARM TrustZone (du matériel au logiciel)",
+      "type": "ordre",
+      "elements": ["Processeur ARM avec TrustZone", "Secure Monitor (EL3)", "Trusted OS (Secure World)", "Rich OS (Normal World)", "Applications sécurisées (Trustlets)"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 38,
+      "question": "Classez les protections selon le type de contrôle d'accès : DAC vs MAC",
+      "type": "classification",
+      "categories": ["DAC (Discretionary)", "MAC (Mandatory)"],
+      "elements": [
+        {"nom": "Permissions fichiers Unix (rwx)", "categorie": 0},
+        {"nom": "Politiques SELinux", "categorie": 1},
+        {"nom": "Propriétaire peut modifier droits", "categorie": 0},
+        {"nom": "Système impose les règles", "categorie": 1},
+        {"nom": "chmod/chown", "categorie": 0},
+        {"nom": "Contextes de sécurité", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 39,
+      "question": "Associez chaque élément du Secure Enclave à sa fonction",
+      "type": "association",
+      "elements_gauche": ["TRNG", "AES Engine", "PKA", "Secure Memory"],
+      "elements_droite": ["Génération nombres aléatoires", "Chiffrement matériel", "Cryptographie asymétrique", "Stockage isolé"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 40,
+      "question": "Reconstituez le processus de déverrouillage avec Secure Enclave (Touch ID)",
+      "type": "ordre",
+      "elements": ["Capture empreinte", "Envoi au Secure Enclave", "Comparaison avec template stocké", "Dérivation clé de déchiffrement", "Déverrouillage données"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 41,
+      "question": "Classez les attaques selon ce qui les bloque : SELinux vs Code Signing",
+      "type": "classification",
+      "categories": ["Bloqué par SELinux", "Bloqué par Code Signing"],
+      "elements": [
+        {"nom": "Escalade de privilèges", "categorie": 0},
+        {"nom": "Injection de code malveillant", "categorie": 1},
+        {"nom": "Accès non autorisé aux fichiers", "categorie": 0},
+        {"nom": "Exécution d'apps non signées", "categorie": 1},
+        {"nom": "Processus sortant de son domaine", "categorie": 0},
+        {"nom": "Modification du code d'une app", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 42,
+      "question": "Associez chaque terme TrustZone à sa définition",
+      "type": "association",
+      "elements_gauche": ["SMC", "Trustlet", "TEE", "REE"],
+      "elements_droite": ["Appel au Secure Monitor", "App sécurisée", "Environnement d'exécution de confiance", "Environnement d'exécution riche"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 43,
+      "question": "Reconstituez la chaîne de confiance Android Verified Boot",
+      "type": "ordre",
+      "elements": ["Root of Trust (matériel)", "Bootloader vérifié", "Kernel vérifié", "System partition (dm-verity)", "Applications vérifiées"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 44,
+      "question": "Classez les données selon leur stockage : Secure Enclave vs Keychain iOS",
+      "type": "classification",
+      "categories": ["Secure Enclave", "Keychain"],
+      "elements": [
+        {"nom": "UID du device", "categorie": 0},
+        {"nom": "Mots de passe Wi-Fi", "categorie": 1},
+        {"nom": "Clés biométriques", "categorie": 0},
+        {"nom": "Tokens d'authentification", "categorie": 1},
+        {"nom": "Clé de chiffrement master", "categorie": 0},
+        {"nom": "Certificats", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 45,
+      "question": "Associez chaque protection Android à son niveau de sécurité",
+      "type": "association",
+      "elements_gauche": ["App Sandbox", "SELinux", "StrongBox/TEE", "Verified Boot"],
+      "elements_droite": ["Isolation processus", "Contrôle d'accès obligatoire", "Stockage clés matériel", "Intégrité système"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    }
+  ]
+}

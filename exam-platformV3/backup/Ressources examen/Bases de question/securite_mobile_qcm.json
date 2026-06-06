@@ -1,0 +1,881 @@
+{
+  "matiere": "Sécurité des Applications Mobiles",
+  "type": "QCM",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Quel mécanisme de sandboxing utilise Android ?",
+      "options": ["App Sandbox uniquement", "SELinux + App Sandbox avec UID unique par app", "Secure Enclave", "Code Signing uniquement"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 2,
+      "question": "Depuis quelle version d'Android les runtime permissions ont-elles été introduites ?",
+      "options": ["Android 4.0", "Android 5.0", "Android 6.0", "Android 8.0"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 3,
+      "question": "Quel est le pourcentage approximatif d'utilisateurs iOS sur la dernière version majeure après 6 mois ?",
+      "options": ["40%", "60%", "80%", "95%"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 4,
+      "question": "Quel composant iOS gère les clés cryptographiques de manière isolée ?",
+      "options": ["App Sandbox", "Keychain", "Secure Enclave", "Boot ROM"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 5,
+      "question": "Quelle attaque consiste à superposer une fausse interface sur une application légitime ?",
+      "options": ["Phishing", "Overlay attack", "Man-in-the-Middle", "SQL Injection"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 6,
+      "question": "Quel type de malware vole les identifiants bancaires ?",
+      "options": ["Ransomware", "Spyware", "Banking Trojan", "Adware"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 7,
+      "question": "Quel est le coût approximatif d'un exploit iOS zero-day sur le marché ?",
+      "options": ["10 000$", "100 000$", "1 000 000$+", "500$"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 8,
+      "question": "Quelle technologie Apple vérifie l'intégrité du système au démarrage ?",
+      "options": ["App Store Review", "Secure Boot Chain", "Code Signing", "Sandbox"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 9,
+      "question": "Quel pourcentage d'applications mobiles contient des vulnérabilités réseau ?",
+      "options": ["10%", "30%", "50%", "70%"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 10,
+      "question": "Quelle attaque réseau intercepte les communications entre deux parties ?",
+      "options": ["DDoS", "Man-in-the-Middle", "Brute Force", "SQL Injection"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 11,
+      "question": "Comment s'appelle le phishing par SMS ?",
+      "options": ["Vishing", "Smishing", "Quishing", "Phreaking"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 12,
+      "question": "Quel est le range d'UID pour les applications Android ?",
+      "options": ["1-999", "1000-9999", "10000-19999", "20000-29999"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 13,
+      "question": "Quel répertoire contient les données privées d'une application Android ?",
+      "options": ["/system/app/", "/data/data/", "/sdcard/", "/cache/"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 14,
+      "question": "Quel mécanisme IPC sécurisé utilise Android ?",
+      "options": ["Socket", "Binder", "Pipe", "Shared Memory"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 15,
+      "question": "Quel type de permission Android nécessite le consentement explicite de l'utilisateur ?",
+      "options": ["Normal", "Dangerous", "Signature", "System"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 16,
+      "question": "Quelle permission Android permet d'accéder à la caméra ?",
+      "options": ["INTERNET", "CAMERA", "READ_CONTACTS", "BLUETOOTH"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 17,
+      "question": "Combien de groupes de permissions dangereuses existe-t-il sur Android ?",
+      "options": ["5", "7", "9", "11"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 18,
+      "question": "Quelle méthode vérifie si une permission est accordée sur Android ?",
+      "options": ["requestPermissions()", "checkSelfPermission()", "grantPermission()", "hasPermission()"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 19,
+      "question": "Quel composant Android gère l'interface utilisateur ?",
+      "options": ["Service", "Activity", "BroadcastReceiver", "ContentProvider"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 20,
+      "question": "Quel attribut Android empêche un composant d'être accessible par d'autres applications ?",
+      "options": ["android:private=\"true\"", "android:exported=\"false\"", "android:secure=\"true\"", "android:hidden=\"true\""],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 21,
+      "question": "Quel composant Android permet le partage de données entre applications ?",
+      "options": ["Activity", "Service", "BroadcastReceiver", "ContentProvider"],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 22,
+      "question": "Quelle technologie hardware sécurise les clés dans Android ?",
+      "options": ["SELinux", "TEE (TrustZone)", "ASLR", "Stack Canary"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 23,
+      "question": "À partir de quelle version Android StrongBox est-il disponible ?",
+      "options": ["Android 7", "Android 8", "Android 9", "Android 10"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 24,
+      "question": "Quel algorithme de chiffrement utilise EncryptedSharedPreferences ?",
+      "options": ["DES", "3DES", "AES-256-GCM", "RSA"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 25,
+      "question": "Quelle bibliothèque permet de chiffrer une base SQLite sur Android ?",
+      "options": ["SQLiteEncrypt", "SQLCipher", "CryptoSQL", "SecureDB"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 26,
+      "question": "Quel kernel utilise iOS ?",
+      "options": ["Linux", "XNU (Mach+BSD)", "Windows NT", "FreeBSD"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 27,
+      "question": "Quel est le premier élément de la Secure Boot Chain iOS ?",
+      "options": ["iBoot", "LLB", "Boot ROM", "Kernel"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 28,
+      "question": "Que se passe-t-il si la vérification de signature échoue au boot iOS ?",
+      "options": ["Le système continue", "Mode recovery/DFU", "Réinstallation automatique", "Rien"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 29,
+      "question": "Quel coprocesseur iOS gère les données biométriques ?",
+      "options": ["A-Series", "Secure Enclave", "Neural Engine", "GPU"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 30,
+      "question": "Combien de devices maximum pour un certificat Ad Hoc iOS ?",
+      "options": ["10", "50", "100", "Illimité"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 31,
+      "question": "Quelle est la durée de validité d'un certificat développeur iOS gratuit ?",
+      "options": ["7 jours", "30 jours", "90 jours", "1 an"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 32,
+      "question": "Quel fichier contient le provisioning profile iOS ?",
+      "options": ["Info.plist", "embedded.mobileprovision", "Entitlements.plist", "CodeSign.xml"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 33,
+      "question": "Quelle est la durée moyenne de review App Store ?",
+      "options": ["1-2 heures", "24-48 heures", "1 semaine", "1 mois"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 34,
+      "question": "Quel dossier iOS contient les données synchronisées avec iCloud ?",
+      "options": ["Bundle/", "Documents/", "Library/", "tmp/"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 35,
+      "question": "Quelle clé Info.plist est requise pour accéder à la caméra iOS ?",
+      "options": ["NSCameraUsageDescription", "CameraPermission", "UIRequiredDeviceCapabilities", "NSPhotoLibraryUsageDescription"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 36,
+      "question": "Quel service iOS gère le Keychain ?",
+      "options": ["SpringBoard", "securityd", "launchd", "configd"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 37,
+      "question": "Quelle classe Data Protection offre la sécurité maximale ?",
+      "options": ["None", "CompleteUntilFirstUserAuthentication", "CompleteUnlessOpen", "Complete"],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 38,
+      "question": "Quelle classe Data Protection est utilisée par défaut sur iOS ?",
+      "options": ["Complete", "CompleteUnlessOpen", "CompleteUntilFirstUserAuthentication", "None"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 39,
+      "question": "Quel framework iOS permet de stocker des mots de passe de manière sécurisée ?",
+      "options": ["UserDefaults", "CoreData", "Keychain Services", "FileManager"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 40,
+      "question": "Quelle vulnérabilité permet d'exécuter du code via une entrée utilisateur non validée ?",
+      "options": ["Buffer Overflow", "SQL Injection", "XSS", "Toutes ces réponses"],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 41,
+      "question": "Quel outil est utilisé pour le reverse engineering d'applications Android ?",
+      "options": ["Xcode", "jadx/apktool", "Visual Studio", "Eclipse"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 42,
+      "question": "Quel format de fichier contient une application Android ?",
+      "options": [".ipa", ".apk", ".exe", ".dmg"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 43,
+      "question": "Quel format de fichier contient une application iOS ?",
+      "options": [".apk", ".ipa", ".app", ".dmg"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 44,
+      "question": "Quelle attaque exploite les failles Bluetooth ?",
+      "options": ["BlueBorne", "Heartbleed", "Shellshock", "Meltdown"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 45,
+      "question": "Quel pourcentage d'infections mobiles provient d'applications tierces ?",
+      "options": ["50%", "70%", "90%", "30%"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 46,
+      "question": "Quelle technique permet de contourner le SSL pinning ?",
+      "options": ["Frida", "ADB", "Logcat", "Gradle"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 47,
+      "question": "Quel est le nom du spyware sophistiqué ciblant iOS découvert en 2016 ?",
+      "options": ["WannaCry", "Pegasus", "Stuxnet", "NotPetya"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 48,
+      "question": "Quelle protection mémoire randomise les adresses ?",
+      "options": ["DEP", "ASLR", "Stack Canary", "CFI"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 49,
+      "question": "Quel mécanisme iOS empêche l'exécution de code non signé ?",
+      "options": ["Sandbox", "Code Signing", "ASLR", "Keychain"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 50,
+      "question": "Quelle est la principale différence entre IDS et IPS ?",
+      "options": ["IDS est plus rapide", "IPS bloque les attaques, IDS détecte seulement", "IDS est hardware, IPS software", "Aucune différence"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 51,
+      "question": "Quel composant Android s'exécute en arrière-plan sans interface ?",
+      "options": ["Activity", "Service", "Fragment", "View"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 52,
+      "question": "Quelle attaque utilise un faux point d'accès WiFi ?",
+      "options": ["ARP Spoofing", "Evil Twin", "DNS Poisoning", "MAC Flooding"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 53,
+      "question": "Quel protocole sécurise les communications HTTPS ?",
+      "options": ["SSH", "TLS/SSL", "IPSec", "WPA2"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 54,
+      "question": "Quelle technique vérifie l'intégrité du certificat serveur ?",
+      "options": ["SSL Pinning", "Code Signing", "Obfuscation", "Encryption"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 55,
+      "question": "Quel outil permet d'intercepter le trafic réseau mobile ?",
+      "options": ["Burp Suite", "Android Studio", "Xcode", "Visual Studio"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 56,
+      "question": "Quelle permission Android est considérée comme 'normale' ?",
+      "options": ["CAMERA", "INTERNET", "READ_CONTACTS", "ACCESS_FINE_LOCATION"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 57,
+      "question": "Quel framework de test de sécurité mobile est maintenu par OWASP ?",
+      "options": ["MSTG", "NIST", "ISO 27001", "PCI-DSS"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 58,
+      "question": "Quelle vulnérabilité permet d'accéder aux données via une URL malformée ?",
+      "options": ["Path Traversal", "Buffer Overflow", "Race Condition", "Integer Overflow"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 59,
+      "question": "Quel mécanisme Android vérifie l'intégrité du système au boot ?",
+      "options": ["SELinux", "Verified Boot", "SafetyNet", "Play Protect"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 60,
+      "question": "Quelle API Google détecte les appareils rootés/compromis ?",
+      "options": ["Firebase", "SafetyNet/Play Integrity", "AdMob", "Maps API"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 61,
+      "question": "Quel est le risque principal du stockage de données sur SD card Android ?",
+      "options": ["Performance", "Accessibilité par toutes les apps", "Coût", "Taille limitée"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 62,
+      "question": "Quelle technique masque le code source pour le rendre difficile à analyser ?",
+      "options": ["Encryption", "Obfuscation", "Compression", "Minification"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 63,
+      "question": "Quel outil ProGuard/R8 est utilisé pour l'obfuscation Android ?",
+      "options": ["Gradle", "ProGuard/R8", "Lint", "AAPT"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 64,
+      "question": "Quelle est la meilleure pratique pour stocker un token d'authentification sur mobile ?",
+      "options": ["SharedPreferences en clair", "Base de données SQLite", "Keystore/Keychain", "Fichier texte"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 65,
+      "question": "Quel type d'authentification utilise les empreintes digitales ?",
+      "options": ["Something you know", "Something you have", "Something you are", "Somewhere you are"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 66,
+      "question": "Quelle norme définit les bonnes pratiques de sécurité mobile ?",
+      "options": ["OWASP MASVS", "PCI-DSS", "HIPAA", "SOX"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 67,
+      "question": "Combien de niveaux de vérification définit OWASP MASVS ?",
+      "options": ["2", "3", "4", "5"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 68,
+      "question": "Quelle attaque exploite la réutilisation de code via des bibliothèques ?",
+      "options": ["Supply Chain Attack", "Zero-day", "Phishing", "DDoS"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 69,
+      "question": "Quel mécanisme empêche le downgrade de version iOS ?",
+      "options": ["Code Signing", "SHSH Blobs/Nonces", "Secure Enclave", "Sandbox"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 70,
+      "question": "Quelle est la principale vulnérabilité des WebViews ?",
+      "options": ["Performance", "JavaScript Injection", "UI/UX", "Batterie"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 71,
+      "question": "Quel paramètre WebView Android doit être désactivé pour la sécurité ?",
+      "options": ["setJavaScriptEnabled(false)", "setDomStorageEnabled(true)", "setAllowFileAccess(true)", "setCacheMode(LOAD_DEFAULT)"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 72,
+      "question": "Quelle technique permet de détecter un émulateur Android ?",
+      "options": ["Vérifier Build.FINGERPRINT", "Lire /proc/cpuinfo", "Vérifier les capteurs", "Toutes ces réponses"],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 73,
+      "question": "Quel est le risque du mode debug activé en production ?",
+      "options": ["Performance réduite", "Accès aux données de l'app", "Consommation batterie", "Taille APK"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 74,
+      "question": "Quelle permission Android permet d'envoyer des SMS ?",
+      "options": ["READ_SMS", "SEND_SMS", "RECEIVE_SMS", "SMS_PERMISSION"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 75,
+      "question": "Quel composant gère les mises à jour système Android ?",
+      "options": ["Play Store", "System Update Service", "OTA Updates", "Toutes ces réponses"],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 76,
+      "question": "Quelle est la durée de support sécurité typique pour un appareil Android ?",
+      "options": ["1 an", "2-3 ans", "5 ans", "Illimité"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 77,
+      "question": "Quel framework permet le développement cross-platform sécurisé ?",
+      "options": ["React Native", "Flutter", "Xamarin", "Toutes ces réponses"],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 78,
+      "question": "Quelle vulnérabilité affecte le clipboard mobile ?",
+      "options": ["Clipboard Hijacking", "Buffer Overflow", "SQL Injection", "XSS"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 79,
+      "question": "Quel mécanisme iOS limite les communications inter-apps ?",
+      "options": ["Sandbox", "URL Schemes", "App Groups", "Extensions"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 80,
+      "question": "Quelle API iOS permet le partage sécurisé entre apps du même développeur ?",
+      "options": ["URL Schemes", "App Groups", "Universal Links", "Handoff"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 81,
+      "question": "Quel est le risque des deep links non validés ?",
+      "options": ["Performance", "Open Redirect / Injection", "UI/UX", "Batterie"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 82,
+      "question": "Quelle technique protège contre le screen capture ?",
+      "options": ["FLAG_SECURE", "Obfuscation", "Encryption", "Sandbox"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 83,
+      "question": "Quel mécanisme Android protège contre les attaques par rejeu ?",
+      "options": ["Nonce/Timestamp", "Encryption", "Hashing", "Signature"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 84,
+      "question": "Quelle est la meilleure pratique pour les logs en production ?",
+      "options": ["Logger tout", "Désactiver les logs sensibles", "Utiliser Logcat", "Stocker sur SD"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 85,
+      "question": "Quel protocole est recommandé pour les API mobiles ?",
+      "options": ["HTTP", "HTTPS avec TLS 1.2+", "FTP", "SMTP"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 86,
+      "question": "Quelle méthode HTTP est idempotente et sécurisée pour la lecture ?",
+      "options": ["POST", "GET", "PUT", "DELETE"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 87,
+      "question": "Quel header HTTP protège contre le clickjacking ?",
+      "options": ["X-Frame-Options", "X-XSS-Protection", "Content-Security-Policy", "Strict-Transport-Security"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 88,
+      "question": "Quelle est la durée recommandée pour un token JWT ?",
+      "options": ["1 an", "1 mois", "15-60 minutes", "Illimité"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 89,
+      "question": "Quel algorithme de hachage est recommandé pour les mots de passe ?",
+      "options": ["MD5", "SHA1", "bcrypt/Argon2", "SHA256"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 90,
+      "question": "Quelle attaque exploite les sessions non invalidées ?",
+      "options": ["Session Hijacking", "SQL Injection", "XSS", "CSRF"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 91,
+      "question": "Quel mécanisme protège contre les requêtes cross-site ?",
+      "options": ["CORS", "CSRF Token", "XSS Filter", "CSP"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 92,
+      "question": "Quelle est la meilleure pratique pour la gestion des erreurs API ?",
+      "options": ["Afficher les stack traces", "Messages génériques sans détails techniques", "Ignorer les erreurs", "Logger côté client"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 93,
+      "question": "Quel outil permet l'analyse statique de code Android ?",
+      "options": ["MobSF", "Wireshark", "Nmap", "Metasploit"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 94,
+      "question": "Quelle technique détecte les modifications de l'APK ?",
+      "options": ["Signature Verification", "Obfuscation", "Encryption", "Compression"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 95,
+      "question": "Quel est le risque principal des bibliothèques tierces ?",
+      "options": ["Performance", "Vulnérabilités connues non patchées", "Taille", "Compatibilité"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 96,
+      "question": "Quelle pratique DevSecOps intègre la sécurité dans le CI/CD ?",
+      "options": ["SAST/DAST automatisé", "Tests manuels", "Review code", "Documentation"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 97,
+      "question": "Quel standard définit les exigences de sécurité pour les paiements mobiles ?",
+      "options": ["OWASP", "PCI-DSS", "ISO 27001", "NIST"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 98,
+      "question": "Quelle technologie NFC est utilisée pour les paiements sans contact ?",
+      "options": ["Bluetooth", "HCE (Host Card Emulation)", "WiFi Direct", "Infrared"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 99,
+      "question": "Quel mécanisme iOS protège les données au repos ?",
+      "options": ["Sandbox", "Data Protection API", "Code Signing", "App Transport Security"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 100,
+      "question": "Quelle est la principale recommandation pour la sécurité mobile ?",
+      "options": ["Défense en profondeur", "Un seul mécanisme fort", "Sécurité par obscurité", "Pas de mise à jour"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 101,
+      "question": "Quel est le rôle principal de SELinux sur Android ?",
+      "options": ["Chiffrer les données utilisateur", "Appliquer le Mandatory Access Control (MAC)", "Gérer les permissions utilisateur", "Optimiser les performances"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 102,
+      "question": "Quelle est la différence fondamentale entre DAC et MAC ?",
+      "options": ["DAC est plus sécurisé que MAC", "MAC applique des politiques système non modifiables par l'utilisateur", "DAC est utilisé uniquement sur iOS", "MAC nécessite un accès root"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 103,
+      "question": "Depuis quelle version d'Android SELinux est-il activé en mode enforcing par défaut ?",
+      "options": ["Android 4.3", "Android 5.0 (Lollipop)", "Android 6.0", "Android 8.0"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 104,
+      "question": "Quel composant matériel iOS isole les opérations cryptographiques sensibles ?",
+      "options": ["A-Series CPU", "Secure Enclave Processor (SEP)", "Neural Engine", "GPU"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 105,
+      "question": "Quelle clé est stockée dans le Secure Enclave et ne quitte jamais ce composant ?",
+      "options": ["Clé de session Wi-Fi", "UID (Unique ID) du device", "Clé de l'App Store", "Clé iCloud"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 106,
+      "question": "Qu'est-ce que le Secure World dans l'architecture ARM TrustZone ?",
+      "options": ["Un antivirus intégré", "Un environnement d'exécution isolé pour le code sensible", "Le système d'exploitation principal", "Un mode de débogage"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 107,
+      "question": "Quel est le rôle du Normal World (Unsecure World) dans TrustZone ?",
+      "options": ["Exécuter le code de sécurité critique", "Héberger le système d'exploitation standard et les applications", "Stocker les clés cryptographiques", "Gérer le boot sécurisé"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 108,
+      "question": "Qu'est-ce que le Mandatory Code Signing sur iOS ?",
+      "options": ["Une option de développement", "L'obligation que tout code exécuté soit signé par Apple ou un développeur approuvé", "Un système de compression de code", "Un outil de débogage"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 109,
+      "question": "Pourquoi le Mandatory Code Signing est-il crucial pour la sécurité iOS ?",
+      "options": ["Il accélère les applications", "Il empêche l'exécution de code malveillant non autorisé", "Il réduit la taille des apps", "Il améliore la batterie"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 110,
+      "question": "Quel type de politique SELinux est utilisé sur Android ?",
+      "options": ["MLS (Multi-Level Security)", "Type Enforcement (TE)", "RBAC uniquement", "Bell-LaPadula"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 111,
+      "question": "Que se passe-t-il si une application Android tente une action non autorisée par SELinux ?",
+      "options": ["L'action est autorisée avec un avertissement", "L'action est bloquée silencieusement", "Le téléphone redémarre", "L'application est désinstallée"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 112,
+      "question": "Quel est l'équivalent iOS du Secure World d'Android/TrustZone ?",
+      "options": ["App Sandbox", "Secure Enclave", "Keychain", "iCloud"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 113,
+      "question": "Quelle donnée biométrique est traitée exclusivement dans le Secure Enclave ?",
+      "options": ["Historique de navigation", "Empreinte digitale (Touch ID) et Face ID", "Contacts", "Photos"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 114,
+      "question": "Comment SELinux protège-t-il contre l'escalade de privilèges ?",
+      "options": ["En chiffrant toutes les données", "En confinant chaque processus à un domaine avec des permissions minimales", "En bloquant Internet", "En désactivant le root"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 115,
+      "question": "Quel est le principal avantage du MAC par rapport au DAC ?",
+      "options": ["Plus rapide", "Les utilisateurs ne peuvent pas contourner les politiques de sécurité", "Moins de mémoire utilisée", "Compatible avec plus d'apps"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 116,
+      "question": "Que signifie TEE dans le contexte de la sécurité mobile ?",
+      "options": ["Total Encryption Environment", "Trusted Execution Environment", "Terminal Endpoint Encryption", "Temporary Execution Engine"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 117,
+      "question": "Quel composant Android utilise le TEE pour stocker les clés ?",
+      "options": ["SharedPreferences", "Android Keystore avec StrongBox", "SQLite", "ContentProvider"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 118,
+      "question": "Pourquoi le Secure Enclave a-t-il sa propre mémoire chiffrée ?",
+      "options": ["Pour économiser de l'espace", "Pour empêcher même le processeur principal d'accéder aux données sensibles", "Pour accélérer les calculs", "Pour le marketing"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 119,
+      "question": "Quel mode SELinux permet de journaliser les violations sans les bloquer ?",
+      "options": ["Enforcing", "Permissive", "Disabled", "Strict"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 120,
+      "question": "Quelle technologie permet à Android de vérifier l'intégrité du système au démarrage ?",
+      "options": ["SELinux", "Verified Boot (dm-verity)", "Code Signing", "Sandbox"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 121,
+      "question": "Quel est le rôle du Secure Boot sur iOS ?",
+      "options": ["Accélérer le démarrage", "Vérifier que chaque composant de la chaîne de boot est signé par Apple", "Chiffrer le stockage", "Gérer les notifications"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 122,
+      "question": "Comment le Secure Enclave génère-t-il les clés de chiffrement ?",
+      "options": ["Via Internet", "Avec un générateur de nombres aléatoires matériel (TRNG) interne", "En copiant des clés prédéfinies", "Via iCloud"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 123,
+      "question": "Quelle attaque SELinux aide-t-il à prévenir sur Android ?",
+      "options": ["Phishing", "Exploitation de vulnérabilités pour obtenir des privilèges root", "Spam SMS", "Publicités intrusives"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 124,
+      "question": "Que protège principalement le Mandatory Code Signing contre ?",
+      "options": ["Les virus par email", "L'injection et l'exécution de code malveillant", "Les appels indésirables", "La perte de batterie"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 125,
+      "question": "Quel est l'impact du jailbreak sur le Mandatory Code Signing iOS ?",
+      "options": ["Aucun impact", "Il désactive cette protection permettant l'exécution de code non signé", "Il renforce la sécurité", "Il améliore les performances"],
+      "reponse": 1,
+      "points": 1
+    }
+  ]
+}

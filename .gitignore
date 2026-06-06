@@ -1,0 +1,7 @@
+exam-platformV3/node_modules/
+exam-platformV3/logs/
+exam-platformV3/.env
+exam-platformV3/sessions.json
+exam-platformV3/history.json
+Examens/
+*.backup

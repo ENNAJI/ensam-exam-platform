@@ -1,0 +1,334 @@
+{
+  "matiere": "Gestion des Intrusions",
+  "type": "GraphQCM",
+  "description": "Questions de type glisser-déposer pour reconstituer des structures et architectures",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Reconstituez la Cyber Kill Chain (7 phases dans l'ordre)",
+      "type": "ordre",
+      "elements": ["Reconnaissance", "Weaponization (Armement)", "Delivery (Livraison)", "Exploitation", "Installation", "Command & Control (C2)", "Actions on Objectives"],
+      "reponse_ordre": [0, 1, 2, 3, 4, 5, 6],
+      "points": 4
+    },
+    {
+      "id": 2,
+      "question": "Reconstituez le cycle NIST de réponse à incident (6 phases)",
+      "type": "ordre",
+      "elements": ["Préparation", "Détection & Analyse", "Confinement", "Éradication", "Récupération", "REX (Retour d'expérience)"],
+      "reponse_ordre": [0, 1, 2, 3, 4, 5],
+      "points": 4
+    },
+    {
+      "id": 3,
+      "question": "Classez les phases de la Kill Chain par catégorie",
+      "type": "classification",
+      "categories": ["Intrusion", "Incident", "Compromission"],
+      "elements": [
+        {"nom": "Reconnaissance", "categorie": 0},
+        {"nom": "Weaponization", "categorie": 0},
+        {"nom": "Delivery", "categorie": 0},
+        {"nom": "Exploitation", "categorie": 1},
+        {"nom": "Installation", "categorie": 1},
+        {"nom": "Command & Control", "categorie": 2},
+        {"nom": "Actions on Objectives", "categorie": 2}
+      ],
+      "points": 4
+    },
+    {
+      "id": 4,
+      "question": "Associez chaque type de détection à sa description",
+      "type": "association",
+      "elements_gauche": ["Détection par signature", "Détection comportementale", "Détection IA/ML"],
+      "elements_droite": ["Basée sur des règles connues, inefficace zero-day", "Basée sur anomalies, adaptée aux APT", "Classification patterns complexes, sensible attaques adversariales"],
+      "associations": [[0, 0], [1, 1], [2, 2]],
+      "points": 3
+    },
+    {
+      "id": 5,
+      "question": "Associez chaque système de détection à sa fonction",
+      "type": "association",
+      "elements_gauche": ["NIDS", "HIDS", "IPS", "SIEM"],
+      "elements_droite": ["Analyse trafic réseau", "Surveillance hôte", "Prévention inline (blocage)", "Corrélation & vision globale"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 6,
+      "question": "Reconstituez le cycle opérationnel de détection",
+      "type": "ordre",
+      "elements": ["Collecte", "Analyse", "Alerte", "Investigation", "Réponse"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 7,
+      "question": "Classez les éléments selon Blue Team ou Red Team",
+      "type": "classification",
+      "categories": ["Blue Team (Défensive)", "Red Team (Offensive)"],
+      "elements": [
+        {"nom": "IDS/IPS", "categorie": 0},
+        {"nom": "Metasploit", "categorie": 1},
+        {"nom": "SIEM", "categorie": 0},
+        {"nom": "Nmap", "categorie": 1},
+        {"nom": "EDR", "categorie": 0},
+        {"nom": "Cobalt Strike", "categorie": 1},
+        {"nom": "SOC", "categorie": 0},
+        {"nom": "Pentest", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 8,
+      "question": "Reconstituez l'évolution chronologique de la cybersécurité",
+      "type": "ordre",
+      "elements": ["1971: Creeper", "1977: RSA", "1983: TCP/IP", "1987: Premiers antivirus", "1988: Morris Worm + CERT"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 9,
+      "question": "Associez chaque pilier CIA à un exemple d'attaque",
+      "type": "association",
+      "elements_gauche": ["Confidentialité", "Intégrité", "Disponibilité"],
+      "elements_droite": ["Vol de données clients", "Défacement de site web", "Attaque DDoS"],
+      "associations": [[0, 0], [1, 1], [2, 2]],
+      "points": 3
+    },
+    {
+      "id": 10,
+      "question": "Reconstituez le processus de gestion des vulnérabilités (5 étapes)",
+      "type": "ordre",
+      "elements": ["Découverte des actifs", "Scan des vulnérabilités", "Évaluation & Priorisation", "Remédiation", "Vérification & Reporting"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 11,
+      "question": "Classez les actions par phase NIST",
+      "type": "classification",
+      "categories": ["Préparation", "Confinement", "Éradication", "Récupération"],
+      "elements": [
+        {"nom": "Politique IR, Playbooks", "categorie": 0},
+        {"nom": "Isolation machine", "categorie": 1},
+        {"nom": "Suppression malware", "categorie": 2},
+        {"nom": "Restauration backups", "categorie": 3},
+        {"nom": "SOC opérationnel", "categorie": 0},
+        {"nom": "Blocage IP/C2", "categorie": 1},
+        {"nom": "Patch vulnérabilités", "categorie": 2},
+        {"nom": "Surveillance renforcée", "categorie": 3}
+      ],
+      "points": 4
+    },
+    {
+      "id": 12,
+      "question": "Associez chaque niveau de gravité à sa description",
+      "type": "association",
+      "elements_gauche": ["Intrusion", "Incident", "Compromission"],
+      "elements_droite": ["Tentative (peut être bloquée)", "Succès avec impact CIA", "Contrôle total et persistance"],
+      "associations": [[0, 0], [1, 1], [2, 2]],
+      "points": 3
+    },
+    {
+      "id": 13,
+      "question": "Reconstituez la progression de gravité d'une attaque",
+      "type": "ordre",
+      "elements": ["Intrusion (tentative)", "Incident (impact)", "Compromission (contrôle)"],
+      "reponse_ordre": [0, 1, 2],
+      "points": 2
+    },
+    {
+      "id": 14,
+      "question": "Classez les caractéristiques APT",
+      "type": "classification",
+      "categories": ["Advanced", "Persistent", "Threat"],
+      "elements": [
+        {"nom": "Techniques sophistiquées", "categorie": 0},
+        {"nom": "Présence longue durée", "categorie": 1},
+        {"nom": "Objectifs stratégiques", "categorie": 2},
+        {"nom": "Zero-day exploits", "categorie": 0},
+        {"nom": "Mois/années dans le système", "categorie": 1},
+        {"nom": "Espionnage, sabotage", "categorie": 2}
+      ],
+      "points": 3
+    },
+    {
+      "id": 15,
+      "question": "Associez chaque groupe APT à son pays",
+      "type": "association",
+      "elements_gauche": ["APT28", "APT29", "Lazarus Group"],
+      "elements_droite": ["Russie", "Russie", "Corée du Nord"],
+      "associations": [[0, 0], [1, 1], [2, 2]],
+      "points": 3
+    },
+    {
+      "id": 16,
+      "question": "Reconstituez l'évolution des approches de sécurité",
+      "type": "ordre",
+      "elements": ["Années 1990: Sécurité périmétrique (château fort)", "Années 2000: Défense en profondeur", "2010-2020: Zero Trust, DevSecOps", "Actuel: IA/ML, XDR, Cloud-native"],
+      "reponse_ordre": [0, 1, 2, 3],
+      "points": 3
+    },
+    {
+      "id": 17,
+      "question": "Classez les rôles SOC par niveau",
+      "type": "classification",
+      "categories": ["Niveau 1", "Niveau 2/3", "Management"],
+      "elements": [
+        {"nom": "Triage initial", "categorie": 0},
+        {"nom": "Investigation approfondie", "categorie": 1},
+        {"nom": "Incident Manager", "categorie": 2},
+        {"nom": "Qualification alertes", "categorie": 0},
+        {"nom": "Analyse forensic", "categorie": 1},
+        {"nom": "RSSI / Direction", "categorie": 2}
+      ],
+      "points": 3
+    },
+    {
+      "id": 18,
+      "question": "Associez chaque métrique à sa signification",
+      "type": "association",
+      "elements_gauche": ["MTTD", "MTTR", "CVSS"],
+      "elements_droite": ["Mean Time To Detect", "Mean Time To Respond", "Common Vulnerability Scoring System"],
+      "associations": [[0, 0], [1, 1], [2, 2]],
+      "points": 3
+    },
+    {
+      "id": 19,
+      "question": "Classez les éléments Vulnérabilité vs Exploit vs Menace",
+      "type": "classification",
+      "categories": ["Vulnérabilité", "Exploit", "Menace"],
+      "elements": [
+        {"nom": "Faiblesse technique", "categorie": 0},
+        {"nom": "Code d'exploitation", "categorie": 1},
+        {"nom": "Acteur malveillant", "categorie": 2},
+        {"nom": "Faille logicielle", "categorie": 0},
+        {"nom": "Méthode d'attaque", "categorie": 1},
+        {"nom": "Événement malveillant", "categorie": 2}
+      ],
+      "points": 3
+    },
+    {
+      "id": 20,
+      "question": "Reconstituez le cycle d'amélioration Purple Team",
+      "type": "ordre",
+      "elements": ["Red Team attaque", "Blue Team détecte", "Analyse des écarts", "Amélioration règles IDS", "Renforcement architecture"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 21,
+      "question": "Associez chaque attribut FMCD à sa définition",
+      "type": "association",
+      "elements_gauche": ["Fiabilité", "Maintenabilité", "Confidentialité", "Disponibilité", "Intégrité"],
+      "elements_droite": ["Continuité du service", "Capacité de réparation", "Absence de divulgation non autorisée", "Accessibilité du service", "Absence d'altération inappropriée"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+      "points": 5
+    },
+    {
+      "id": 22,
+      "question": "Classez les outils par catégorie",
+      "type": "classification",
+      "categories": ["Scan vulnérabilités", "Détection intrusion", "Pentest"],
+      "elements": [
+        {"nom": "Nessus", "categorie": 0},
+        {"nom": "Snort", "categorie": 1},
+        {"nom": "Metasploit", "categorie": 2},
+        {"nom": "OpenVAS", "categorie": 0},
+        {"nom": "SIEM", "categorie": 1},
+        {"nom": "Nmap", "categorie": 2},
+        {"nom": "Qualys", "categorie": 0},
+        {"nom": "EDR", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 23,
+      "question": "Associez chaque statistique 2023-2024 à sa valeur",
+      "type": "association",
+      "elements_gauche": ["Entreprises ayant subi cyberattaque", "Coût moyen violation données", "Temps moyen détection intrusion", "Attaques ciblant PME"],
+      "elements_droite": ["93%", "4,45 M$ USD", "277 jours", "43%"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 24,
+      "question": "Reconstituez le cycle cyber simplifié",
+      "type": "ordre",
+      "elements": ["Détection", "Réponse", "Éradication", "Restauration", "REX"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 3
+    },
+    {
+      "id": 25,
+      "question": "Classez les cadres de référence par domaine",
+      "type": "classification",
+      "categories": ["Réponse à incident", "Gestion vulnérabilités", "Général"],
+      "elements": [
+        {"nom": "NIST SP 800-61", "categorie": 0},
+        {"nom": "ISO 27001 – A.12.6.1", "categorie": 1},
+        {"nom": "MITRE ATT&CK", "categorie": 2},
+        {"nom": "ISO/IEC 27035", "categorie": 0},
+        {"nom": "NIST CSF", "categorie": 1},
+        {"nom": "DGSSI Maroc", "categorie": 2}
+      ],
+      "points": 3
+    },
+    {
+      "id": 26,
+      "question": "Associez chaque type de scan Nmap à son flag",
+      "type": "association",
+      "elements_gauche": ["SYN scan (half-open)", "TCP Connect scan", "UDP scan", "Aggressive scan"],
+      "elements_droite": ["-sS", "-sT", "-sU", "-A"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 27,
+      "question": "Classez les exemples par type d'attaque",
+      "type": "classification",
+      "categories": ["Intrusion (tentative)", "Incident (impact)", "Compromission (contrôle)"],
+      "elements": [
+        {"nom": "Scan de ports", "categorie": 0},
+        {"nom": "Vol de données clients", "categorie": 1},
+        {"nom": "Backdoor actif", "categorie": 2},
+        {"nom": "Brute force SSH", "categorie": 0},
+        {"nom": "Défacement site web", "categorie": 1},
+        {"nom": "C2 établi", "categorie": 2},
+        {"nom": "Injection SQL bloquée", "categorie": 0},
+        {"nom": "DDoS", "categorie": 1}
+      ],
+      "points": 4
+    },
+    {
+      "id": 28,
+      "question": "Reconstituez les premières réponses organisationnelles (1988)",
+      "type": "ordre",
+      "elements": ["Morris Worm infecte 6000 machines", "Création du CERT", "Développement premiers pare-feu", "Amélioration authentification"],
+      "reponse_ordre": [0, 1, 2, 3],
+      "points": 3
+    },
+    {
+      "id": 29,
+      "question": "Associez chaque indicateur clé à son équipe",
+      "type": "association",
+      "elements_gauche": ["MTTD / MTTR", "Taux de compromission"],
+      "elements_droite": ["Blue Team (Défensive)", "Red Team (Offensive)"],
+      "associations": [[0, 0], [1, 1]],
+      "points": 2
+    },
+    {
+      "id": 30,
+      "question": "Classez les éléments de la phase REX",
+      "type": "classification",
+      "categories": ["Actions REX"],
+      "elements": [
+        {"nom": "Analyse causes racines", "categorie": 0},
+        {"nom": "Mise à jour règles IDS", "categorie": 0},
+        {"nom": "Amélioration playbooks", "categorie": 0},
+        {"nom": "Sensibilisation utilisateurs", "categorie": 0}
+      ],
+      "points": 2
+    }
+  ]
+}

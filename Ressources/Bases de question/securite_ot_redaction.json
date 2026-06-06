@@ -1,0 +1,66 @@
+{
+  "matiere": "securite ot",
+  "type": "Rédaction",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Expliquez la différence fondamentale entre la sécurité IT (Information Technology) et la sécurité OT (Operational Technology). Pourquoi ne peut-on pas appliquer directement les pratiques de sécurité IT dans un environnement industriel OT ?",
+      "points": 5,
+      "mots_cles": ["disponibilité", "temps réel", "sûreté", "latence", "processus physiques", "mise à jour difficile"]
+    },
+    {
+      "id": 2,
+      "question": "Décrivez l'attaque Stuxnet : ses cibles, ses vecteurs d'infection, ses techniques de dissimulation et ses effets. Quelles leçons la communauté cybersécurité a-t-elle tirées de cet incident ?",
+      "points": 5,
+      "mots_cles": ["centrifugeuses", "Siemens S7", "USB", "rootkit PLC", "air gap", "cyber arme d'État"]
+    },
+    {
+      "id": 3,
+      "question": "Présentez le modèle Purdue (ISA-95) et ses 5 niveaux. Pour chaque niveau, donnez un exemple d'équipement et expliquez comment la segmentation réseau entre niveaux contribue à la sécurité des systèmes industriels.",
+      "points": 5,
+      "mots_cles": ["niveau 0 capteurs", "niveau 1 PLC", "niveau 2 SCADA", "niveau 3 MES", "niveau 4 ERP", "DMZ"]
+    },
+    {
+      "id": 4,
+      "question": "Expliquez pourquoi les protocoles industriels historiques comme Modbus et DNP3 ne sont pas sécurisés par nature. Quelles mesures compensatoires peut-on mettre en place pour les utiliser de manière plus sécurisée ?",
+      "points": 5,
+      "mots_cles": ["pas d'authentification", "pas de chiffrement", "VPN", "surveillance passive", "pare-feu industriel", "OPC-UA"]
+    },
+    {
+      "id": 5,
+      "question": "Qu'est-ce que la norme IEC 62443 ? Décrivez ses principaux composants (zones, conduits, niveaux de sécurité SL) et expliquez comment elle structure la cybersécurité d'un système industriel.",
+      "points": 5,
+      "mots_cles": ["zones de sécurité", "conduits", "Security Level 1-4", "IACS", "cycle de vie", "évaluation des risques"]
+    },
+    {
+      "id": 6,
+      "question": "Décrivez les trois grandes catégories d'attaques ciblant spécifiquement les systèmes OT/SCADA (perturbation, manipulation, espionnage) avec un exemple réel pour chacune.",
+      "points": 5,
+      "mots_cles": ["DoS industriel", "False Data Injection", "Industroyer", "Stuxnet", "TRITON", "espionnage SCADA"]
+    },
+    {
+      "id": 7,
+      "question": "Expliquez le concept d'Air Gap dans les systèmes industriels critiques. Quels sont ses avantages et ses limites ? Quelles techniques permettent à des attaquants de contourner un Air Gap ?",
+      "points": 5,
+      "mots_cles": ["isolation physique", "USB", "canal caché acoustique/électromagnétique", "compromission chaîne approvisionnement", "maintenance à distance", "Stuxnet"]
+    },
+    {
+      "id": 8,
+      "question": "Décrivez le processus d'évaluation des risques cyber dans un environnement OT. Comment identifie-t-on les actifs critiques, les menaces et les vulnérabilités spécifiques aux systèmes industriels ?",
+      "points": 5,
+      "mots_cles": ["inventaire actifs", "analyse menaces", "conséquences physiques", "criticité processus", "HAZOP", "CCE"]
+    },
+    {
+      "id": 9,
+      "question": "Qu'est-ce qu'un SOC (Security Operations Center) industriel ou OT-SOC ? En quoi diffère-t-il d'un SOC traditionnel IT, et quels outils spécifiques utilise-t-il pour surveiller les réseaux OT ?",
+      "points": 5,
+      "mots_cles": ["surveillance passive", "IDS industriel", "Claroty/Dragos/Nozomi", "protocoles OT", "corrélation IT/OT", "contexte process"]
+    },
+    {
+      "id": 10,
+      "question": "Expliquez comment un attaquant pourrait utiliser la Cyber Kill Chain pour compromettre un système SCADA industriel, depuis la reconnaissance jusqu'aux actions sur objectifs (perturbation du processus physique).",
+      "points": 5,
+      "mots_cles": ["Shodan reconnaissance", "spear phishing ingénieur", "mouvement latéral IT→OT", "PLC reprogrammation", "impact physique", "persistance firmware"]
+    }
+  ]
+}

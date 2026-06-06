@@ -1,0 +1,1488 @@
+{
+  "matiere": "CyberSecurite OT",
+  "type": "GraphQCM",
+  "description": "Questions de type glisser-déposer pour reconstituer des structures et architectures OT",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Reconstituez les 4 révolutions industrielles dans l'ordre chronologique",
+      "type": "ordre",
+      "elements": [
+        "1ère Révolution : Production Mécanique (énergie hydraulique/thermique)",
+        "2ème Révolution : Production de Masse (électricité, organisation industrielle)",
+        "3ème Révolution : Production Automatisée (électronique, PLC, informatique)",
+        "4ème Révolution : Production Autonome (IIoT, IA, cyber-physique)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "points": 3
+    },
+    {
+      "id": 2,
+      "question": "Reconstituez les 7 phases de la Cyber Kill Chain (Lockheed Martin, 2011)",
+      "type": "ordre",
+      "elements": [
+        "1. Reconnaissance (collecte d'informations)",
+        "2. Weaponization (préparation de l'arme)",
+        "3. Delivery (livraison à la victime)",
+        "4. Exploitation (exécution du code)",
+        "5. Installation (persistance)",
+        "6. Command & Control (pilotage distant)",
+        "7. Actions on Objectives (impact final)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "points": 4
+    },
+    {
+      "id": 3,
+      "question": "Reconstituez le cycle de réponse à incident NIST SP 800-61 (6 étapes)",
+      "type": "ordre",
+      "elements": [
+        "Préparation (politique IR, playbooks, SOC)",
+        "Détection & Analyse (triage, forensic, mapping ATT&CK)",
+        "Confinement (isolation machine, blocage IP/C2)",
+        "Éradication (suppression malware, patch, rotation mots de passe)",
+        "Récupération (restauration backups, vérification intégrité)",
+        "Retour d'expérience REX (causes racines, amélioration règles)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "points": 3
+    },
+    {
+      "id": 4,
+      "question": "Reconstituez le modèle OSI en couches (de la couche basse vers la couche haute)",
+      "type": "ordre",
+      "elements": [
+        "Couche 1 - Physique (bits sur le média)",
+        "Couche 2 - Liaison de données (synchronisation, CRC)",
+        "Couche 3 - Réseau (routage)",
+        "Couche 4 - Transport (acheminement messages)",
+        "Couche 5 - Session (continuité connexion)",
+        "Couche 6 - Présentation (traduction données)",
+        "Couche 7 - Application (services utilisateur)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "points": 4
+    },
+    {
+      "id": 5,
+      "question": "Reconstituez le flux de données dans l'architecture IDS (modèle IDWG)",
+      "type": "ordre",
+      "elements": [
+        "Collecte des logs système/réseau/applicatifs",
+        "Normalisation et Parsing",
+        "Analyse signatures + anomalies",
+        "Corrélation temporelle",
+        "Scoring sévérité (CVSS)",
+        "Enrichissement (Threat Intelligence)",
+        "Notification SOC",
+        "Réponse automatique/manuelle"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "points": 4
+    },
+    {
+      "id": 6,
+      "question": "Reconstituez le cycle de gestion des vulnérabilités (Vulnerability Management Lifecycle)",
+      "type": "ordre",
+      "elements": [
+        "Découverte des actifs (inventaire IT/OT, cartographie réseau)",
+        "Scan des vulnérabilités (Nessus, OpenVAS, CVE)",
+        "Évaluation & Priorisation (CVSS, criticité métier, Risk-Based)",
+        "Remédiation (patch, reconfiguration, segmentation)",
+        "Vérification & Reporting (re-scan, KPIs MTTR)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "points": 3
+    },
+    {
+      "id": 7,
+      "question": "Reconstituez la progression des niveaux d'autonomie industrielle (du plus bas au plus élevé)",
+      "type": "ordre",
+      "elements": [
+        "Dépendance (énergie humaine, outil, matière) — Artisanat",
+        "Autonomie Physique (mécanisation, énergie hydraulique/thermique)",
+        "Autonomie Opérationnelle (automatisation, capteurs, PLC, actionneurs)",
+        "Autonomie Décisionnelle (robotisation, préhenseurs, RA/RV)",
+        "Autonomie Collaborative (IoT, co-botique, IA, cyber-physique)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "points": 3
+    },
+    {
+      "id": 8,
+      "question": "Reconstituez la progression de gravité d'une attaque informatique",
+      "type": "ordre",
+      "elements": [
+        "Intrusion (tentative d'accès — peut être bloquée)",
+        "Incident (impact CIA — confidentialité, intégrité, disponibilité)",
+        "Compromission (contrôle effectif et persistance)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2
+      ],
+      "points": 2
+    },
+    {
+      "id": 9,
+      "question": "Reconstituez le cycle Threat Hunting proactif (5 étapes)",
+      "type": "ordre",
+      "elements": [
+        "Formulation d'hypothèse",
+        "Investigation (analyse logs, anomalies comportementales)",
+        "Découverte (identification des menaces)",
+        "Documentation (rapport, indicateurs de compromission)",
+        "Automatisation (intégration dans règles IDS/SIEM)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "points": 3
+    },
+    {
+      "id": 10,
+      "question": "Reconstituez la chaîne nationale de gestion d'incident (DGSSI Maroc, 7 étapes)",
+      "type": "ordre",
+      "elements": [
+        "Détection (IDS/IPS/SIEM)",
+        "Triage (Analyste L1)",
+        "Analyse (Analyste L2)",
+        "Endiguement (Isolation)",
+        "Éradication (Nettoyage)",
+        "Récupération (Restauration)",
+        "REX (Leçons apprises)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "points": 4
+    },
+    {
+      "id": 11,
+      "question": "Reconstituez l'évolution historique des IPS (des années 1990 à 2020)",
+      "type": "ordre",
+      "elements": [
+        "Années 1990 : Naissance des IDS (SNORT 1998, détection par signatures, mode passif)",
+        "Années 2000 : Passage mode PASSIF → ACTIF (IPS inline, blocage temps réel, Suricata 2009)",
+        "Années 2010 : Next-Generation IPS (DPI, Application Awareness, convergence IPS+Firewall=NGFW)",
+        "Années 2020 : IA & Cloud (ML, Cloud-native, Zero Trust, SOAR, Threat Hunting)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "points": 3
+    },
+    {
+      "id": 12,
+      "question": "Reconstituez la chaîne de mesure industrielle (du physique au numérique)",
+      "type": "ordre",
+      "elements": [
+        "Mesurande (grandeur physique à mesurer : force, température, pression…)",
+        "Corps d'épreuve (réagit sélectivement à la grandeur physique)",
+        "Élément de transduction (conversion en signal électrique)",
+        "Module de conditionnement (amplification, filtrage)",
+        "Convertisseur Analogique-Numérique (CAN)",
+        "Signal numérique exploitable par le système de contrôle"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "points": 3
+    },
+    {
+      "id": 13,
+      "question": "Reconstituez l'architecture hiérarchique informationnelle de l'automatisation (du terrain vers le management)",
+      "type": "ordre",
+      "elements": [
+        "Niveau Terrain (capteurs, actionneurs, BUS de terrain)",
+        "Niveau Régulation (PLC/API, régulateurs)",
+        "Niveau Supervision (SCADA, HMI/IHM)",
+        "Niveau MES (Manufacturing Execution System)",
+        "Niveau ERP (Enterprise Resource Planning)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "points": 3
+    },
+    {
+      "id": 14,
+      "question": "Reconstituez l'évolution du Web vers l'Internet des Objets",
+      "type": "ordre",
+      "elements": [
+        "ARPANET (1960) — Signaux numériques",
+        "Internet (1983) — Données numériques",
+        "Web 1.0 (1989) — Données statiques consultables",
+        "Web 2.0 (2004) — Données dynamiques, collaboratif",
+        "Web 3.0 — Données permissives, décentralisées, IoT"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "points": 3
+    },
+    {
+      "id": 15,
+      "question": "Reconstituez le bus de terrain selon le modèle OSI simplifié (3 couches actives)",
+      "type": "ordre",
+      "elements": [
+        "Couche 1 — Physique (supports : paire torsadée, fibre, radio)",
+        "Couche 2 — Liaison de données (LLC1/LLC2/LLC3, fiabilisation)",
+        "Couches 3 à 6 — VIDES (pas d'interconnexion réseau externe)",
+        "Couche 7 — Application (modèles Client/Serveur, Producteur/Consommateur)"
+      ],
+      "reponse_ordre": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "points": 3
+    },
+    {
+      "id": 16,
+      "question": "Classez les révolutions industrielles selon leur paradigme de production",
+      "type": "classification",
+      "categories": [
+        "Production Mécanique",
+        "Production de Masse",
+        "Production Automatisée",
+        "Production Autonome"
+      ],
+      "elements": [
+        {
+          "nom": "Motorisation thermique et hydraulique",
+          "categorie": 0
+        },
+        {
+          "nom": "Électricité et organisation industrielle (Fordisme)",
+          "categorie": 1
+        },
+        {
+          "nom": "PLC, électronique, mécatronique",
+          "categorie": 2
+        },
+        {
+          "nom": "IIoT, IA, systèmes cyber-physiques",
+          "categorie": 3
+        },
+        {
+          "nom": "Machine-outil, Taylorisme",
+          "categorie": 1
+        },
+        {
+          "nom": "Lean Manufacturing, ERP/GPAO",
+          "categorie": 2
+        },
+        {
+          "nom": "Remplacement de l'effort biologique",
+          "categorie": 0
+        },
+        {
+          "nom": "Co-botique, claytronique",
+          "categorie": 3
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 17,
+      "question": "Classez les attaques selon leur niveau de gravité",
+      "type": "classification",
+      "categories": [
+        "Intrusion (tentative)",
+        "Incident (impact CIA)",
+        "Compromission (contrôle effectif)"
+      ],
+      "elements": [
+        {
+          "nom": "Scan de ports Nmap",
+          "categorie": 0
+        },
+        {
+          "nom": "Défacement de site web (atteinte intégrité)",
+          "categorie": 1
+        },
+        {
+          "nom": "Backdoor actif avec accès persistant",
+          "categorie": 2
+        },
+        {
+          "nom": "Brute force SSH bloqué",
+          "categorie": 0
+        },
+        {
+          "nom": "Attaque DDoS (atteinte disponibilité)",
+          "categorie": 1
+        },
+        {
+          "nom": "Compte administrateur créé par l'attaquant",
+          "categorie": 2
+        },
+        {
+          "nom": "SQL Injection bloquée par IPS",
+          "categorie": 0
+        },
+        {
+          "nom": "Vol de données clients (atteinte confidentialité)",
+          "categorie": 1
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 18,
+      "question": "Classez les outils de sécurité dans la bonne catégorie",
+      "type": "classification",
+      "categories": [
+        "IDS (Détection passive)",
+        "IPS (Prévention active)",
+        "SIEM (Corrélation)"
+      ],
+      "elements": [
+        {
+          "nom": "Snort (mode écoute)",
+          "categorie": 0
+        },
+        {
+          "nom": "Suricata (mode inline - DROP)",
+          "categorie": 1
+        },
+        {
+          "nom": "Splunk",
+          "categorie": 2
+        },
+        {
+          "nom": "Zeek (analyse réseau passive)",
+          "categorie": 0
+        },
+        {
+          "nom": "Cisco Firepower (blocage inline)",
+          "categorie": 1
+        },
+        {
+          "nom": "ELK Stack (collecte + corrélation)",
+          "categorie": 2
+        },
+        {
+          "nom": "OSSEC (host-based, alertes)",
+          "categorie": 0
+        },
+        {
+          "nom": "Wazuh (SIEM open-source)",
+          "categorie": 2
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 19,
+      "question": "Classez les capteurs selon leur principe de fonctionnement",
+      "type": "classification",
+      "categories": [
+        "Capteur Actif (générateur)",
+        "Capteur Passif (impédance variable)"
+      ],
+      "elements": [
+        {
+          "nom": "Capteur piézoélectrique (pression/vibration)",
+          "categorie": 0
+        },
+        {
+          "nom": "Jauge de contrainte (résistif)",
+          "categorie": 1
+        },
+        {
+          "nom": "Thermocouple (tension thermique)",
+          "categorie": 0
+        },
+        {
+          "nom": "Capteur capacitif (humidité/proximité)",
+          "categorie": 1
+        },
+        {
+          "nom": "Capteur photovoltaïque (lumière)",
+          "categorie": 0
+        },
+        {
+          "nom": "Capteur inductif LVDT (déplacement)",
+          "categorie": 1
+        },
+        {
+          "nom": "Capteur électromagnétique (vitesse)",
+          "categorie": 0
+        },
+        {
+          "nom": "Thermistance NTC/PTC (température)",
+          "categorie": 1
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 20,
+      "question": "Classez les caractéristiques selon leur appartenance : IT vs OT",
+      "type": "classification",
+      "categories": [
+        "IT (Information Technology)",
+        "OT (Operational Technology)"
+      ],
+      "elements": [
+        {
+          "nom": "Priorité : Confidentialité",
+          "categorie": 0
+        },
+        {
+          "nom": "Priorité : Disponibilité (temps réel)",
+          "categorie": 1
+        },
+        {
+          "nom": "Mises à jour régulières (patch)",
+          "categorie": 0
+        },
+        {
+          "nom": "Cycle de vie équipements : 10-20 ans",
+          "categorie": 1
+        },
+        {
+          "nom": "Protocoles : TCP/IP, HTTP, HTTPS",
+          "categorie": 0
+        },
+        {
+          "nom": "Protocoles : Modbus, DNP3, PROFINET",
+          "categorie": 1
+        },
+        {
+          "nom": "Temps de détection moyen : 200 jours",
+          "categorie": 0
+        },
+        {
+          "nom": "Temps de détection moyen : 16 jours",
+          "categorie": 1
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 21,
+      "question": "Classez les activités selon l'équipe de sécurité correspondante",
+      "type": "classification",
+      "categories": [
+        "Blue Team (Défensive)",
+        "Red Team (Offensive)",
+        "Purple Team (Collaboration)"
+      ],
+      "elements": [
+        {
+          "nom": "IDS/IPS/SIEM/SOC",
+          "categorie": 0
+        },
+        {
+          "nom": "Pentest, exploitation de vulnérabilités",
+          "categorie": 1
+        },
+        {
+          "nom": "Amélioration règles de détection après simulation",
+          "categorie": 2
+        },
+        {
+          "nom": "Incident Response, forensic",
+          "categorie": 0
+        },
+        {
+          "nom": "Phishing simulé, social engineering",
+          "categorie": 1
+        },
+        {
+          "nom": "Mise à jour playbooks suite à exercice Red Team",
+          "categorie": 2
+        },
+        {
+          "nom": "Gestion des vulnérabilités, EDR",
+          "categorie": 0
+        },
+        {
+          "nom": "Red Team engagement, lateral movement",
+          "categorie": 1
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 22,
+      "question": "Classez les topologies de bus de terrain selon leurs caractéristiques",
+      "type": "classification",
+      "categories": [
+        "Anneau (Ring)",
+        "Étoile (Star)",
+        "Bus (Multipoint)",
+        "Arbre (Tree)"
+      ],
+      "elements": [
+        {
+          "nom": "Communication unidirectionnelle en boucle fermée",
+          "categorie": 0
+        },
+        {
+          "nom": "Nœud central HUB — panne HUB = réseau hors service",
+          "categorie": 1
+        },
+        {
+          "nom": "Topologie la plus répandue, extension facile",
+          "categorie": 2
+        },
+        {
+          "nom": "Compromis entre les 3 topologies",
+          "categorie": 3
+        },
+        {
+          "nom": "Signaux régénérés à chaque nœud",
+          "categorie": 0
+        },
+        {
+          "nom": "Mode point-à-point via HUB",
+          "categorie": 1
+        },
+        {
+          "nom": "Panne d'un nœud n'interrompt pas les autres",
+          "categorie": 2
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 23,
+      "question": "Classez les modèles de communication bus de terrain selon leur type",
+      "type": "classification",
+      "categories": [
+        "Maître-Esclave",
+        "Client-Serveur",
+        "Producteur-Consommateur"
+      ],
+      "elements": [
+        {
+          "nom": "Le Maître interroge cycliquement ses esclaves",
+          "categorie": 0
+        },
+        {
+          "nom": "Communication point-à-point sur demande",
+          "categorie": 1
+        },
+        {
+          "nom": "Diffusion identifiée — tous les consommateurs lisent simultanément",
+          "categorie": 2
+        },
+        {
+          "nom": "L'esclave ne peut émettre que sur autorisation",
+          "categorie": 0
+        },
+        {
+          "nom": "Le client prend l'initiative de la communication",
+          "categorie": 1
+        },
+        {
+          "nom": "Transfert cyclique de données faible volume",
+          "categorie": 2
+        }
+      ],
+      "points": 3
+    },
+    {
+      "id": 24,
+      "question": "Classez les éléments selon les phases de la Cyber Kill Chain",
+      "type": "classification",
+      "categories": [
+        "Reconnaissance",
+        "Weaponization",
+        "Delivery",
+        "Exploitation",
+        "Installation"
+      ],
+      "elements": [
+        {
+          "nom": "Scan Nmap, OSINT, WHOIS",
+          "categorie": 0
+        },
+        {
+          "nom": "Couplage exploit + payload, test en labo",
+          "categorie": 1
+        },
+        {
+          "nom": "Email phishing, USB infectée, watering hole",
+          "categorie": 2
+        },
+        {
+          "nom": "Buffer overflow, escalade de privilèges",
+          "categorie": 3
+        },
+        {
+          "nom": "Création service Windows, rootkit, backdoor",
+          "categorie": 4
+        },
+        {
+          "nom": "Réseaux sociaux, reconnaissance passive",
+          "categorie": 0
+        },
+        {
+          "nom": "PDF avec macro malveillante",
+          "categorie": 1
+        },
+        {
+          "nom": "Exploit navigateur",
+          "categorie": 3
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 25,
+      "question": "Classez les attributs selon la triade CIA ou les attributs FMCD de sûreté de fonctionnement",
+      "type": "classification",
+      "categories": [
+        "Triade CIA",
+        "Attributs FMCD (Dependability)"
+      ],
+      "elements": [
+        {
+          "nom": "Confidentialité (pas de divulgation non autorisée)",
+          "categorie": 0
+        },
+        {
+          "nom": "Fiabilité (continuité du service)",
+          "categorie": 1
+        },
+        {
+          "nom": "Intégrité (pas d'altération)",
+          "categorie": 0
+        },
+        {
+          "nom": "Maintenabilité (capacité de réparation)",
+          "categorie": 1
+        },
+        {
+          "nom": "Disponibilité / Availability",
+          "categorie": 0
+        },
+        {
+          "nom": "Tolérance aux fautes et aux intrusions",
+          "categorie": 1
+        }
+      ],
+      "points": 3
+    },
+    {
+      "id": 26,
+      "question": "Classez les langages de programmation selon la norme CEI 61131 et les langages de haut niveau supportés par PLCNext",
+      "type": "classification",
+      "categories": [
+        "Langages CEI 61131 (PLC standard)",
+        "Langages haut niveau (PLCNext)"
+      ],
+      "elements": [
+        {
+          "nom": "Ladder Diagram (LD)",
+          "categorie": 0
+        },
+        {
+          "nom": "C++",
+          "categorie": 1
+        },
+        {
+          "nom": "Function Block Diagram (FBD)",
+          "categorie": 0
+        },
+        {
+          "nom": "Python",
+          "categorie": 1
+        },
+        {
+          "nom": "Structured Text (ST)",
+          "categorie": 0
+        },
+        {
+          "nom": "Java",
+          "categorie": 1
+        },
+        {
+          "nom": "Grafcet/SFC",
+          "categorie": 0
+        },
+        {
+          "nom": "MATLAB Simulink",
+          "categorie": 1
+        }
+      ],
+      "points": 4
+    },
+    {
+      "id": 27,
+      "question": "Classez les composants selon leur appartenance dans un automatisme industriel",
+      "type": "classification",
+      "categories": [
+        "Partie Commande (PC)",
+        "Partie Opérative (PO)",
+        "Supervision"
+      ],
+      "elements": [
+        {
+          "nom": "API/PLC (Automate Programmable Industriel)",
+          "categorie": 0
+        },
+        {
+          "nom": "Actionneurs (vannes, moteurs, vérins)",
+          "categorie": 1
+        },
+        {
+          "nom": "SCADA / HMI",
+          "categorie": 2
+        },
+        {
+          "nom": "Capteurs (température, pression, position)",
+          "categorie": 0
+        },
+        {
+          "nom": "Pré-actionneurs (contacteurs, distributeurs)",
+          "categorie": 1
+        },
+        {
+          "nom": "Système MES (Manufacturing Execution)",
+          "categorie": 2
+        }
+      ],
+      "points": 3
+    },
+    {
+      "id": 28,
+      "question": "Classez les incidents OT célèbres selon leur type d'impact",
+      "type": "classification",
+      "categories": [
+        "Sabotage industriel",
+        "Attaque réseau électrique",
+        "Ciblage systèmes de sécurité"
+      ],
+      "elements": [
+        {
+          "nom": "Stuxnet (centrifugeuses uranium Iran, 2010)",
+          "categorie": 0
+        },
+        {
+          "nom": "BlackEnergy (réseau électrique Ukraine, 2015)",
+          "categorie": 1
+        },
+        {
+          "nom": "Triton/TRISIS (Schneider Triconex SIS)",
+          "categorie": 2
+        },
+        {
+          "nom": "Destruction physique d'équipements industriels",
+          "categorie": 0
+        },
+        {
+          "nom": "Coupure de courant pour 230 000 foyers",
+          "categorie": 1
+        },
+        {
+          "nom": "Désactivation des systèmes d'arrêt d'urgence",
+          "categorie": 2
+        }
+      ],
+      "points": 3
+    },
+    {
+      "id": 29,
+      "question": "Classez les normes et standards selon leur domaine d'application",
+      "type": "classification",
+      "categories": [
+        "Cybersécurité OT/ICS",
+        "Cybersécurité générale SI",
+        "Réponse à incident"
+      ],
+      "elements": [
+        {
+          "nom": "IEC 62443",
+          "categorie": 0
+        },
+        {
+          "nom": "ISO/IEC 27001",
+          "categorie": 1
+        },
+        {
+          "nom": "NIST SP 800-61",
+          "categorie": 2
+        },
+        {
+          "nom": "DGSSI Maroc (référentiel ICS)",
+          "categorie": 0
+        },
+        {
+          "nom": "ISO/IEC 27035",
+          "categorie": 2
+        },
+        {
+          "nom": "NIST CSF (Identify/Protect/Detect/Respond/Recover)",
+          "categorie": 1
+        }
+      ],
+      "points": 3
+    },
+    {
+      "id": 30,
+      "question": "Classez les éléments selon leur niveau dans l'architecture réseau d'une usine",
+      "type": "classification",
+      "categories": [
+        "WAN (inter-sites)",
+        "LAN (site/atelier)",
+        "BUS de terrain (machines)"
+      ],
+      "elements": [
+        {
+          "nom": "VPN inter-usines",
+          "categorie": 0
+        },
+        {
+          "nom": "Switch Ethernet industriel",
+          "categorie": 1
+        },
+        {
+          "nom": "Profibus/Modbus RTU",
+          "categorie": 2
+        },
+        {
+          "nom": "MPLS/SD-WAN",
+          "categorie": 0
+        },
+        {
+          "nom": "PROFINET (Ethernet industriel)",
+          "categorie": 1
+        },
+        {
+          "nom": "Liaison série RS-485",
+          "categorie": 2
+        }
+      ],
+      "points": 3
+    },
+    {
+      "id": 31,
+      "question": "Associez chaque révolution industrielle à sa technologie/concept clé",
+      "type": "association",
+      "elements_gauche": [
+        "1ère Révolution",
+        "2ème Révolution",
+        "3ème Révolution",
+        "4ème Révolution"
+      ],
+      "elements_droite": [
+        "Machine à vapeur, motorisation thermique",
+        "Électricité, chaîne de montage (Fordisme)",
+        "PLC, électronique, informatique (Lean)",
+        "IIoT, IA, systèmes cyber-physiques"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 32,
+      "question": "Associez chaque phase de la Cyber Kill Chain à son objectif principal",
+      "type": "association",
+      "elements_gauche": [
+        "Reconnaissance",
+        "Weaponization",
+        "Delivery",
+        "Exploitation",
+        "Installation",
+        "C2",
+        "Actions on Objectives"
+      ],
+      "elements_droite": [
+        "Collecter informations cible",
+        "Créer l'arme numérique",
+        "Transmettre à la victime",
+        "Exécuter le code malveillant",
+        "Établir persistance",
+        "Piloter le système compromis",
+        "Atteindre le but stratégique"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          6
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 33,
+      "question": "Associez chaque composant de la triade CIA à sa définition et un exemple d'attaque",
+      "type": "association",
+      "elements_gauche": [
+        "Confidentialité",
+        "Intégrité",
+        "Disponibilité"
+      ],
+      "elements_droite": [
+        "Protection contre divulgation non autorisée — attaque : vol de données",
+        "Protection contre altération — attaque : défacement web",
+        "Accessibilité du service — attaque : DDoS"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "points": 3
+    },
+    {
+      "id": 34,
+      "question": "Associez chaque système de sécurité à sa fonction principale",
+      "type": "association",
+      "elements_gauche": [
+        "IDS",
+        "IPS",
+        "SIEM",
+        "SOC"
+      ],
+      "elements_droite": [
+        "Détection passive — génère des alertes",
+        "Prévention active — bloque en temps réel",
+        "Collecte, normalise et corrèle les événements",
+        "Centre opérationnel humain — analyse et réponse"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 35,
+      "question": "Associez chaque KPI cybersécurité à sa signification",
+      "type": "association",
+      "elements_gauche": [
+        "MTTD",
+        "MTTR",
+        "CVSS",
+        "CVE"
+      ],
+      "elements_droite": [
+        "Mean Time To Detect",
+        "Mean Time To Respond/Remediate",
+        "Common Vulnerability Scoring System",
+        "Common Vulnerabilities and Exposures"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 36,
+      "question": "Associez chaque incident OT célèbre à sa cible et son année",
+      "type": "association",
+      "elements_gauche": [
+        "Stuxnet",
+        "BlackEnergy",
+        "Triton/TRISIS"
+      ],
+      "elements_droite": [
+        "Centrifugeuses d'enrichissement uranium Iran (2010)",
+        "Réseau électrique Ukraine — coupure 230 000 foyers (2015)",
+        "Systèmes de sécurité Schneider Triconex (Safety Instrumented System)"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "points": 3
+    },
+    {
+      "id": 37,
+      "question": "Associez chaque couche du modèle OSI à sa fonction",
+      "type": "association",
+      "elements_gauche": [
+        "Couche 1 (Physique)",
+        "Couche 2 (Liaison)",
+        "Couche 3 (Réseau)",
+        "Couche 7 (Application)"
+      ],
+      "elements_droite": [
+        "Présentation des bits sur le média (tension)",
+        "Synchronisation, contrôle erreurs (CRC, ACK)",
+        "Routage des paquets",
+        "Services aux utilisateurs (transfert fichiers, messagerie)"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 38,
+      "question": "Associez chaque type de capteur à son principe physique",
+      "type": "association",
+      "elements_gauche": [
+        "Thermocouple",
+        "Jauge de contrainte",
+        "Capteur piézoélectrique",
+        "Capteur inductif LVDT"
+      ],
+      "elements_droite": [
+        "Effet Seebeck — tension proportionnelle à la différence de température",
+        "Variation de résistance sous déformation mécanique",
+        "Génération de charge électrique sous pression/vibration",
+        "Variation d'inductance par déplacement du noyau ferromagnétique"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 39,
+      "question": "Associez chaque norme à son domaine de couverture",
+      "type": "association",
+      "elements_gauche": [
+        "IEC 62443",
+        "NIST SP 800-61",
+        "ISO/IEC 27001",
+        "CEI 61131"
+      ],
+      "elements_droite": [
+        "Cybersécurité des systèmes d'automatisation et de contrôle industriels",
+        "Guide de réponse aux incidents de cybersécurité",
+        "Système de management de la sécurité de l'information",
+        "Langages de programmation des automates industriels"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 40,
+      "question": "Associez chaque type d'IDS à sa méthode de détection et ses outils",
+      "type": "association",
+      "elements_gauche": [
+        "IDS par signature",
+        "IDS comportemental (anomalies)",
+        "IDS basé IA/ML",
+        "IDS réseau (NIDS)"
+      ],
+      "elements_droite": [
+        "Règles connues (Regex, Snort rules) — inefficace zero-day",
+        "Modèle de comportement normal, écarts statistiques, adapté APT",
+        "Classification RF/KNN/CNN/LSTM — dataset NSL-KDD, CIC-IDS-2017",
+        "Analyse du trafic réseau en temps réel — Zeek, Suricata"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 41,
+      "question": "Associez chaque composant de l'architecture SOC à son rôle",
+      "type": "association",
+      "elements_gauche": [
+        "Analyste L1",
+        "Analyste L2/L3",
+        "Incident Manager",
+        "Équipe Forensic"
+      ],
+      "elements_droite": [
+        "Triage des alertes — qualification première",
+        "Investigation approfondie et analyse technique",
+        "Coordination de la réponse à incident",
+        "Analyse des preuves numériques — chain of custody"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 42,
+      "question": "Associez chaque attribut FMCD de sûreté de fonctionnement à sa définition",
+      "type": "association",
+      "elements_gauche": [
+        "Fiabilité",
+        "Maintenabilité",
+        "Confidentialité",
+        "Disponibilité"
+      ],
+      "elements_droite": [
+        "Continuité du service dans le temps",
+        "Capacité de remise en état après défaillance",
+        "Absence de divulgation non autorisée d'information",
+        "Accessibilité du service quand requis"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 43,
+      "question": "Associez chaque statistique OT 2023-2024 à sa valeur",
+      "type": "association",
+      "elements_gauche": [
+        "Entreprises ayant subi au moins 1 cyberattaque",
+        "Coût moyen d'une violation OT",
+        "Temps moyen de détection en OT",
+        "Cyberattaques ciblant les unités de production"
+      ],
+      "elements_droite": [
+        "93%",
+        "~7 M€ USD",
+        "16 jours",
+        "43%"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 44,
+      "question": "Associez chaque protocole/bus à son domaine d'application industriel",
+      "type": "association",
+      "elements_gauche": [
+        "Modbus/DNP3",
+        "PROFINET",
+        "OPC UA",
+        "MQTT"
+      ],
+      "elements_droite": [
+        "SCADA/RTU — protocoles legacy OT, simple et robuste",
+        "Bus Ethernet industriel temps réel (Siemens/Phoenix)",
+        "Protocole interopérable Industrie 4.0 (PLCNext, IIoT)",
+        "Messagerie légère publish/subscribe pour IIoT/IoT"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    },
+    {
+      "id": 45,
+      "question": "Associez chaque composant PLCNext à sa spécification technique",
+      "type": "association",
+      "elements_gauche": [
+        "AXC F 2152 (CPU)",
+        "Module DI8/DO8",
+        "Module AI2/AO2",
+        "Bus Axioline F"
+      ],
+      "elements_droite": [
+        "ARM Cortex-A9 2×800 MHz, 512Mo RAM, OPC UA, Python/C++",
+        "8 entrées TOR + 8 sorties TOR 24VDC/500mA, IP20",
+        "2 entrées + 2 sorties analogiques 0-20mA / 0-10V, IP20",
+        "Bus local 100 Mbit/s, max. 63 modules E/S"
+      ],
+      "associations": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "points": 4
+    }
+  ]
+}

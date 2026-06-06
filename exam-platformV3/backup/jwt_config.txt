@@ -1,0 +1,11 @@
+JWT Configuration - EMSI Exam Platform
+=======================================
+Environment : Development / Staging
+Last updated : 2024-01-15
+
+JWT_SECRET=emsi-ctf-2024
+JWT_EXPIRY=8h
+JWT_ALGORITHM=HS256
+
+NOTE: Change this secret before production deployment!
+See DEPLOYMENT.md for production hardening checklist.

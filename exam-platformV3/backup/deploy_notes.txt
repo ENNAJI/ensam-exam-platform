@@ -1,0 +1,26 @@
+Deployment Notes - EMSI Exam Server
+=====================================
+Server: 192.168.1.100 (internal)
+Port HTTP: 3003
+Port FTP: 2121 (anonymous read-only)
+Port SSH: 22
+
+Admin credentials (CHANGE IN PRODUCTION!):
+  Web admin : admin / admin123
+  Backdoor  : ctfadmin / R3dT3am2024
+  FTP       : anonymous (no password)
+
+Debug endpoint available at: /api/debug
+  -> Returns server internals, disable in production!
+
+Interesting paths:
+  /api/examen/answers/:sessionId  -> Answer key endpoint (REMOVE!)
+  /api/admin/create-user          -> Hardcoded key: EMSI-MASTER-KEY-2024
+
+TODO before prod:
+  [x] Enable HTTPS
+  [ ] Remove /api/debug endpoint
+  [ ] Remove grade override parameter (_note)
+  [ ] Disable FTP server
+  [ ] Change JWT secret
+  [ ] Remove ctfadmin account

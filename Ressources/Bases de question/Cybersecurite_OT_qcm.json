@@ -1,0 +1,1506 @@
+{
+  "matiere": "CyberSecurite OT",
+  "type": "QCM",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Quel est l'objectif principal de la 1ère révolution industrielle ?",
+      "options": [
+        "Remplacer l'effort biologique par l'effort technologique",
+        "Automatiser la production par des PLC",
+        "Déployer l'intelligence artificielle dans les usines",
+        "Connecter les machines à Internet"
+      ],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 2,
+      "question": "Quelle technologie caractérise principalement la 3ème révolution industrielle ?",
+      "options": [
+        "Machine à vapeur",
+        "Électricité et chaîne de montage",
+        "PLC, électronique, informatique, mécatronique",
+        "IIoT et IA"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 3,
+      "question": "Quel paradigme industriel a émergé en 1962 avec le système Toyota ?",
+      "options": [
+        "Fordisme",
+        "Taylorisme",
+        "Toyotisme (Lean Manufacturing)",
+        "ERP/GPAO"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 4,
+      "question": "Quel sigle désigne les technologies opérationnelles industrielles ?",
+      "options": [
+        "IT",
+        "OT",
+        "IoT",
+        "ICS"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 5,
+      "question": "Quel niveau d'autonomie correspond à la mécanisation avec énergie hydraulique et thermique ?",
+      "options": [
+        "Autonomie Décisionnelle",
+        "Autonomie Collaborative",
+        "Autonomie Opérationnelle",
+        "Autonomie Physique"
+      ],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 6,
+      "question": "Quel est le paradigme de la 4ème révolution industrielle ?",
+      "options": [
+        "Production de masse",
+        "Production automatisée",
+        "Production mécanique",
+        "Production autonome (IIoT, IA, cyber-physique)"
+      ],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 7,
+      "question": "Que signifie IIoT ?",
+      "options": [
+        "Industrial Internet of Things",
+        "Intelligent Internet of Technology",
+        "Integrated Industrial Operations Technology",
+        "Internet Industriel Opérationnel Technologique"
+      ],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 8,
+      "question": "Quelle est la définition d'un robot selon le cours ?",
+      "options": [
+        "Système commandé automatiquement, multi-applicatif, reprogrammable, polyvalent",
+        "Machine à vapeur automatisée",
+        "Capteur connecté à Internet",
+        "Automate non reprogrammable"
+      ],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 9,
+      "question": "Quelle version du Web correspond à l'Internet des Objets (IoT) ?",
+      "options": [
+        "Web 1.0",
+        "Web 2.0",
+        "Web 3.0",
+        "ARPANET"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 10,
+      "question": "Quels sont les 4 éléments de l'environnement d'un automatisme industriel ?",
+      "options": [
+        "CPU, RAM, Disque, Réseau",
+        "Process, Contrôleur, Capteurs, Actionneurs",
+        "PLC, SCADA, HMI, ERP",
+        "Moteur, Vanne, Capteur, PLC"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 11,
+      "question": "Quel est le premier programme auto-réplicatif sur ARPANET (1971) ?",
+      "options": [
+        "Morris Worm",
+        "Creeper",
+        "Reaper",
+        "ILOVEYOU"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 12,
+      "question": "Qui a développé le programme Creeper en 1971 ?",
+      "options": [
+        "Robert Tappan Morris",
+        "Alan Turing",
+        "Bob Thomas (BBN)",
+        "Linus Torvalds"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 13,
+      "question": "Combien de machines environ le Morris Worm a-t-il infectées en 1988 ?",
+      "options": [
+        "600 machines",
+        "6 000 machines (~10% d'Internet)",
+        "60 000 machines",
+        "600 000 machines"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 14,
+      "question": "Quelle organisation a été créée en 1988 suite au Morris Worm ?",
+      "options": [
+        "ANSSI",
+        "CERT (Computer Emergency Response Team)",
+        "NSA",
+        "INTERPOL"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 15,
+      "question": "Quelle vulnérabilité le Morris Worm exploitait-il principalement ?",
+      "options": [
+        "Faille Windows NT",
+        "Failles sendmail, finger et mots de passe UNIX",
+        "Protocole HTTP",
+        "Système de fichiers NFS"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 16,
+      "question": "Quelle est la signification de CIA en cybersécurité ?",
+      "options": [
+        "Central Intelligence Agency",
+        "Confidentialité, Intégrité, Disponibilité",
+        "Contrôle, Inventaire, Audit",
+        "Certification, Identification, Authentification"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 17,
+      "question": "Quelle est la différence entre une intrusion et une compromission ?",
+      "options": [
+        "Aucune différence",
+        "Une intrusion est une tentative bloquée ; une compromission est un contrôle effectif et persistant",
+        "Une compromission est toujours plus rapide",
+        "Une intrusion nécessite un malware"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 18,
+      "question": "Qu'est-ce qu'un incident de sécurité selon la triade CIA ?",
+      "options": [
+        "Une tentative bloquée",
+        "Un événement compromettant la Confidentialité, l'Intégrité ou la Disponibilité",
+        "Une alerte IDS",
+        "Un scan de port"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 19,
+      "question": "Que signifie APT dans le contexte de la cybersécurité ?",
+      "options": [
+        "Automated Penetration Test",
+        "Advanced Persistent Threat",
+        "Application Protocol Transmission",
+        "Active Prevention Technology"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 20,
+      "question": "Quelle caractéristique définit le 'Persistent' dans APT ?",
+      "options": [
+        "Des techniques avancées zero-day",
+        "Une présence longue durée dans le système (mois/années)",
+        "Un déni de service distribué",
+        "L'utilisation de ransomware"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 21,
+      "question": "Quel groupe APT est associé à la Russie selon le cours ?",
+      "options": [
+        "Lazarus Group",
+        "APT28 et APT29",
+        "APT41",
+        "Equation Group"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 22,
+      "question": "Que mesure le MTTD ?",
+      "options": [
+        "Mean Time To Deploy",
+        "Mean Time To Detect",
+        "Maximum Threshold To Defend",
+        "Minimum Time To Disrupt"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 23,
+      "question": "Quel est le temps moyen de détection d'une intrusion en environnement OT selon les statistiques 2023-2024 ?",
+      "options": [
+        "200 jours",
+        "90 jours",
+        "16 jours",
+        "48 heures"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 24,
+      "question": "Quel est le temps moyen de détection d'une intrusion en environnement IT ?",
+      "options": [
+        "16 jours",
+        "90 jours",
+        "200 jours",
+        "30 jours"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 25,
+      "question": "Quel pourcentage d'entreprises a subi au moins une cyberattaque OT/IT selon les statistiques 2023-2024 ?",
+      "options": [
+        "43%",
+        "67%",
+        "80%",
+        "93%"
+      ],
+      "reponse": 3,
+      "points": 1
+    },
+    {
+      "id": 26,
+      "question": "Quel est le coût moyen d'un arrêt de production dans le secteur énergie/transport ?",
+      "options": [
+        "0,3 M€/h",
+        "1,8 M€/h",
+        "7 M€/h",
+        "0,1 M€/h"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 27,
+      "question": "Quel attribut de la sûreté de fonctionnement (FMCD) désigne la continuité du service ?",
+      "options": [
+        "Maintenabilité",
+        "Fiabilité",
+        "Confidentialité",
+        "Disponibilité"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 28,
+      "question": "Quel attribut FMCD désigne l'absence d'altération inappropriée ?",
+      "options": [
+        "Fiabilité",
+        "Maintenabilité",
+        "Intégrité",
+        "Disponibilité"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 29,
+      "question": "Qui a créé la Cyber Kill Chain et en quelle année ?",
+      "options": [
+        "MITRE, 2013",
+        "Lockheed Martin, 2011",
+        "NIST, 2014",
+        "ENISA, 2010"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 30,
+      "question": "Combien de phases comporte la Cyber Kill Chain ?",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 31,
+      "question": "Quel est l'objectif de la phase Reconnaissance dans la Cyber Kill Chain ?",
+      "options": [
+        "Préparer l'arme numérique",
+        "Collecter des informations sur la cible",
+        "Établir la persistance",
+        "Piloter le système compromis"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 32,
+      "question": "Quelle est la différence entre la reconnaissance passive et active ?",
+      "options": [
+        "La passive utilise des exploits, l'active non",
+        "La passive n'implique pas de contact direct (OSINT) ; l'active implique un contact détectable (Nmap)",
+        "La passive est illégale, l'active est autorisée",
+        "Aucune différence technique"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 33,
+      "question": "Qu'est-ce que la phase Weaponization dans la Cyber Kill Chain ?",
+      "options": [
+        "Livraison du malware à la victime",
+        "Création ou adaptation d'un outil malveillant (couplage exploit + payload)",
+        "Exploitation de la vulnérabilité",
+        "Exfiltration des données"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 34,
+      "question": "Quels sont les vecteurs courants de la phase Delivery ?",
+      "options": [
+        "Nmap, OSINT, WHOIS",
+        "Phishing, pièce jointe, USB infectée, watering hole",
+        "Buffer overflow, exploitation navigateur",
+        "Beaconing HTTP, tunnels C2"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 35,
+      "question": "Quel est l'objectif de la phase Installation dans la Cyber Kill Chain ?",
+      "options": [
+        "Exécution initiale du code",
+        "Maintenir l'accès dans le temps (persistance)",
+        "Collecte d'informations",
+        "Livraison du malware"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 36,
+      "question": "Quelles techniques sont utilisées pour établir la persistance (phase Installation) ?",
+      "options": [
+        "Scan de ports, OSINT",
+        "Création service Windows, registre, scheduled tasks, rootkit, backdoor",
+        "Phishing, watering hole",
+        "Exfiltration DNS, HTTPS"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 37,
+      "question": "Que signifie C2 dans le contexte de la Cyber Kill Chain ?",
+      "options": [
+        "Couche 2 du modèle OSI",
+        "Command & Control — canal de communication entre machine infectée et serveur attaquant",
+        "Contrôle et Conformité",
+        "Chiffrement et Compression"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 38,
+      "question": "Quels protocoles sont utilisés pour masquer les communications C2 ?",
+      "options": [
+        "FTP, Telnet",
+        "HTTP/HTTPS/DNS avec chiffrement et beaconing périodique",
+        "SSH, SFTP",
+        "SNMP, Syslog"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 39,
+      "question": "Que signifie MITRE ATT&CK ?",
+      "options": [
+        "Malware Intelligence Tool for Rapid Exploitation and CK",
+        "Adversarial Tactics, Techniques, and Common Knowledge",
+        "Advanced Threat Tracking and Countermeasure Knowledge",
+        "Automated Threat Tactics and Common Knowledge"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 40,
+      "question": "Combien de tactiques comporte le framework MITRE ATT&CK ?",
+      "options": [
+        "7",
+        "10",
+        "14",
+        "20"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 41,
+      "question": "Combien de techniques comporte le framework MITRE ATT&CK ?",
+      "options": [
+        "50+",
+        "100+",
+        "200+",
+        "500+"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 42,
+      "question": "Quel est le mode de fonctionnement d'un IDS ?",
+      "options": [
+        "Mode actif — bloque le trafic en temps réel",
+        "Mode passif — observe et génère des alertes uniquement",
+        "Mode hybride — bloque et alerte",
+        "Mode inline — intercepte tout le trafic"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 43,
+      "question": "Quelle action un IPS peut-il effectuer qu'un IDS ne peut pas ?",
+      "options": [
+        "Générer des alertes",
+        "Analyser le trafic réseau",
+        "Bloquer le trafic malveillant en temps réel (DROP, REJECT)",
+        "Collecter des logs"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 44,
+      "question": "Quel est un exemple d'IDS open-source mentionné dans le cours ?",
+      "options": [
+        "Splunk",
+        "Snort ou Zeek",
+        "Cisco Firepower",
+        "QRadar"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 45,
+      "question": "Quel outil est un exemple de SIEM open-source mentionné dans le cours ?",
+      "options": [
+        "Snort",
+        "Suricata",
+        "Wazuh (ou ELK Stack)",
+        "Zeek"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 46,
+      "question": "Quelle est la fonction principale d'un SIEM ?",
+      "options": [
+        "Bloquer les attaques en temps réel",
+        "Analyser le code malveillant",
+        "Collecter, normaliser et corréler les événements de sécurité multi-sources",
+        "Scanner les vulnérabilités réseau"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 47,
+      "question": "Quel type d'IDS est inefficace contre les attaques zero-day ?",
+      "options": [
+        "IDS comportemental",
+        "IDS basé IA/Machine Learning",
+        "IDS par signature",
+        "IDS réseau"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 48,
+      "question": "Quel algorithme ML est cité pour la détection d'intrusions (classification) ?",
+      "options": [
+        "K-Means, DBSCAN",
+        "RF, KNN, CNN, LSTM",
+        "Linear Regression, SVM",
+        "PCA, Autoencoder uniquement"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 49,
+      "question": "Quel est le problème principal du dataset NSL-KDD utilisé pour l'entraînement des IDS basés IA ?",
+      "options": [
+        "Il est trop récent",
+        "Il est obsolète (2009) — nouvelles attaques non couvertes",
+        "Il est trop volumineux",
+        "Il ne contient que des attaques OT"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 50,
+      "question": "Quelle solution est recommandée face aux limites des IDS basés IA ?",
+      "options": [
+        "Utiliser uniquement des signatures",
+        "Approche hybride (Signature + ML + Analyse humaine)",
+        "Remplacer tous les IDS par des IPS",
+        "Supprimer les datasets obsolètes"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 51,
+      "question": "Quel est le problème souligné dans l'approche de corrélation multi-niveaux (Radi-Regragui-Ramrami) ?",
+      "options": [
+        "100% des attaques sont internes",
+        "70% des attaques sont internes + taux élevé de faux positifs",
+        "Les IDS ne détectent rien",
+        "Le SIEM est inutile en OT"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 52,
+      "question": "Comment le Niveau 2 de corrélation réduit-il le bruit des alertes IDS ?",
+      "options": [
+        "En supprimant toutes les alertes",
+        "Par agrégation et analyse temporelle — réduction du bruit de 60%",
+        "En bloquant tout le trafic suspect",
+        "Par chiffrement des logs"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 53,
+      "question": "Quel est le rôle d'un analyste SOC de niveau L1 ?",
+      "options": [
+        "Investigation forensic approfondie",
+        "Triage des alertes — qualification première",
+        "Coordination de la réponse à incident",
+        "Chasse aux menaces (Threat Hunting)"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 54,
+      "question": "Quelle est la différence entre la détection réactive et le Threat Hunting ?",
+      "options": [
+        "La réactive est plus efficace contre les APT",
+        "Le Threat Hunting est proactif — hypothesis-driven, ne dépend pas des alertes",
+        "La détection réactive détecte mieux les zero-day",
+        "Aucune différence pratique"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 55,
+      "question": "Quel pourcentage des intrusions exploitent des vulnérabilités connues selon le cours ?",
+      "options": [
+        "30-40%",
+        "50-60%",
+        "80-90%",
+        "99%"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 56,
+      "question": "Que signifie CVSS ?",
+      "options": [
+        "Common Vulnerability Security Score",
+        "Common Vulnerability Scoring System",
+        "Cyber Vulnerability Severity Standard",
+        "Certified Vulnerability Scanning System"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 57,
+      "question": "Qu'est-ce que le Risk-Based Vulnerability Management ?",
+      "options": [
+        "Corriger toutes les vulnérabilités dans l'ordre chronologique",
+        "Prioriser les vulnérabilités selon le score CVSS, la criticité métier et l'exposition Internet",
+        "Scanner uniquement les serveurs exposés à Internet",
+        "Ignorer les vulnérabilités de faible score CVSS"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 58,
+      "question": "Quel outil de scan de vulnérabilités est mentionné dans le cours ?",
+      "options": [
+        "Wireshark",
+        "Metasploit",
+        "Nessus ou OpenVAS",
+        "Burp Suite"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 59,
+      "question": "Quelle est la première étape du cycle NIST de réponse à incident (SP 800-61) ?",
+      "options": [
+        "Détection & Analyse",
+        "Confinement",
+        "Préparation (politique IR, playbooks, SOC)",
+        "Éradication"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 60,
+      "question": "Que comprend la phase d'Éradication dans NIST SP 800-61 ?",
+      "options": [
+        "Restauration des backups",
+        "Suppression malware, patch vulnérabilités, rotation mots de passe, nettoyage persistance",
+        "Qualification des alertes IDS",
+        "Documentation de l'incident"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 61,
+      "question": "Quel est l'objectif du Retour d'Expérience (REX) dans NIST SP 800-61 ?",
+      "options": [
+        "Redémarrer les systèmes",
+        "Analyse des causes racines, mise à jour règles IDS, amélioration playbooks, sensibilisation",
+        "Sauvegarder les logs",
+        "Isoler les machines compromises"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 62,
+      "question": "Quel cadre de référence définit le processus de réponse à incident le plus utilisé ?",
+      "options": [
+        "IEC 62443",
+        "ISO/IEC 27001",
+        "NIST SP 800-61",
+        "PCI-DSS"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 63,
+      "question": "Quelle infrastructure Stuxnet ciblait-il en 2010 ?",
+      "options": [
+        "Le réseau électrique ukrainien",
+        "Les centrifugeuses d'enrichissement d'uranium iraniennes",
+        "Les systèmes de sécurité Triconex",
+        "Les réseaux SCADA pétroliers"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 64,
+      "question": "Quelle était la particularité technique de Stuxnet ?",
+      "options": [
+        "Il était le premier ransomware",
+        "Il ciblait spécifiquement les automates Siemens S7 contrôlant les centrifugeuses",
+        "Il se propageait par email uniquement",
+        "Il utilisait uniquement des techniques réseau"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 65,
+      "question": "Quel malware a provoqué une coupure d'électricité pour 230 000 foyers ukrainiens en 2015 ?",
+      "options": [
+        "Stuxnet",
+        "Triton",
+        "BlackEnergy",
+        "NotPetya"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 66,
+      "question": "Quelle cible spécifique visait le malware Triton/TRISIS ?",
+      "options": [
+        "Les centrifugeuses d'uranium",
+        "Les réseaux électriques",
+        "Les systèmes de sécurité Schneider Electric Triconex (Safety Instrumented System)",
+        "Les réseaux ferroviaires"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 67,
+      "question": "Que signifie PLC (ou API en français) ?",
+      "options": [
+        "Programmable Logic Computer / Automate Programmable Industriel",
+        "Process Logic Controller / Automatisation Par Logiciel Industriel",
+        "Peripheral Link Controller / Automatisme de Pilotage et de Contrôle",
+        "Process and Logic Computer / Automate de Production et de Contrôle"
+      ],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 68,
+      "question": "Quel est le rôle d'un API/PLC dans un automatisme industriel ?",
+      "options": [
+        "Stocker les données de production",
+        "Contrôler les machines via traitement séquentiel des entrées/sorties",
+        "Afficher les données sur écran opérateur",
+        "Gérer les ressources humaines"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 69,
+      "question": "Que signifie SCADA ?",
+      "options": [
+        "System Control and Data Architecture",
+        "Supervisory Control And Data Acquisition",
+        "Secure Control And Data Analysis",
+        "Standard Control Architecture for Data Access"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 70,
+      "question": "Quelle est la définition d'un bus de terrain (Fieldbus) ?",
+      "options": [
+        "Un réseau Internet pour les usines",
+        "Un réseau informatique industriel pour la commande numérique distribuée en temps réel",
+        "Un protocole de communication satellite",
+        "Un bus USB industriel"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 71,
+      "question": "Combien de couches du modèle OSI un bus de terrain utilise-t-il ?",
+      "options": [
+        "7 couches complètes",
+        "5 couches",
+        "3 couches (1, 2 et 7)",
+        "2 couches"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 72,
+      "question": "Pourquoi les couches 3 à 6 du modèle OSI sont-elles vides dans un bus de terrain ?",
+      "options": [
+        "Pour des raisons de coût",
+        "Pas besoin d'interconnexion avec un autre réseau — gain de performance",
+        "Les équipements ne les supportent pas",
+        "Elles sont remplacées par le protocole IP"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 73,
+      "question": "Dans le modèle Maître-Esclave, qui peut prendre l'initiative de la communication ?",
+      "options": [
+        "L'esclave uniquement",
+        "Le maître uniquement",
+        "Les deux de façon équitable",
+        "N'importe quel nœud du réseau"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 74,
+      "question": "Quelle topologie de bus de terrain est la plus largement répandue ?",
+      "options": [
+        "Topologie en anneau",
+        "Topologie en étoile",
+        "Topologie en bus (multipoint)",
+        "Topologie en arbre"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 75,
+      "question": "Quel est l'inconvénient principal de la topologie en anneau ?",
+      "options": [
+        "Elle utilise trop de câbles",
+        "La panne d'un nœud paralyse le trafic sur tout le réseau",
+        "Elle ne supporte pas les hauts débits",
+        "Elle nécessite un HUB central"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 76,
+      "question": "Quel est l'inconvénient principal de la topologie en étoile ?",
+      "options": [
+        "Extension impossible en fonctionnement",
+        "La panne du HUB central met tout le réseau hors service",
+        "Chaque nœud doit régénérer le signal",
+        "Communication unidirectionnelle uniquement"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 77,
+      "question": "Que signifie OPC UA ?",
+      "options": [
+        "Open Platform Communications Unified Architecture",
+        "Operational Process Control Universal Application",
+        "Open Protocol Communication Universal Access",
+        "Object Process Control Unified API"
+      ],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 78,
+      "question": "Quel protocole de messagerie léger est utilisé dans l'environnement PLCNext pour l'IIoT ?",
+      "options": [
+        "HTTP/REST",
+        "AMQP",
+        "MQTT",
+        "CoAP"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 79,
+      "question": "Quelle norme définit les langages de programmation des automates industriels ?",
+      "options": [
+        "IEC 62443",
+        "CEI 61131",
+        "ISO 27001",
+        "IEEE 802.3"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 80,
+      "question": "Quel langage PLC graphique représente les contacts et bobines d'un schéma électrique ?",
+      "options": [
+        "FBD (Function Block Diagram)",
+        "ST (Structured Text)",
+        "LD (Ladder Diagram)",
+        "IL (Instruction List)"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 81,
+      "question": "Quel processeur équipe l'automate PLCNext AXC F 2152 ?",
+      "options": [
+        "Intel Core i5",
+        "ARM Cortex-A9 2×800 MHz",
+        "RISC-V 64 bits",
+        "MIPS 32 bits"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 82,
+      "question": "Quel protocole de communication en temps réel utilise l'AXC F 2152 pour la communication inter-automates ?",
+      "options": [
+        "Modbus RTU",
+        "CAN bus",
+        "PROFINET Classe A V2.3",
+        "DeviceNet"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 83,
+      "question": "Quel est le signal standard de transmission pour les transmetteurs de mesure industriels ?",
+      "options": [
+        "0-5V",
+        "0-10V",
+        "4-20 mA",
+        "0-20 mA uniquement"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 84,
+      "question": "Quelle est la différence entre automatisation et robotisation ?",
+      "options": [
+        "Aucune différence, les termes sont synonymes",
+        "L'automatisation contrôle les machines, la robotisation ajoute des manipulateurs autonomes",
+        "La robotisation est moins avancée que l'automatisation",
+        "L'automatisation nécessite une IA, la robotisation non"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 85,
+      "question": "Quelle famille d'OT contrôle les systèmes embarqués dans l'automobile et l'aéronautique ?",
+      "options": [
+        "Automatismes industriels",
+        "Systèmes embarqués",
+        "SCADA",
+        "MES"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 86,
+      "question": "Quels sont les avantages principaux d'un API/PLC selon le cours ?",
+      "options": [
+        "Faible coût et légèreté",
+        "Robustesse, temps de mise en œuvre courts, interopérabilité, pérennité",
+        "Hautes performances de calcul",
+        "Programmation en langage naturel"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 87,
+      "question": "Quel protocole de bus terrain utilise le modèle Producteur/Consommateur pour le transfert cyclique de données ?",
+      "options": [
+        "Modbus RTU (Maître-Esclave)",
+        "ISA/SP50 Fieldbus Foundation (Publisher/Subscriber)",
+        "HTTP (Client/Serveur)",
+        "Ethernet standard"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 88,
+      "question": "Qu'est-ce que le jeton (token) dans les réseaux bus de terrain ?",
+      "options": [
+        "Un certificat de sécurité",
+        "Un message particulier donnant le droit d'émettre, passé de station en station",
+        "Une adresse réseau unique",
+        "Un mot de passe d'accès"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 89,
+      "question": "Quelle est la vitesse de transmission du bus Axioline F dans la plateforme PLCNext ?",
+      "options": [
+        "10 Mbit/s",
+        "100 Mbit/s",
+        "1 Gbit/s",
+        "10 Gbit/s"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 90,
+      "question": "Quel est le protocole utilisé par le service LLC3 dans un bus de terrain ?",
+      "options": [
+        "Sans connexion et sans acquittement",
+        "Avec connexion et acquittement (lourd)",
+        "Sans connexion mais avec acquittement — adapté au temps réel fiable",
+        "Connexion sécurisée TLS"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 91,
+      "question": "Qu'est-ce qu'un mesurande ?",
+      "options": [
+        "Le signal de sortie d'un capteur",
+        "La grandeur physique à mesurer (température, pression, force...)",
+        "Le circuit de conditionnement",
+        "La valeur numérique après conversion"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 92,
+      "question": "Quelle est la fonction principale d'un capteur ?",
+      "options": [
+        "Afficher une valeur numérique",
+        "Convertir une grandeur physique en signal analogique exploitable",
+        "Stocker des données de mesure",
+        "Transmettre des données par réseau"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 93,
+      "question": "Quel composant interne du capteur réagit sélectivement à la grandeur physique à mesurer ?",
+      "options": [
+        "Élément de transduction",
+        "Module de conditionnement",
+        "Corps d'épreuve",
+        "Convertisseur CAN"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 94,
+      "question": "Quel composant assure que le signal de sortie d'un capteur est de nature électrique ?",
+      "options": [
+        "Corps d'épreuve",
+        "Élément de transduction",
+        "Module d'affichage",
+        "Bus de communication"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 95,
+      "question": "Quelle est la différence fondamentale entre un capteur actif et un capteur passif ?",
+      "options": [
+        "Le capteur actif consomme plus d'énergie",
+        "Le capteur actif génère son propre signal (sans alimentation externe) ; le passif utilise les variations d'impédance",
+        "Le capteur passif est plus précis",
+        "Le capteur actif est réservé aux applications OT"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 96,
+      "question": "Sur quel principe physique repose le thermocouple (capteur actif) ?",
+      "options": [
+        "Variation de résistance",
+        "Effet Seebeck (tension proportionnelle à la différence de température)",
+        "Variation de capacité",
+        "Génération de charge piézoélectrique"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 97,
+      "question": "Quel capteur passif utilise la variation de résistance sous déformation mécanique ?",
+      "options": [
+        "Thermocouple",
+        "Capteur piézoélectrique",
+        "Jauge de contrainte",
+        "LVDT"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 98,
+      "question": "Quelles sont les grandeurs d'influence qui perturbent la mesure d'un capteur ?",
+      "options": [
+        "Tension d'alimentation uniquement",
+        "Température, vibrations, chocs, temps (vieillissement), humidité, corrosion",
+        "Pression atmosphérique uniquement",
+        "Champ magnétique uniquement"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 99,
+      "question": "Qu'est-ce qu'un module électronique de conditionnement dans une chaîne de mesure ?",
+      "options": [
+        "Un capteur numérique",
+        "Un module qui rend le signal de sortie du capteur directement exploitable (amplification, filtrage)",
+        "Un convertisseur analogique-numérique",
+        "Un transmetteur réseau"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 100,
+      "question": "Quel type d'impédance peut être utilisé dans un capteur passif selon le cours ?",
+      "options": [
+        "Uniquement résistive",
+        "Résistive, capacitive ou inductive",
+        "Uniquement inductive",
+        "Uniquement capacitive"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 101,
+      "question": "Quelle norme internationale couvre spécifiquement la cybersécurité des systèmes d'automatisation et de contrôle industriels ?",
+      "options": [
+        "ISO/IEC 27001",
+        "NIST SP 800-53",
+        "IEC 62443",
+        "PCI-DSS"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 102,
+      "question": "Que signifie DGSSI au Maroc ?",
+      "options": [
+        "Direction Générale de la Surveillance et de la Sécurité Informatique",
+        "Direction Générale de la Sécurité des Systèmes d'Information",
+        "Délégation Générale de la Sécurité des Systèmes Industriels",
+        "Direction Générale des Services de Sécurité Informatique"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 103,
+      "question": "Quel framework NIST définit 5 fonctions (Identify, Protect, Detect, Respond, Recover) ?",
+      "options": [
+        "NIST SP 800-61",
+        "NIST SP 800-53",
+        "NIST CSF (Cybersecurity Framework)",
+        "NIST SP 800-82"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 104,
+      "question": "Quelle norme de gestion de la sécurité de l'information est la plus universelle ?",
+      "options": [
+        "IEC 62443",
+        "ISO/IEC 27001",
+        "NIST CSF",
+        "CEI 61131"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 105,
+      "question": "Quelle norme couvre la réponse aux incidents de sécurité de l'information ?",
+      "options": [
+        "ISO/IEC 27001",
+        "IEC 62443",
+        "ISO/IEC 27035",
+        "NIST SP 800-82"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 106,
+      "question": "Quelle est la différence principale entre la sécurité IT et la sécurité OT en termes de priorité CIA ?",
+      "options": [
+        "Aucune différence",
+        "IT priorise Confidentialité ; OT priorise Disponibilité (temps réel, sécurité physique)",
+        "OT priorise Confidentialité ; IT priorise Disponibilité",
+        "Les deux priorisent l'Intégrité avant tout"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 107,
+      "question": "Qu'est-ce que la segmentation réseau IT/OT ?",
+      "options": [
+        "Remplacer tous les équipements OT par des équipements IT",
+        "Séparer physiquement ou logiquement les réseaux IT et OT pour limiter la propagation des attaques",
+        "Chiffrer tous les échanges entre IT et OT",
+        "Interdire toute communication entre IT et OT"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 108,
+      "question": "Qu'est-ce que l'air gap dans un contexte OT ?",
+      "options": [
+        "Un protocole de communication sécurisé",
+        "Une isolation physique totale entre deux réseaux (pas de connexion physique)",
+        "Un pare-feu nouvelle génération",
+        "Un VPN dédié aux systèmes industriels"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 109,
+      "question": "Pourquoi la gestion des mises à jour (patch management) est-elle plus difficile en OT qu'en IT ?",
+      "options": [
+        "Les PLC ne supportent pas les mises à jour",
+        "Les systèmes OT ont des cycles de vie de 10-20 ans et les arrêts de production sont coûteux",
+        "Les fabricants ne publient jamais de patches",
+        "Les mises à jour OT sont gratuites et automatiques"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 110,
+      "question": "Quelle est la convergence IT/OT et son principal enjeu de sécurité ?",
+      "options": [
+        "Remplacement des PLC par des PC standard",
+        "Intégration des systèmes informatiques et opérationnels augmentant la surface d'attaque OT",
+        "Virtualisation de tous les équipements industriels",
+        "Déploiement du Cloud dans les usines"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 111,
+      "question": "Quel est l'objectif stratégique d'un SOC (Security Operations Center) ?",
+      "options": [
+        "Développer des logiciels de sécurité",
+        "Détecter, analyser et répondre aux incidents de sécurité en temps réel",
+        "Gérer les accès physiques aux bâtiments",
+        "Auditer les contrats fournisseurs"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 112,
+      "question": "Que signifie OSINT (utilisé en phase de Reconnaissance) ?",
+      "options": [
+        "Open Source Intrusion Network Tools",
+        "Operational Security Intelligence Network Techniques",
+        "Open Source Intelligence — collecte d'informations depuis sources publiques",
+        "Offensive Security Intrusion Network Technology"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 113,
+      "question": "Qu'est-ce qu'un zero-day ?",
+      "options": [
+        "Une attaque qui dure exactement 24 heures",
+        "Une vulnérabilité non encore connue publiquement ni corrigée par le fournisseur",
+        "Un malware créé le premier jour de l'an",
+        "Une technique d'attaque interdite par la loi"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 114,
+      "question": "Qu'est-ce que l'exfiltration de données dans le contexte de la Cyber Kill Chain ?",
+      "options": [
+        "Installation d'un rootkit",
+        "Vol et transfert de données vers l'infrastructure de l'attaquant (phase Actions on Objectives)",
+        "Injection de code dans un processus",
+        "Création d'un compte administrateur"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 115,
+      "question": "Que signifie SOAR en cybersécurité ?",
+      "options": [
+        "Security Operations and Audit Reporting",
+        "Security Orchestration, Automation and Response",
+        "Standard Operations and Automation Requirements",
+        "Security Offensive Automated Response"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 116,
+      "question": "Quelle est la différence entre une vulnérabilité et un exploit ?",
+      "options": [
+        "Ce sont des synonymes",
+        "Une vulnérabilité est une faiblesse ; un exploit est un code qui l'exploite concrètement",
+        "Un exploit est moins dangereux qu'une vulnérabilité",
+        "Une vulnérabilité est toujours intentionnelle"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 117,
+      "question": "Quel outil IDS est connu pour ses règles de détection par signature sur le trafic réseau (NIDS) ?",
+      "options": [
+        "Metasploit",
+        "Wireshark",
+        "Snort (ou Suricata)",
+        "Nmap"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 118,
+      "question": "Qu'est-ce que le pentest (test de pénétration) ?",
+      "options": [
+        "Un scan automatique de vulnérabilités",
+        "Une simulation d'attaque contrôlée et autorisée pour identifier les failles de sécurité",
+        "Un audit de conformité",
+        "Une mise à jour de sécurité"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 119,
+      "question": "Quel standard de fait pour bus de terrain converge vers la norme ISA/SP50 ?",
+      "options": [
+        "Ethernet/IP",
+        "PROFIBUS (bien que dissident du groupe de normalisation)",
+        "Modbus TCP",
+        "DeviceNet"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 120,
+      "question": "Quelle est la particularité du protocole ISA/SP50 pour le transfert acyclique de données ?",
+      "options": [
+        "Modèle Producteur/Consommateur",
+        "Modèle Maître-Esclave",
+        "Modèle Client/Serveur (fort volume, rapports, gestion)",
+        "Modèle broadcast uniquement"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 121,
+      "question": "Quel environnement de développement visuel est cité pour l'exploitation de la plateforme PLCNext ?",
+      "options": [
+        "Node-RED (flows visuels IoT/IIoT)",
+        "Eclipse",
+        "Android Studio",
+        "Visual Studio Code"
+      ],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 122,
+      "question": "Quel est le coût moyen d'une violation de données en environnement IT selon les statistiques 2023-2024 du cours ?",
+      "options": [
+        "~1 M€ USD",
+        "~3 M€ USD",
+        "~5 M€ USD",
+        "~10 M€ USD"
+      ],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 123,
+      "question": "Quelle architecture de sécurité réseau est recommandée selon le référentiel DGSSI Maroc pour les systèmes industriels ?",
+      "options": [
+        "Réseau à plat sans segmentation",
+        "Segmentation avec IPS inline, IDS en mode SPAN et SIEM centralisé",
+        "Isolation totale sans aucune communication",
+        "VPN uniquement"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 124,
+      "question": "Qu'est-ce que la métrologie industrielle ?",
+      "options": [
+        "La science de la météorologie appliquée à l'industrie",
+        "La science de la mesure (définition, réalisation et utilisation des unités de mesure)",
+        "La maintenance préventive des machines",
+        "La gestion des stocks de matières premières"
+      ],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 125,
+      "question": "Quel est le rôle de la Purple Team dans une organisation de sécurité ?",
+      "options": [
+        "Remplacer la Blue Team et la Red Team",
+        "Collaboration structurée entre équipes offensive et défensive pour améliorer la posture sécurité globale",
+        "Gérer les audits de conformité",
+        "Développer des outils de hacking offensifs"
+      ],
+      "reponse": 1,
+      "points": 1
+    }
+  ]
+}

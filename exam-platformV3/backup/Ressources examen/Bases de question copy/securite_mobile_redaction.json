@@ -1,0 +1,306 @@
+{
+  "matiere": "Sécurité des Applications Mobiles",
+  "type": "Rédaction",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Expliquez les différences fondamentales entre les architectures de sécurité Android et iOS. Quels sont les avantages et inconvénients de chaque approche ?",
+      "points": 5,
+      "mots_cles": ["sandbox", "SELinux", "Secure Enclave", "open source", "closed source", "fragmentation"]
+    },
+    {
+      "id": 2,
+      "question": "Décrivez le mécanisme de Secure Boot Chain d'iOS. Pourquoi est-il considéré comme une protection efficace contre les attaques ?",
+      "points": 5,
+      "mots_cles": ["Boot ROM", "iBoot", "LLB", "signature", "chaîne de confiance", "vérification"]
+    },
+    {
+      "id": 3,
+      "question": "Qu'est-ce que le TEE (Trusted Execution Environment) sur Android ? Expliquez son fonctionnement et ses cas d'utilisation.",
+      "points": 5,
+      "mots_cles": ["ARM TrustZone", "Normal World", "Secure World", "KeyStore", "biométrie", "isolation"]
+    },
+    {
+      "id": 4,
+      "question": "Expliquez le système de permissions Android. Quelles sont les différences entre les permissions Normal, Dangerous, Signature et Special ?",
+      "points": 5,
+      "mots_cles": ["runtime permissions", "consentement", "groupes", "manifest", "Android 6.0"]
+    },
+    {
+      "id": 5,
+      "question": "Décrivez les 4 composants principaux d'une application Android et les risques de sécurité associés à l'attribut exported=true.",
+      "points": 5,
+      "mots_cles": ["Activity", "Service", "BroadcastReceiver", "ContentProvider", "Intent", "exported"]
+    },
+    {
+      "id": 6,
+      "question": "Qu'est-ce que le Secure Enclave d'Apple ? Quelles données protège-t-il et comment fonctionne-t-il ?",
+      "points": 5,
+      "mots_cles": ["coprocesseur", "sepOS", "Touch ID", "Face ID", "clés cryptographiques", "isolation"]
+    },
+    {
+      "id": 7,
+      "question": "Expliquez les 4 classes de Data Protection iOS. Dans quels cas utiliser chaque classe ?",
+      "points": 5,
+      "mots_cles": ["Complete", "CompleteUnlessOpen", "CompleteUntilFirstUserAuthentication", "None", "chiffrement"]
+    },
+    {
+      "id": 8,
+      "question": "Décrivez le processus de Code Signing iOS. Pourquoi est-il essentiel pour la sécurité de l'écosystème Apple ?",
+      "points": 5,
+      "mots_cles": ["certificat", "provisioning profile", "entitlements", "App Store", "signature"]
+    },
+    {
+      "id": 9,
+      "question": "Quelles sont les principales menaces mobiles actuelles ? Donnez des exemples concrets pour chaque catégorie.",
+      "points": 5,
+      "mots_cles": ["malware", "phishing", "MitM", "vol de données", "ransomware", "banking trojan"]
+    },
+    {
+      "id": 10,
+      "question": "Expliquez l'attaque Man-in-the-Middle sur mobile. Comment le SSL Pinning peut-il protéger contre cette attaque ?",
+      "points": 5,
+      "mots_cles": ["interception", "certificat", "TLS", "pinning", "validation", "proxy"]
+    },
+    {
+      "id": 11,
+      "question": "Qu'est-ce que le sandboxing sur mobile ? Comparez son implémentation sur Android et iOS.",
+      "points": 5,
+      "mots_cles": ["isolation", "UID", "SELinux", "App Sandbox", "permissions", "IPC"]
+    },
+    {
+      "id": 12,
+      "question": "Décrivez les bonnes pratiques de stockage sécurisé des données sensibles sur Android.",
+      "points": 5,
+      "mots_cles": ["EncryptedSharedPreferences", "KeyStore", "SQLCipher", "chiffrement", "AES-256"]
+    },
+    {
+      "id": 13,
+      "question": "Expliquez le fonctionnement du Keychain iOS. Quels types de données peut-il stocker et comment assure-t-il leur sécurité ?",
+      "points": 5,
+      "mots_cles": ["securityd", "AES-256", "Secure Enclave", "accessibilité", "GenericPassword"]
+    },
+    {
+      "id": 14,
+      "question": "Qu'est-ce que l'obfuscation de code ? Pourquoi est-elle importante et quelles sont ses limites ?",
+      "points": 5,
+      "mots_cles": ["ProGuard", "R8", "reverse engineering", "protection", "analyse statique"]
+    },
+    {
+      "id": 15,
+      "question": "Décrivez les risques de sécurité liés aux WebViews sur mobile. Comment les atténuer ?",
+      "points": 5,
+      "mots_cles": ["JavaScript", "injection", "setJavaScriptEnabled", "addJavascriptInterface", "validation"]
+    },
+    {
+      "id": 16,
+      "question": "Expliquez la différence entre une attaque ciblée (APT) et une attaque de masse sur mobile. Donnez des exemples.",
+      "points": 5,
+      "mots_cles": ["Pegasus", "banking trojan", "zero-day", "sophistication", "coût", "cible"]
+    },
+    {
+      "id": 17,
+      "question": "Qu'est-ce que l'App Store Review d'Apple ? Quelles sont ses forces et ses limites en termes de sécurité ?",
+      "points": 5,
+      "mots_cles": ["analyse automatique", "review manuelle", "guidelines", "API privées", "contournement"]
+    },
+    {
+      "id": 18,
+      "question": "Décrivez le mécanisme de Verified Boot sur Android. Comment protège-t-il l'intégrité du système ?",
+      "points": 5,
+      "mots_cles": ["dm-verity", "signature", "boot", "partition", "rollback protection"]
+    },
+    {
+      "id": 19,
+      "question": "Expliquez les risques du sideloading d'applications sur Android. Pourquoi iOS limite-t-il cette pratique ?",
+      "points": 5,
+      "mots_cles": ["APK", "sources inconnues", "malware", "App Store", "contrôle", "DMA"]
+    },
+    {
+      "id": 20,
+      "question": "Qu'est-ce que SafetyNet/Play Integrity API ? Comment permet-elle de détecter les appareils compromis ?",
+      "points": 5,
+      "mots_cles": ["attestation", "root", "émulateur", "intégrité", "CTS", "verdict"]
+    },
+    {
+      "id": 21,
+      "question": "Décrivez les bonnes pratiques de sécurité pour les communications réseau sur mobile.",
+      "points": 5,
+      "mots_cles": ["HTTPS", "TLS 1.2+", "certificate pinning", "validation", "ATS"]
+    },
+    {
+      "id": 22,
+      "question": "Expliquez le concept de défense en profondeur appliqué à la sécurité mobile.",
+      "points": 5,
+      "mots_cles": ["couches", "redondance", "sandbox", "chiffrement", "authentification", "détection"]
+    },
+    {
+      "id": 23,
+      "question": "Qu'est-ce que le OWASP MASVS ? Décrivez ses niveaux de vérification et leur application.",
+      "points": 5,
+      "mots_cles": ["L1", "L2", "R", "standard", "exigences", "MSTG"]
+    },
+    {
+      "id": 24,
+      "question": "Décrivez les vulnérabilités courantes liées au stockage de données sur mobile.",
+      "points": 5,
+      "mots_cles": ["SharedPreferences", "SQLite", "logs", "clipboard", "backup", "SD card"]
+    },
+    {
+      "id": 25,
+      "question": "Expliquez comment sécuriser l'authentification biométrique sur mobile.",
+      "points": 5,
+      "mots_cles": ["Touch ID", "Face ID", "BiometricPrompt", "fallback", "KeyStore", "Secure Enclave"]
+    },
+    {
+      "id": 26,
+      "question": "Qu'est-ce qu'une attaque par overlay sur Android ? Comment s'en protéger ?",
+      "points": 5,
+      "mots_cles": ["SYSTEM_ALERT_WINDOW", "tapjacking", "filterTouchesWhenObscured", "permission"]
+    },
+    {
+      "id": 27,
+      "question": "Décrivez le cycle de vie d'une vulnérabilité mobile, de sa découverte à sa correction.",
+      "points": 5,
+      "mots_cles": ["disclosure", "CVE", "patch", "OTA", "fragmentation", "délai"]
+    },
+    {
+      "id": 28,
+      "question": "Expliquez les risques de sécurité liés aux deep links et universal links.",
+      "points": 5,
+      "mots_cles": ["URL scheme", "validation", "open redirect", "injection", "intent"]
+    },
+    {
+      "id": 29,
+      "question": "Qu'est-ce que le jailbreak/root ? Quels risques cela pose-t-il pour la sécurité des applications ?",
+      "points": 5,
+      "mots_cles": ["privilèges", "sandbox bypass", "détection", "Cydia", "Magisk", "intégrité"]
+    },
+    {
+      "id": 30,
+      "question": "Décrivez les bonnes pratiques pour sécuriser les API backend d'une application mobile.",
+      "points": 5,
+      "mots_cles": ["authentification", "autorisation", "rate limiting", "validation", "HTTPS", "tokens"]
+    },
+    {
+      "id": 31,
+      "question": "Expliquez le concept de certificate pinning. Quels sont ses avantages et inconvénients ?",
+      "points": 5,
+      "mots_cles": ["TLS", "certificat", "MITM", "rotation", "backup pins", "HPKP"]
+    },
+    {
+      "id": 32,
+      "question": "Qu'est-ce que l'analyse statique et dynamique d'applications mobiles ? Comparez ces deux approches.",
+      "points": 5,
+      "mots_cles": ["SAST", "DAST", "code source", "runtime", "MobSF", "Frida"]
+    },
+    {
+      "id": 33,
+      "question": "Décrivez les mécanismes de protection mémoire sur mobile (ASLR, DEP, Stack Canaries).",
+      "points": 5,
+      "mots_cles": ["randomisation", "NX bit", "buffer overflow", "exploitation", "mitigation"]
+    },
+    {
+      "id": 34,
+      "question": "Expliquez les risques liés aux bibliothèques tierces dans les applications mobiles.",
+      "points": 5,
+      "mots_cles": ["supply chain", "CVE", "mise à jour", "dépendances", "audit", "SCA"]
+    },
+    {
+      "id": 35,
+      "question": "Qu'est-ce que le chiffrement de bout en bout ? Comment l'implémenter sur mobile ?",
+      "points": 5,
+      "mots_cles": ["E2EE", "clés", "Signal Protocol", "asymétrique", "forward secrecy"]
+    },
+    {
+      "id": 36,
+      "question": "Décrivez les attaques par canal auxiliaire (side-channel) sur mobile.",
+      "points": 5,
+      "mots_cles": ["timing", "power analysis", "cache", "Spectre", "Meltdown", "mitigation"]
+    },
+    {
+      "id": 37,
+      "question": "Expliquez comment sécuriser le stockage de tokens d'authentification sur mobile.",
+      "points": 5,
+      "mots_cles": ["KeyStore", "Keychain", "refresh token", "expiration", "révocation"]
+    },
+    {
+      "id": 38,
+      "question": "Qu'est-ce que l'App Transport Security (ATS) sur iOS ? Pourquoi est-il important ?",
+      "points": 5,
+      "mots_cles": ["HTTPS", "TLS", "exceptions", "Info.plist", "NSAllowsArbitraryLoads"]
+    },
+    {
+      "id": 39,
+      "question": "Décrivez les bonnes pratiques pour la gestion des sessions sur mobile.",
+      "points": 5,
+      "mots_cles": ["timeout", "invalidation", "token", "refresh", "logout", "multi-device"]
+    },
+    {
+      "id": 40,
+      "question": "Expliquez les risques de sécurité liés au Bluetooth et NFC sur mobile.",
+      "points": 5,
+      "mots_cles": ["BlueBorne", "pairing", "sniffing", "relay attack", "HCE", "permissions"]
+    },
+    {
+      "id": 41,
+      "question": "Qu'est-ce que le MDM (Mobile Device Management) ? Comment contribue-t-il à la sécurité entreprise ?",
+      "points": 5,
+      "mots_cles": ["politique", "configuration", "wipe", "containerisation", "BYOD", "compliance"]
+    },
+    {
+      "id": 42,
+      "question": "Décrivez les mécanismes de détection de tampering/modification d'application.",
+      "points": 5,
+      "mots_cles": ["signature", "checksum", "debugger", "hook", "intégrité", "anti-tampering"]
+    },
+    {
+      "id": 43,
+      "question": "Expliquez le concept de Zero Trust appliqué aux applications mobiles.",
+      "points": 5,
+      "mots_cles": ["never trust", "always verify", "micro-segmentation", "authentification continue"]
+    },
+    {
+      "id": 44,
+      "question": "Qu'est-ce que le Runtime Application Self-Protection (RASP) sur mobile ?",
+      "points": 5,
+      "mots_cles": ["protection runtime", "détection", "réponse", "instrumentation", "comportement"]
+    },
+    {
+      "id": 45,
+      "question": "Décrivez les bonnes pratiques de logging sécurisé sur mobile.",
+      "points": 5,
+      "mots_cles": ["données sensibles", "production", "Logcat", "NSLog", "masquage", "niveau"]
+    },
+    {
+      "id": 46,
+      "question": "Expliquez les risques liés aux backups d'applications mobiles.",
+      "points": 5,
+      "mots_cles": ["iCloud", "Google Drive", "android:allowBackup", "chiffrement", "extraction"]
+    },
+    {
+      "id": 47,
+      "question": "Qu'est-ce que le phishing mobile ? Décrivez ses différentes formes et moyens de protection.",
+      "points": 5,
+      "mots_cles": ["smishing", "vishing", "fake apps", "URL", "sensibilisation", "détection"]
+    },
+    {
+      "id": 48,
+      "question": "Décrivez l'architecture de sécurité d'une application de paiement mobile.",
+      "points": 5,
+      "mots_cles": ["PCI-DSS", "tokenisation", "Secure Element", "HCE", "biométrie", "chiffrement"]
+    },
+    {
+      "id": 49,
+      "question": "Expliquez les défis de sécurité spécifiques aux applications IoT mobiles.",
+      "points": 5,
+      "mots_cles": ["protocoles", "authentification", "firmware", "mise à jour", "BLE", "cloud"]
+    },
+    {
+      "id": 50,
+      "question": "Qu'est-ce que le DevSecOps mobile ? Comment intégrer la sécurité dans le cycle de développement ?",
+      "points": 5,
+      "mots_cles": ["CI/CD", "SAST", "DAST", "automatisation", "shift-left", "tests"]
+    }
+  ]
+}

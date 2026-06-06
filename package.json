@@ -1,0 +1,13 @@
+{
+  "name": "ensam-exam-platform",
+  "version": "3.0.0",
+  "description": "ENSAM Exam Platform",
+  "main": "exam-platformV3/server.js",
+  "scripts": {
+    "start": "cd exam-platformV3 && node server.js",
+    "install-deps": "cd exam-platformV3 && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

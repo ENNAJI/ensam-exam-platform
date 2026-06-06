@@ -1,0 +1,817 @@
+{
+  "matiere": "CyberSecurite OT",
+  "type": "Rédaction",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Décrivez les 4 révolutions industrielles en précisant pour chacune : la période, les technologies clés, le paradigme de production et le niveau d'autonomie atteint.",
+      "points": 5,
+      "mots_cles": [
+        "production mécanique",
+        "production de masse",
+        "production automatisée",
+        "production autonome",
+        "PLC",
+        "IIoT",
+        "Fordisme",
+        "Toyotisme"
+      ]
+    },
+    {
+      "id": 2,
+      "question": "Expliquez le concept d'Industrie 4.0. Quelles technologies la caractérisent et quels sont les enjeux de cybersécurité spécifiques qu'elle introduit ?",
+      "points": 5,
+      "mots_cles": [
+        "IIoT",
+        "IA",
+        "cyber-physique",
+        "convergence IT/OT",
+        "surface d'attaque",
+        "smart factory",
+        "cloud industriel"
+      ]
+    },
+    {
+      "id": 3,
+      "question": "Comparez les niveaux d'autonomie industrielle (Physique, Opérationnelle, Décisionnelle, Collaborative). Pour chaque niveau, donnez un exemple technologique et un risque cybersécurité associé.",
+      "points": 5,
+      "mots_cles": [
+        "mécanisation",
+        "automatisation",
+        "robotisation",
+        "IoT",
+        "co-botique",
+        "PLC",
+        "capteurs",
+        "IA"
+      ]
+    },
+    {
+      "id": 4,
+      "question": "Retracez l'histoire de la cybersécurité des origines (1971) à aujourd'hui. Identifiez les événements marquants et expliquez comment chacun a contribué à façonner les pratiques actuelles.",
+      "points": 5,
+      "mots_cles": [
+        "Creeper 1971",
+        "Morris Worm 1988",
+        "CERT",
+        "pare-feu",
+        "RSA",
+        "IDS",
+        "SIEM",
+        "APT",
+        "zero-day"
+      ]
+    },
+    {
+      "id": 5,
+      "question": "Expliquez la triade CIA (Confidentialité, Intégrité, Disponibilité) appliquée aux systèmes OT. En quoi les priorités diffèrent-elles d'un environnement IT et pourquoi ?",
+      "points": 5,
+      "mots_cles": [
+        "confidentialité",
+        "intégrité",
+        "disponibilité",
+        "temps réel",
+        "sécurité physique",
+        "arrêt de production",
+        "SCADA",
+        "priorisation OT"
+      ]
+    },
+    {
+      "id": 6,
+      "question": "Décrivez et comparez les concepts d'Intrusion, d'Incident et de Compromission. Donnez un exemple concret pour chacun et expliquez comment un IDS/IPS/SIEM les traite.",
+      "points": 5,
+      "mots_cles": [
+        "intrusion",
+        "incident",
+        "compromission",
+        "CIA",
+        "persistance",
+        "backdoor",
+        "IDS",
+        "blocage",
+        "détection"
+      ]
+    },
+    {
+      "id": 7,
+      "question": "Qu'est-ce qu'une APT (Advanced Persistent Threat) ? Décrivez ses caractéristiques (Advanced, Persistent, Threat), donnez des exemples de groupes APT et expliquez les méthodes de détection et de réponse.",
+      "points": 5,
+      "mots_cles": [
+        "zero-day",
+        "persistance",
+        "espionnage",
+        "sabotage",
+        "APT28",
+        "Lazarus Group",
+        "MTTD",
+        "Threat Hunting",
+        "MITRE ATT&CK"
+      ]
+    },
+    {
+      "id": 8,
+      "question": "Expliquez les attributs FMCD de la Sûreté de Fonctionnement (Fiabilité, Maintenabilité, Confidentialité, Disponibilité, Intégrité). Comment ces attributs convergent-ils avec les exigences de cybersécurité en OT ?",
+      "points": 5,
+      "mots_cles": [
+        "fiabilité",
+        "maintenabilité",
+        "disponibilité",
+        "intégrité",
+        "confidentialité",
+        "tolérance aux fautes",
+        "résilience",
+        "DDoS",
+        "altération"
+      ]
+    },
+    {
+      "id": 9,
+      "question": "Analysez en détail les 7 phases de la Cyber Kill Chain (Lockheed Martin, 2011). Pour chaque phase, décrivez l'objectif, les techniques utilisées et les mesures défensives applicables.",
+      "points": 5,
+      "mots_cles": [
+        "reconnaissance",
+        "weaponization",
+        "delivery",
+        "exploitation",
+        "installation",
+        "C2",
+        "actions on objectives",
+        "OSINT",
+        "phishing",
+        "backdoor",
+        "IDS"
+      ]
+    },
+    {
+      "id": 10,
+      "question": "Décrivez le framework MITRE ATT&CK. Quelle est sa structure (Tactiques, Techniques, Sub-Techniques) et comment est-il utilisé en Threat Intelligence, en Red Team et en Blue Team ?",
+      "points": 5,
+      "mots_cles": [
+        "14 tactiques",
+        "200+ techniques",
+        "TTPs",
+        "Threat Intelligence",
+        "Red Team",
+        "Blue Team",
+        "ATT&CK Navigator",
+        "mapping"
+      ]
+    },
+    {
+      "id": 11,
+      "question": "Expliquez la phase de Reconnaissance dans une cyberattaque OT. Quelle est la différence entre reconnaissance passive (OSINT) et active (Nmap) ? Quels moyens de détection existent ?",
+      "points": 5,
+      "mots_cles": [
+        "OSINT",
+        "WHOIS",
+        "réseaux sociaux",
+        "Nmap",
+        "énumération",
+        "empreinte",
+        "IDS",
+        "honeypot",
+        "détectable"
+      ]
+    },
+    {
+      "id": 12,
+      "question": "Décrivez le mécanisme du Command & Control (C2) dans une attaque sophistiquée. Quels protocoles sont utilisés pour dissimuler les communications ? Comment un SIEM peut-il les détecter ?",
+      "points": 5,
+      "mots_cles": [
+        "beaconing",
+        "HTTP/HTTPS",
+        "DNS tunneling",
+        "chiffrement",
+        "reverse shell",
+        "botnet",
+        "corrélation",
+        "anomalie trafic",
+        "SIEM"
+      ]
+    },
+    {
+      "id": 13,
+      "question": "Comparez en détail IDS, IPS et SIEM : modes de fonctionnement, actions possibles, avantages, limitations et cas d'usage. Quelle architecture recommandez-vous pour une PME industrielle ?",
+      "points": 5,
+      "mots_cles": [
+        "passif",
+        "actif",
+        "inline",
+        "SPAN",
+        "DROP",
+        "corrélation",
+        "faux positifs",
+        "Snort",
+        "Splunk",
+        "architecture SOC"
+      ]
+    },
+    {
+      "id": 14,
+      "question": "Décrivez l'architecture IDS complète selon le modèle IDWG. Expliquez le rôle de chaque composant (Capteurs, Analyseurs, Manager, Opérateur SOC) et le flux de données entre eux.",
+      "points": 5,
+      "mots_cles": [
+        "capteurs",
+        "analyseurs",
+        "manager",
+        "corrélation",
+        "normalisation",
+        "CVSS",
+        "Threat Intelligence",
+        "notification",
+        "réponse automatique"
+      ]
+    },
+    {
+      "id": 15,
+      "question": "Expliquez les trois types de détection d'intrusion (par signature, comportementale, IA/ML). Quelles sont les forces et limites de chaque approche face aux menaces OT actuelles ?",
+      "points": 5,
+      "mots_cles": [
+        "signature",
+        "zero-day",
+        "anomalie",
+        "ML",
+        "CNN",
+        "LSTM",
+        "APT",
+        "faux positifs",
+        "dataset",
+        "NSL-KDD",
+        "approche hybride"
+      ]
+    },
+    {
+      "id": 16,
+      "question": "Analysez les limites des IDS basés sur l'IA en environnement OT : attaques adversariales, sur-apprentissage, dataset obsolète. Quelle solution hybride proposez-vous ?",
+      "points": 5,
+      "mots_cles": [
+        "attaques adversariales",
+        "overfitting",
+        "NSL-KDD 2009",
+        "CIC-IDS-2017",
+        "généralisation",
+        "signature + ML",
+        "analyse humaine",
+        "mise à jour continue"
+      ]
+    },
+    {
+      "id": 17,
+      "question": "Décrivez l'architecture d'un SOC (Security Operations Center) pour un environnement industriel. Quels composants techniques et humains sont indispensables ?",
+      "points": 5,
+      "mots_cles": [
+        "analyste L1/L2/L3",
+        "IDS/IPS",
+        "SIEM",
+        "Incident Manager",
+        "forensic",
+        "MITRE ATT&CK",
+        "playbooks",
+        "DGSSI",
+        "segmentation"
+      ]
+    },
+    {
+      "id": 18,
+      "question": "Expliquez le Threat Hunting proactif. En quoi diffère-t-il de la détection réactive ? Décrivez la méthodologie en 5 étapes et ses avantages face aux APT.",
+      "points": 5,
+      "mots_cles": [
+        "hypothesis-driven",
+        "proactif",
+        "Threat Intelligence",
+        "APT",
+        "anomalie comportementale",
+        "documentation",
+        "automatisation",
+        "MITRE ATT&CK",
+        "IOC"
+      ]
+    },
+    {
+      "id": 19,
+      "question": "Décrivez le cycle de vie de la gestion des vulnérabilités (Vulnerability Management Lifecycle) en 5 étapes. Comment le Risk-Based Vulnerability Management priorise-t-il les corrections ?",
+      "points": 5,
+      "mots_cles": [
+        "inventaire",
+        "scan CVE",
+        "CVSS",
+        "criticité métier",
+        "remédiation",
+        "patch",
+        "MTTR vuln",
+        "conformité",
+        "Nessus",
+        "OpenVAS"
+      ]
+    },
+    {
+      "id": 20,
+      "question": "Décrivez le cycle NIST SP 800-61 de réponse à incident (6 phases). Pour chaque phase, précisez les actions techniques, les rôles SOC impliqués et les outils utilisés.",
+      "points": 5,
+      "mots_cles": [
+        "préparation",
+        "détection",
+        "confinement",
+        "éradication",
+        "récupération",
+        "REX",
+        "playbooks",
+        "analyste",
+        "forensic",
+        "MITRE ATT&CK"
+      ]
+    },
+    {
+      "id": 21,
+      "question": "Expliquez les concepts de Blue Team et Red Team. Pourquoi la collaboration Purple Team est-elle essentielle ? Décrivez le cycle d'amélioration continue qu'elle produit.",
+      "points": 5,
+      "mots_cles": [
+        "Blue Team",
+        "Red Team",
+        "Purple Team",
+        "pentest",
+        "IDS",
+        "simulation",
+        "analyse des écarts",
+        "amélioration règles",
+        "résilience"
+      ]
+    },
+    {
+      "id": 22,
+      "question": "Analysez l'incident Stuxnet (2010) : vecteurs d'infection, cible spécifique (centrifugeuses Siemens), impact physique et leçons tirées pour la cybersécurité OT.",
+      "points": 5,
+      "mots_cles": [
+        "centrifugeuses uranium",
+        "Iran",
+        "Siemens S7",
+        "USB",
+        "zero-day",
+        "sabotage physique",
+        "premier malware ICS",
+        "air-gap bypass",
+        "leçons"
+      ]
+    },
+    {
+      "id": 23,
+      "question": "Analysez l'attaque BlackEnergy contre l'Ukraine en 2015 : déroulement de l'attaque, impact (230 000 foyers sans électricité), techniques utilisées et enseignements pour la protection des réseaux électriques.",
+      "points": 5,
+      "mots_cles": [
+        "réseau électrique",
+        "Ukraine",
+        "SCADA",
+        "ICS",
+        "coupure courant",
+        "spear phishing",
+        "BlackEnergy 3",
+        "résilience réseau électrique",
+        "Smart Grid"
+      ]
+    },
+    {
+      "id": 24,
+      "question": "Analysez le malware Triton/TRISIS : quelle était sa cible (systèmes de sécurité Triconex), pourquoi est-il considéré comme particulièrement dangereux et quelles mesures de protection recommandez-vous ?",
+      "points": 5,
+      "mots_cles": [
+        "Safety Instrumented System",
+        "Triconex",
+        "Schneider Electric",
+        "désactivation arrêt d'urgence",
+        "danger physique",
+        "SIS",
+        "redondance",
+        "segmentation",
+        "IEC 62443"
+      ]
+    },
+    {
+      "id": 25,
+      "question": "Présentez les statistiques clés de la cybersécurité OT 2023-2024 (taux d'attaques, coûts, temps de détection). Analysez les implications pour les stratégies de défense industrielle.",
+      "points": 5,
+      "mots_cles": [
+        "93% entreprises attaquées",
+        "7M€ OT",
+        "MTTD 16 jours OT vs 200 jours IT",
+        "43% unités de production",
+        "coût arrêt",
+        "stratégie défense"
+      ]
+    },
+    {
+      "id": 26,
+      "question": "Décrivez la norme IEC 62443 et ses principales exigences pour la cybersécurité des systèmes d'automatisation industriels. Comment s'articule-t-elle avec ISO 27001 ?",
+      "points": 5,
+      "mots_cles": [
+        "IEC 62443",
+        "ISO 27001",
+        "Security Level (SL)",
+        "zones de sécurité",
+        "conduits",
+        "IACS",
+        "gestion des risques",
+        "exigences techniques",
+        "cycle de vie"
+      ]
+    },
+    {
+      "id": 27,
+      "question": "Expliquez les KPIs de cybersécurité MTTD et MTTR. Pourquoi l'écart entre OT et IT (16 jours vs 200 jours pour le MTTD) est-il paradoxal ? Comment améliorer ces indicateurs ?",
+      "points": 5,
+      "mots_cles": [
+        "MTTD",
+        "MTTR",
+        "temps de détection",
+        "temps de réponse",
+        "OT vs IT",
+        "IDS",
+        "SIEM",
+        "automatisation",
+        "proactivité"
+      ]
+    },
+    {
+      "id": 28,
+      "question": "Expliquez les différences fondamentales entre IT (Information Technology) et OT (Operational Technology) en termes d'architecture, de protocoles, de priorités de sécurité et de contraintes opérationnelles.",
+      "points": 5,
+      "mots_cles": [
+        "IT",
+        "OT",
+        "TCP/IP",
+        "Modbus",
+        "DNP3",
+        "disponibilité",
+        "temps réel",
+        "cycle de vie équipements",
+        "patch management",
+        "convergence"
+      ]
+    },
+    {
+      "id": 29,
+      "question": "Décrivez l'architecture hiérarchique d'un système d'automatisation industriel (du terrain au management). Quels protocoles et technologies sont utilisés à chaque niveau ?",
+      "points": 5,
+      "mots_cles": [
+        "terrain",
+        "BUS de terrain",
+        "PLC",
+        "SCADA",
+        "HMI",
+        "MES",
+        "ERP",
+        "Profibus",
+        "PROFINET",
+        "OPC UA",
+        "Ethernet industriel"
+      ]
+    },
+    {
+      "id": 30,
+      "question": "Expliquez le fonctionnement d'un API/PLC (Automate Programmable Industriel). Décrivez ses composants, ses avantages par rapport au câblage classique et ses langages de programmation selon CEI 61131.",
+      "points": 5,
+      "mots_cles": [
+        "API/PLC",
+        "entrées/sorties",
+        "traitement séquentiel",
+        "LD",
+        "FBD",
+        "ST",
+        "Grafcet",
+        "robustesse",
+        "temps réel",
+        "interopérabilité"
+      ]
+    },
+    {
+      "id": 31,
+      "question": "Décrivez le bus de terrain (Fieldbus). Expliquez son positionnement dans le modèle OSI (3 couches), les topologies disponibles (Ring/Star/Bus/Tree) et comparez leurs avantages/inconvénients.",
+      "points": 5,
+      "mots_cles": [
+        "bus de terrain",
+        "couche 1/2/7",
+        "anneau",
+        "étoile",
+        "bus multipoint",
+        "arbre",
+        "topologie",
+        "fiabilité",
+        "extension",
+        "HUB"
+      ]
+    },
+    {
+      "id": 32,
+      "question": "Comparez les trois modèles de communication bus de terrain : Maître-Esclave, Client-Serveur et Producteur-Consommateur. Dans quel contexte utiliser chacun ?",
+      "points": 5,
+      "mots_cles": [
+        "maître-esclave",
+        "client-serveur",
+        "producteur-consommateur",
+        "cyclique",
+        "acyclique",
+        "jeton",
+        "polling",
+        "diffusion",
+        "temps réel"
+      ]
+    },
+    {
+      "id": 33,
+      "question": "Décrivez la plateforme PLCNext (AXC F 2152) de Phoenix Contact. Quelles sont ses capacités de communication, ses langages de programmation et son positionnement dans l'Industrie 4.0 ?",
+      "points": 5,
+      "mots_cles": [
+        "AXC F 2152",
+        "ARM Cortex-A9",
+        "OPC UA",
+        "PROFINET",
+        "MQTT",
+        "Node-RED",
+        "C++",
+        "Python",
+        "Axioline F",
+        "Industrie 4.0"
+      ]
+    },
+    {
+      "id": 34,
+      "question": "Expliquez le protocole OPC UA et son rôle dans l'interopérabilité des systèmes industriels. Comment s'intègre-t-il avec MQTT dans un contexte IIoT ?",
+      "points": 5,
+      "mots_cles": [
+        "OPC UA",
+        "interopérabilité",
+        "modèle d'information",
+        "serveur/client",
+        "sécurité intégrée",
+        "MQTT",
+        "publish/subscribe",
+        "IIoT",
+        "PLCNext"
+      ]
+    },
+    {
+      "id": 35,
+      "question": "Quels sont les enjeux de cybersécurité spécifiques aux systèmes SCADA/ICS ? Comment sécuriser une architecture SCADA en respectant les contraintes de disponibilité OT ?",
+      "points": 5,
+      "mots_cles": [
+        "SCADA",
+        "ICS",
+        "disponibilité",
+        "segmentation",
+        "DMZ industrielle",
+        "IEC 62443",
+        "VPN",
+        "protocoles legacy",
+        "Modbus",
+        "DNP3",
+        "patch"
+      ]
+    },
+    {
+      "id": 36,
+      "question": "Décrivez la chaîne de mesure industrielle complète, du mesurande jusqu'au signal numérique exploitable. Expliquez le rôle de chaque composant interne d'un capteur.",
+      "points": 5,
+      "mots_cles": [
+        "mesurande",
+        "corps d'épreuve",
+        "transduction",
+        "conditionnement",
+        "CAN",
+        "signal électrique",
+        "grandeurs d'influence",
+        "chaîne numérique"
+      ]
+    },
+    {
+      "id": 37,
+      "question": "Comparez les capteurs actifs et passifs. Donnez 4 exemples de chaque type avec leur principe physique, leur grandeur mesurée et leurs applications industrielles.",
+      "points": 5,
+      "mots_cles": [
+        "actif",
+        "passif",
+        "piézoélectrique",
+        "thermocouple",
+        "photovoltaïque",
+        "jauge de contrainte",
+        "LVDT",
+        "thermistance",
+        "impédance",
+        "générateur"
+      ]
+    },
+    {
+      "id": 38,
+      "question": "Expliquez les grandeurs d'influence qui perturbent la précision d'un capteur. Quelles stratégies permettent de réduire ces effets dans un environnement industriel ?",
+      "points": 5,
+      "mots_cles": [
+        "température",
+        "vibrations",
+        "chocs",
+        "vieillissement",
+        "humidité",
+        "corrosion",
+        "compensation",
+        "calibration",
+        "blindage",
+        "redondance"
+      ]
+    },
+    {
+      "id": 39,
+      "question": "Décrivez le rôle du module électronique de conditionnement dans une chaîne de mesure. Quels types de traitement réalise-t-il et pourquoi est-il indispensable dans l'instrumentation industrielle ?",
+      "points": 5,
+      "mots_cles": [
+        "amplification",
+        "filtrage",
+        "linéarisation",
+        "isolation galvanique",
+        "4-20mA",
+        "0-10V",
+        "transmetteur",
+        "signal exploitable",
+        "CAN"
+      ]
+    },
+    {
+      "id": 40,
+      "question": "Expliquez le concept de Smart Grid (réseau électrique intelligent). Quels sont ses objectifs, son architecture et les protocoles de communication utilisés ? Quels sont les enjeux de cybersécurité associés ?",
+      "points": 5,
+      "mots_cles": [
+        "Smart Grid",
+        "compteurs intelligents",
+        "SCADA",
+        "AMI",
+        "protocoles DNP3",
+        "IEC 61850",
+        "cybersécurité réseau électrique",
+        "BlackEnergy",
+        "résilience"
+      ]
+    },
+    {
+      "id": 41,
+      "question": "Décrivez les réseaux de capteurs sans fil (WSN) et leur rôle dans l'Industrie 4.0. Quels sont les protocoles utilisés et les défis de sécurité spécifiques ?",
+      "points": 5,
+      "mots_cles": [
+        "WSN",
+        "Zigbee",
+        "LoRaWAN",
+        "BLE",
+        "6LoWPAN",
+        "nœuds capteurs",
+        "passerelle",
+        "énergie",
+        "authentification",
+        "chiffrement"
+      ]
+    },
+    {
+      "id": 42,
+      "question": "Expliquez la convergence IT/OT et ses implications pour la cybersécurité industrielle. Quelles nouvelles menaces introduit-elle et quelles mesures architecturales recommandez-vous ?",
+      "points": 5,
+      "mots_cles": [
+        "convergence",
+        "surface d'attaque",
+        "IIoT",
+        "segmentation",
+        "DMZ",
+        "IEC 62443",
+        "Zero Trust",
+        "patch management OT",
+        "protocoles legacy"
+      ]
+    },
+    {
+      "id": 43,
+      "question": "Décrivez les bonnes pratiques de segmentation réseau IT/OT selon l'approche défense en profondeur. Comment construire une DMZ industrielle sécurisée ?",
+      "points": 5,
+      "mots_cles": [
+        "défense en profondeur",
+        "segmentation",
+        "DMZ",
+        "zone OT",
+        "zone IT",
+        "pare-feu",
+        "IPS",
+        "VLAN",
+        "proxy industriel",
+        "IEC 62443 zones"
+      ]
+    },
+    {
+      "id": 44,
+      "question": "Comment concevoir une architecture sécurisée pour une usine connectée (Smart Factory) ? Décrivez les composants de sécurité à chaque niveau hiérarchique.",
+      "points": 5,
+      "mots_cles": [
+        "Smart Factory",
+        "terrain",
+        "supervision",
+        "MES",
+        "ERP",
+        "IDS OT",
+        "IEC 62443",
+        "VPN",
+        "SIEM industriel",
+        "segmentation",
+        "Purdue Model"
+      ]
+    },
+    {
+      "id": 45,
+      "question": "Décrivez les étapes d'un test de pénétration (pentest) sur un système SCADA/ICS. Quelles précautions spécifiques sont nécessaires en environnement OT ?",
+      "points": 5,
+      "mots_cles": [
+        "pentest OT",
+        "reconnaissance passive",
+        "cartographie réseau",
+        "protocoles industriels",
+        "Modbus",
+        "DNP3",
+        "sans interruption",
+        "environnement de test",
+        "rapport"
+      ]
+    },
+    {
+      "id": 46,
+      "question": "Expliquez le concept de Zero Trust appliqué aux réseaux industriels OT. En quoi ce modèle est-il adapté (ou inadapté) aux contraintes des environnements de production ?",
+      "points": 5,
+      "mots_cles": [
+        "Zero Trust",
+        "never trust always verify",
+        "micro-segmentation",
+        "authentification continue",
+        "latence",
+        "disponibilité",
+        "OT contraintes",
+        "identité machine"
+      ]
+    },
+    {
+      "id": 47,
+      "question": "Expliquez comment le référentiel DGSSI Maroc s'applique aux infrastructures industrielles critiques. Quelles sont ses 7 étapes de gestion d'incident et leurs spécificités OT ?",
+      "points": 5,
+      "mots_cles": [
+        "DGSSI",
+        "Maroc",
+        "détection",
+        "triage",
+        "analyse",
+        "endiguement",
+        "éradication",
+        "récupération",
+        "REX",
+        "infrastructure critique"
+      ]
+    },
+    {
+      "id": 48,
+      "question": "Décrivez les challenges spécifiques de la cybersécurité en environnement OT : contraintes temps réel, protocoles legacy, cycle de vie des équipements et résistance aux mises à jour.",
+      "points": 5,
+      "mots_cles": [
+        "temps réel",
+        "legacy",
+        "Modbus",
+        "RS-485",
+        "10-20 ans",
+        "patch impossible",
+        "air-gap",
+        "disponibilité prioritaire",
+        "sécurité par obscurité"
+      ]
+    },
+    {
+      "id": 49,
+      "question": "Quels sont les impacts de l'IIoT (Industrial Internet of Things) sur la surface d'attaque des systèmes industriels ? Comment sécuriser les déploiements IIoT en production ?",
+      "points": 5,
+      "mots_cles": [
+        "IIoT",
+        "surface d'attaque",
+        "capteurs connectés",
+        "edge computing",
+        "authentification device",
+        "MQTT sécurisé",
+        "TLS",
+        "firmware update",
+        "segmentation"
+      ]
+    },
+    {
+      "id": 50,
+      "question": "Rédigez une analyse comparative de la sûreté de fonctionnement (Dependability) et de la cybersécurité dans les systèmes industriels critiques. Comment intégrer ces deux disciplines de manière cohérente ?",
+      "points": 5,
+      "mots_cles": [
+        "FMCD",
+        "CIA",
+        "tolérance aux fautes",
+        "tolérance aux intrusions",
+        "résilience",
+        "disponibilité",
+        "intégrité",
+        "SIS",
+        "Safety Instrumented System",
+        "IEC 62443"
+      ]
+    }
+  ]
+}

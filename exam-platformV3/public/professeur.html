@@ -1,0 +1,3291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Professeur - ENSAM</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1B8C4A">
+    <!-- CSS Local - Fonctionne hors-ligne -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Fallback pour les polices si en ligne -->
+    <script>
+        if (navigator.onLine) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap';
+            document.head.appendChild(link);
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1B8C4A 0%, #0d4a22 100%); }
+        .card-shadow { box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        .card-hover { transition: all 0.3s; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 15px 50px rgba(0,0,0,0.12); }
+        
+        .tab-btn { transition: all 0.2s; }
+        .tab-btn.active { background: linear-gradient(135deg, #1B8C4A 0%, #147536 100%); color: white; }
+        
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .status-active { background: #10b981; animation: pulse 2s infinite; }
+        .status-submitted { background: #1B8C4A; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .question-card { transition: all 0.2s; }
+        .question-card:hover { transform: translateX(4px); }
+        .question-card.excluded { opacity: 0.5; background: #fef2f2; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #1B8C4A; border-radius: 3px; }
+        
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #1B8C4A;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1B8C4A;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Stats card animation */
+        .stat-card {
+            transition: all 0.3s;
+        }
+        .stat-card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Login Page -->
+    <div id="page-login" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl card-shadow p-8 w-full max-w-md animate__animated animate__fadeIn">
+            <div class="text-center mb-8">
+                <div class="bg-white rounded-2xl p-3 inline-block shadow-lg mb-4">
+                    <img src="LogoENSAM.png" alt="Logo ENSAM" class="h-16 w-auto">
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Espace Professeur</h1>
+                <p class="text-gray-500 mt-2">Connectez-vous pour accéder au tableau de bord</p>
+            </div>
+            
+            <form id="form-login" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Identifiant</label>
+                    <input type="text" id="login-username" required
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-ensam-500 focus:border-ensam-500"
+                        placeholder="Votre identifiant">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Mot de passe</label>
+                    <input type="password" id="login-password" required
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-ensam-500 focus:border-ensam-500"
+                        placeholder="••••••••">
+                </div>
+                <button type="submit" id="btn-login"
+                    class="w-full py-4 bg-gradient-to-r from-ensam-500 to-ensam-600 text-white font-bold rounded-xl hover:from-ensam-600 hover:to-ensam-700 transition-all">
+                    🔐 Se connecter
+                </button>
+            </form>
+            
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="page-dashboard" class="hidden">
+        <!-- Header -->
+        <div class="gradient-bg text-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 py-4">
+                <div class="flex justify-between items-center flex-wrap gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-white rounded-xl p-2 shadow-lg">
+                            <img src="LogoENSAM.png" alt="Logo ENSAM" class="h-12 w-auto">
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold">👨‍🏫 Espace Professeur</h1>
+                            <p class="text-sm opacity-80">Plateforme d'Examen ENSAM</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <!-- Theme Toggle -->
+                        <div class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Mode sombre (Ctrl+D)"></div>
+                        <!-- Notifications -->
+                        <div class="relative">
+                            <button onclick="toggleNotifications()" class="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition" title="Notifications">
+                                🔔
+                                <span id="notif-badge" class="notification-badge hidden">0</span>
+                            </button>
+                            <div id="notif-panel" class="hidden absolute right-0 top-12 w-80 bg-white rounded-xl shadow-2xl z-50 max-h-96 overflow-y-auto">
+                                <div class="p-3 border-b font-semibold text-gray-800">📬 Notifications</div>
+                                <div id="notif-list" class="divide-y">
+                                    <div class="p-4 text-center text-gray-500">Aucune notification</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right hidden md:block">
+                            <div class="text-sm opacity-80">Connecté en tant que</div>
+                            <div class="font-semibold" id="user-name">Administrateur</div>
+                        </div>
+                        <button onclick="logout()" class="px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition">
+                            🚪 Déconnexion
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white border-b shadow-sm sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex gap-2 py-3 overflow-x-auto">
+                    <button onclick="showTab('dashboard')" class="tab-btn active px-6 py-3 rounded-xl font-semibold flex items-center gap-2">
+                        📊 Tableau de bord
+                    </button>
+                    <button onclick="showTab('examens')" class="tab-btn px-6 py-3 rounded-xl font-semibold flex items-center gap-2 bg-gray-100 hover:bg-gray-200">
+                        📝 Examens
+                    </button>
+                    <button onclick="showTab('creation')" class="tab-btn px-6 py-3 rounded-xl font-semibold flex items-center gap-2 bg-gray-100 hover:bg-gray-200">
+                        🎓 Création Examen
+                    </button>
+                    <button onclick="showTab('questions')" class="tab-btn px-6 py-3 rounded-xl font-semibold flex items-center gap-2 bg-gray-100 hover:bg-gray-200">
+                        ❓ Questions
+                    </button>
+                    <button onclick="showTab('config')" class="tab-btn px-6 py-3 rounded-xl font-semibold flex items-center gap-2 bg-gray-100 hover:bg-gray-200">
+                        ⚙️ Configuration
+                    </button>
+                    <button onclick="showTab('correction')" class="tab-btn px-6 py-3 rounded-xl font-semibold flex items-center gap-2 bg-gray-100 hover:bg-gray-200">
+                        ✏️ Correction
+                    </button>
+                    <button onclick="showTab('stats-questions')" class="tab-btn px-6 py-3 rounded-xl font-semibold flex items-center gap-2 bg-gray-100 hover:bg-gray-200">
+                        📈 Stats Questions
+                    </button>
+                    <button onclick="showTab('redteam')" class="tab-btn px-6 py-3 rounded-xl font-semibold flex items-center gap-2 bg-gray-100 hover:bg-gray-200" style="background: linear-gradient(135deg,#1a0000,#2d0000); color:#ff6b6b; border:1px solid #7f1d1d;">
+                        🔴 RedTeam CTF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <!-- Dashboard Tab -->
+            <div id="tab-dashboard">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="stat-card bg-white rounded-2xl p-6 card-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Total Étudiants</p>
+                                <p class="text-4xl font-bold text-gray-800 mt-1" id="stat-total">0</p>
+                            </div>
+                            <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-3xl">
+                                👥
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-2xl p-6 card-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">En cours</p>
+                                <p class="text-4xl font-bold text-amber-500 mt-1" id="stat-encours">0</p>
+                            </div>
+                            <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl">
+                                ⏳
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-2xl p-6 card-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Soumis</p>
+                                <p class="text-4xl font-bold text-ensam-500 mt-1" id="stat-soumis">0</p>
+                            </div>
+                            <div class="w-14 h-14 bg-ensam-100 rounded-2xl flex items-center justify-center text-3xl">
+                                ✅
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card bg-white rounded-2xl p-6 card-shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Moyenne</p>
+                                <p class="text-4xl font-bold text-purple-500 mt-1" id="stat-moyenne">-</p>
+                            </div>
+                            <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center text-3xl">
+                                📈
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistiques par Examen -->
+                <div class="bg-white rounded-2xl p-6 card-shadow mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">📊 Statistiques par Examen</h3>
+                    <div id="stats-par-examen" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <p class="text-gray-500 text-center py-8 col-span-full">Chargement...</p>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Par Site -->
+                    <div class="bg-white rounded-2xl p-6 card-shadow">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">📍 Répartition par Site</h3>
+                        <div class="flex gap-4 mb-4 text-sm">
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-400 rounded-full"></span> En cours</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 bg-ensam-500 rounded-full"></span> Terminés</span>
+                        </div>
+                        <div id="chart-sites" class="space-y-3">
+                            <p class="text-gray-500 text-center py-8">Aucune donnée</p>
+                        </div>
+                    </div>
+                    <!-- Par Matière -->
+                    <div class="bg-white rounded-2xl p-6 card-shadow">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">📚 Répartition par Matière</h3>
+                        <div class="flex gap-4 mb-4 text-sm">
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-400 rounded-full"></span> En cours</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 bg-ensam-500 rounded-full"></span> Terminés</span>
+                        </div>
+                        <div id="chart-matieres" class="space-y-3">
+                            <p class="text-gray-500 text-center py-8">Aucune donnée</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Exams -->
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">🕐 Examens Récents</h3>
+                        <button onclick="refreshStats()" class="px-4 py-2 bg-ensam-100 text-ensam-700 rounded-lg hover:bg-ensam-200 transition font-medium">
+                            🔄 Actualiser
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gray-500 text-sm border-b">
+                                    <th class="pb-3 font-medium">Étudiant</th>
+                                    <th class="pb-3 font-medium">Groupe</th>
+                                    <th class="pb-3 font-medium">Site</th>
+                                    <th class="pb-3 font-medium">Matière</th>
+                                    <th class="pb-3 font-medium">Statut</th>
+                                    <th class="pb-3 font-medium">Note</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-exams">
+                                <tr>
+                                    <td colspan="6" class="py-8 text-center text-gray-500">Aucun examen pour le moment</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Examens Tab -->
+            <div id="tab-examens" class="hidden">
+                <div class="bg-white rounded-2xl p-6 card-shadow">
+                    <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+                        <h2 class="text-xl font-bold text-gray-800">📝 Liste des Examens</h2>
+                        <div class="flex gap-3">
+                            <input type="text" id="search-examens" placeholder="🔍 Rechercher..."
+                                class="px-4 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-ensam-500 w-64">
+                            <button onclick="resetExamens()" class="px-4 py-2 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition font-medium">
+                                🗑️ Réinitialiser tout
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gray-500 text-sm border-b">
+                                    <th class="pb-3 font-medium">Étudiant</th>
+                                    <th class="pb-3 font-medium">Groupe</th>
+                                    <th class="pb-3 font-medium">Site</th>
+                                    <th class="pb-3 font-medium">Matière</th>
+                                    <th class="pb-3 font-medium">Début</th>
+                                    <th class="pb-3 font-medium">Statut</th>
+                                    <th class="pb-3 font-medium">Note</th>
+                                    <th class="pb-3 font-medium">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="examens-list">
+                                <tr>
+                                    <td colspan="8" class="py-8 text-center text-gray-500">Chargement...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questions Tab -->
+            <div id="tab-questions" class="hidden">
+                <div class="flex gap-6">
+                    <!-- Sidebar -->
+                    <div class="w-72 flex-shrink-0">
+                        <div class="bg-white rounded-2xl p-4 card-shadow sticky top-24">
+                            <h3 class="font-bold text-gray-800 mb-4">📚 Filtres</h3>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Matière</label>
+                                <select id="filter-matiere" onchange="chargerQuestions()" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+                                    <option value="">Chargement...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Type</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center p-3 rounded-xl bg-gray-50 hover:bg-gray-100 cursor-pointer">
+                                        <input type="radio" name="filter-type" value="qcm" checked onchange="chargerQuestions()" class="mr-3">
+                                        <span>📝 QCM</span>
+                                    </label>
+                                    <label class="flex items-center p-3 rounded-xl bg-gray-50 hover:bg-gray-100 cursor-pointer">
+                                        <input type="radio" name="filter-type" value="graph_qcm" onchange="chargerQuestions()" class="mr-3">
+                                        <span>🔀 Glisser-Déposer</span>
+                                    </label>
+                                    <label class="flex items-center p-3 rounded-xl bg-gray-50 hover:bg-gray-100 cursor-pointer">
+                                        <input type="radio" name="filter-type" value="redaction" onchange="chargerQuestions()" class="mr-3">
+                                        <span>✍️ Rédaction</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="pt-4 border-t">
+                                <button onclick="ouvrirModalAjoutQuestion()" 
+                                    class="w-full py-2 bg-ensam-500 text-white rounded-xl hover:bg-ensam-600 transition font-medium mb-3">
+                                    ➕ Ajouter une question
+                                </button>
+                                <div class="text-sm text-gray-500 mb-2">
+                                    <span id="questions-count">0</span> questions
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                    <span id="questions-excluded">0</span> exclues
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Questions List -->
+                    <div class="flex-1">
+                        <div class="bg-white rounded-2xl p-6 card-shadow">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-xl font-bold text-gray-800">❓ Questions</h2>
+                                <input type="text" id="search-questions" placeholder="🔍 Rechercher..."
+                                    onkeyup="filtrerQuestions()"
+                                    class="px-4 py-2 border-2 border-gray-200 rounded-xl w-64">
+                            </div>
+                            <div id="questions-list" class="space-y-3 max-h-[600px] overflow-y-auto">
+                                <p class="text-gray-500 text-center py-8">Sélectionnez une matière et un type</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Questions Tab -->
+            <div id="tab-stats-questions" class="hidden">
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-6">
+                    <div class="flex items-center justify-between flex-wrap gap-4 mb-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-800">📈 Statistiques par question QCM</h2>
+                            <p class="text-sm text-gray-500">Triées du plus difficile au plus facile</p>
+                        </div>
+                        <div class="flex gap-3 flex-wrap">
+                            <select id="filter-stats-matiere" onchange="chargerStatsQuestions()"
+                                class="px-4 py-2 border-2 border-gray-200 rounded-xl text-sm font-medium">
+                                <option value="">Toutes les matières</option>
+                            </select>
+                            <button onclick="chargerStatsQuestions()" class="px-4 py-2 bg-ensam-500 text-white rounded-xl text-sm font-medium hover:bg-ensam-600">
+                                🔄 Actualiser
+                            </button>
+                        </div>
+                    </div>
+                    <div id="stats-questions-loading" class="text-center py-12 text-gray-400">
+                        Sélectionnez une matière ou cliquez sur Actualiser
+                    </div>
+                    <div id="stats-questions-container" class="hidden space-y-3"></div>
+                </div>
+            </div>
+
+            <!-- Correction Tab -->
+            <div id="tab-correction" class="hidden">
+                <!-- Statistiques de correction -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 card-shadow">
+                        <div class="text-3xl font-bold text-gray-800" id="stat-total-copies">0</div>
+                        <div class="text-sm text-gray-500">Total copies</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 card-shadow">
+                        <div class="text-3xl font-bold text-amber-500" id="stat-a-corriger">0</div>
+                        <div class="text-sm text-gray-500">À corriger</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 card-shadow">
+                        <div class="text-3xl font-bold text-ensam-500" id="stat-corriges">0</div>
+                        <div class="text-sm text-gray-500">Corrigés</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 card-shadow">
+                        <div class="text-3xl font-bold text-purple-500" id="stat-moyenne-correction">-</div>
+                        <div class="text-sm text-gray-500">Moyenne</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Liste des étudiants avec filtres avancés -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-2xl card-shadow">
+                            <div class="p-4 border-b">
+                                <h2 class="text-lg font-bold text-gray-800">📋 Copies à corriger</h2>
+                                <p class="text-sm text-gray-500 mt-1">Filtrez par site, matière ou groupe</p>
+                            </div>
+                            <div class="p-4">
+                                <!-- Filtres avancés -->
+                                <div class="space-y-3 mb-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">📍 Site</label>
+                                        <select id="filter-correction-site" onchange="filtrerCorrections()" 
+                                            class="w-full px-3 py-2 border-2 border-gray-200 rounded-xl text-sm">
+                                            <option value="">Tous les sites</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">📚 Matière</label>
+                                        <select id="filter-correction-matiere" onchange="filtrerCorrections()" 
+                                            class="w-full px-3 py-2 border-2 border-gray-200 rounded-xl text-sm">
+                                            <option value="">Toutes matières</option>
+                                            <option value="securite_mobile">🔐 Sécurité Mobile</option>
+                                            <option value="gestion_intrusion">🛡️ Gestion Intrusion</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">👥 Groupe</label>
+                                        <select id="filter-correction-groupe" onchange="filtrerCorrections()" 
+                                            class="w-full px-3 py-2 border-2 border-gray-200 rounded-xl text-sm">
+                                            <option value="">Tous les groupes</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">📊 Statut</label>
+                                        <select id="filter-correction-status" onchange="filtrerCorrections()"
+                                            class="w-full px-3 py-2 border-2 border-gray-200 rounded-xl text-sm">
+                                            <option value="">Tous</option>
+                                            <option value="non_corrige">⏳ À corriger</option>
+                                            <option value="corrige">✅ Corrigés</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <input type="text" id="search-correction" placeholder="🔍 Rechercher un étudiant..."
+                                    onkeyup="filtrerCorrections()"
+                                    class="w-full px-3 py-2 border-2 border-gray-200 rounded-xl text-sm mb-4">
+                                
+                                <!-- Compteur de résultats -->
+                                <div class="text-xs text-gray-500 mb-2" id="correction-count">0 étudiant(s) trouvé(s)</div>
+                                
+                                <!-- Liste des étudiants groupée -->
+                                <div id="liste-corrections" class="space-y-2 max-h-[400px] overflow-y-auto">
+                                    <div class="text-center text-gray-500 py-8">Chargement...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Détail de la copie avec évaluation question par question -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-2xl card-shadow">
+                            <div class="p-4 border-b flex justify-between items-center flex-wrap gap-4">
+                                <div>
+                                    <h2 class="text-lg font-bold text-gray-800" id="correction-titre">📝 Copie de l'étudiant</h2>
+                                    <p class="text-sm text-gray-500" id="correction-info">Sélectionnez un étudiant</p>
+                                </div>
+                                <div id="correction-note-globale" class="hidden flex items-center gap-3 flex-wrap">
+                                    <div class="text-center px-3 py-2 bg-ensam-50 rounded-xl">
+                                        <div class="text-xs text-gray-500">QCM</div>
+                                        <div class="text-sm font-bold text-ensam-600" id="note-qcm-affichee">0/0</div>
+                                    </div>
+                                    <div class="text-center px-3 py-2 bg-blue-50 rounded-xl">
+                                        <div class="text-xs text-gray-500">Graph</div>
+                                        <div class="text-sm font-bold text-blue-600" id="note-graph-affichee">0/0</div>
+                                    </div>
+                                    <div class="text-center px-3 py-2 bg-purple-50 rounded-xl">
+                                        <div class="text-xs text-gray-500">Rédaction</div>
+                                        <div class="text-sm font-bold text-purple-600" id="note-redaction-affichee">0/0</div>
+                                    </div>
+                                    <div class="text-center px-3 py-2 bg-gray-100 rounded-xl">
+                                        <div class="text-xs text-gray-500">Total</div>
+                                        <div class="text-lg font-bold text-gray-800" id="note-totale-affichee">0/0</div>
+                                    </div>
+                                    <div class="text-center px-4 py-2 bg-gradient-to-r from-ensam-500 to-ensam-600 rounded-xl">
+                                        <div class="text-xs text-white/80">Note /20</div>
+                                        <div class="text-xl font-bold text-white" id="note-sur-20">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Navigation entre sections -->
+                            <div id="correction-nav" class="hidden p-2 border-b bg-gray-50 flex gap-2 overflow-x-auto">
+                                <button onclick="scrollToCorrectionSection('qcm')" class="px-4 py-2 bg-ensam-100 text-ensam-700 rounded-lg text-sm font-medium hover:bg-ensam-200">📝 QCM</button>
+                                <button onclick="scrollToCorrectionSection('graphqcm')" class="px-4 py-2 bg-ensam-100 text-ensam-700 rounded-lg text-sm font-medium hover:bg-ensam-200">🔀 Glisser-Déposer</button>
+                                <button onclick="scrollToCorrectionSection('redaction')" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-200">✍️ Rédaction</button>
+                            </div>
+                            
+                            <div id="correction-contenu" class="p-4 max-h-[500px] overflow-y-auto">
+                                <div class="text-center text-gray-500 py-16">
+                                    <div class="text-6xl mb-4">📄</div>
+                                    <p>Sélectionnez un étudiant pour afficher sa copie</p>
+                                    <p class="text-sm mt-2">Utilisez les filtres pour trouver rapidement un étudiant</p>
+                                </div>
+                            </div>
+                            
+                            <div id="correction-actions" class="hidden p-4 border-t bg-gray-50 rounded-b-2xl">
+                                <div class="flex justify-between items-center flex-wrap gap-4">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="text-sm text-gray-600 font-medium">Notes rédaction :</span>
+                                        <div id="notes-redaction-container" class="flex gap-2 flex-wrap">
+                                            <!-- Notes par question générées dynamiquement -->
+                                        </div>
+                                        <div class="flex items-center gap-2 ml-4 pl-4 border-l">
+                                            <span class="text-sm font-bold text-purple-600">Total:</span>
+                                            <span class="text-lg font-bold text-purple-700" id="total-redaction-calc">0</span>
+                                            <span class="text-sm text-gray-500">/ <span id="max-redaction-pts">15</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="copiePrec()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition" title="Copie précédente">
+                                            ⬅️
+                                        </button>
+                                        <button onclick="sauvegarderCorrection()" 
+                                            class="px-6 py-3 bg-gradient-to-r from-ensam-500 to-ensam-600 text-white font-bold rounded-xl hover:from-ensam-600 hover:to-ensam-700 transition-all">
+                                            💾 Sauvegarder
+                                        </button>
+                                        <button onclick="copieSuiv()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition" title="Copie suivante">
+                                            ➡️
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Config Tab - Configuration par matière -->
+            <div id="tab-config" class="hidden">
+                <div class="max-w-5xl mx-auto">
+                    <div class="bg-white rounded-2xl p-6 card-shadow mb-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">⚙️ Configuration Globale</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Examens actifs</h3>
+                                    <p class="text-sm text-gray-500">Autoriser les étudiants à passer l'examen</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="config-actif" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Message d'accueil</label>
+                                <input type="text" id="config-message"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-ensam-500"
+                                    placeholder="Message affiché aux étudiants">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Configuration par matière - Dynamique -->
+                    <div class="bg-white rounded-2xl p-6 card-shadow mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold text-gray-800">📚 Configuration par Examen</h2>
+                            <span class="text-sm text-gray-500" id="config-matieres-count">Chargement...</span>
+                        </div>
+                        <div id="config-matieres-container" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                            <div class="text-center text-gray-500 py-8 col-span-full">Chargement des matières...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button onclick="sauvegarderConfig()" 
+                            class="flex-1 py-4 bg-gradient-to-r from-ensam-500 to-ensam-600 text-white font-bold rounded-xl hover:from-ensam-600 hover:to-ensam-700 transition-all">
+                            💾 Sauvegarder la configuration
+                        </button>
+                    </div>
+                    
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mt-4">
+                        <p class="text-amber-800 text-sm">
+                            <strong>⚠️ Note :</strong> Les modifications s'appliquent uniquement aux nouveaux examens.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Creation Tab - Création et gestion des questions -->
+            <!-- ═══ TAB REDTEAM CTF ════════════════════════════════════════════ -->
+            <div id="tab-redteam" class="hidden">
+                <div class="bg-gray-900 rounded-2xl p-6 mb-6" style="border:1px solid #7f1d1d;">
+                    <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">🔴</span>
+                            <div>
+                                <h2 class="text-xl font-bold text-white">Tableau de bord RedTeam CTF</h2>
+                                <p class="text-sm" style="color:#9ca3af;">Suivi en temps réel des étudiants en mode intrusion</p>
+                            </div>
+                        </div>
+                        <button onclick="chargerRedteamLeaderboard()" class="px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2" style="background:#1a1a1a; color:#00ff41; border:1px solid #00ff41;">
+                            🔄 Actualiser
+                        </button>
+                    </div>
+                    <!-- Résumé rapide -->
+                    <div class="grid grid-cols-4 gap-4 mb-6" id="rt-summary">
+                        <div class="rounded-xl p-4 text-center" style="background:#0d1117; border:1px solid #30363d;">
+                            <div class="text-2xl font-bold text-white" id="rt-total-students">–</div>
+                            <div class="text-xs" style="color:#8b949e;">Étudiants RedTeam</div>
+                        </div>
+                        <div class="rounded-xl p-4 text-center" style="background:#0d1117; border:1px solid #30363d;">
+                            <div class="text-2xl font-bold" style="color:#00ff41;" id="rt-avg-score">–</div>
+                            <div class="text-xs" style="color:#8b949e;">Score moyen / 125</div>
+                        </div>
+                        <div class="rounded-xl p-4 text-center" style="background:#0d1117; border:1px solid #30363d;">
+                            <div class="text-2xl font-bold" style="color:#ffd700;" id="rt-top-score">–</div>
+                            <div class="text-xs" style="color:#8b949e;">Meilleur score</div>
+                        </div>
+                        <div class="rounded-xl p-4 text-center" style="background:#0d1117; border:1px solid #30363d;">
+                            <div class="text-2xl font-bold" style="color:#ffa500;" id="rt-full-chain">–</div>
+                            <div class="text-xs" style="color:#8b949e;">Kill Chain complète</div>
+                        </div>
+                    </div>
+                    <!-- Leaderboard -->
+                    <div style="background:#0d1117; border:1px solid #30363d; border-radius:8px; overflow:hidden;">
+                        <div style="display:grid; grid-template-columns:40px 1fr 120px repeat(7,1fr); padding:8px 12px; border-bottom:1px solid #30363d; font-size:11px; color:#8b949e; gap:6px; align-items:center;">
+                            <div>#</div>
+                            <div>Étudiant</div>
+                            <div style="text-align:center;">Score</div>
+                            <div style="text-align:center; font-size:10px;">🔍</div>
+                            <div style="text-align:center; font-size:10px;">⚔️</div>
+                            <div style="text-align:center; font-size:10px;">💣</div>
+                            <div style="text-align:center; font-size:10px;">⬆️</div>
+                            <div style="text-align:center; font-size:10px;">📡</div>
+                            <div style="text-align:center; font-size:10px;">↔️</div>
+                            <div style="text-align:center; font-size:10px;">🎯</div>
+                        </div>
+                        <div id="rt-leaderboard-body" style="min-height:120px; font-family:monospace; font-size:13px; color:#8b949e; text-align:center; padding:20px;">
+                            Chargement...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-creation" class="hidden">
+                <div class="flex gap-6">
+                    <!-- Sidebar - Liste des fichiers -->
+                    <div class="w-72 flex-shrink-0">
+                        <div class="bg-white rounded-2xl card-shadow sticky top-20">
+                            <div class="p-4 border-b">
+                                <h2 class="text-lg font-bold text-gray-800">📁 Bases de Questions</h2>
+                            </div>
+                            <div class="p-4">
+                                <div class="space-y-2" id="liste-fichiers-questions">
+                                    <div class="text-center text-gray-500 py-4">Chargement...</div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t space-y-2">
+                                    <button onclick="creerNouvelleBase()" 
+                                        class="w-full py-3 bg-ensam-100 text-ensam-700 font-semibold rounded-xl hover:bg-ensam-200 transition flex items-center justify-center gap-2">
+                                        ➕ Nouvelle base
+                                    </button>
+                                    <label class="w-full py-3 bg-blue-100 text-blue-700 font-semibold rounded-xl hover:bg-blue-200 transition flex items-center justify-center gap-2 cursor-pointer">
+                                        📥 Importer JSON
+                                        <input type="file" accept=".json" onchange="importerFichierJSON(event)" class="hidden">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Main - Éditeur de questions -->
+                    <div class="flex-1 min-w-0">
+                        <div class="bg-white rounded-2xl card-shadow">
+                            <div class="p-4 border-b flex justify-between items-center flex-wrap gap-4">
+                                <div>
+                                    <h2 class="text-lg font-bold text-gray-800" id="editeur-titre">🎓 Éditeur de Questions</h2>
+                                    <p class="text-sm text-gray-500" id="editeur-info">Sélectionnez une base de questions</p>
+                                </div>
+                                <div class="flex gap-2" id="editeur-actions" style="display:none;">
+                                    <button onclick="ajouterQuestion()" class="px-4 py-2 bg-ensam-500 text-white rounded-lg hover:bg-ensam-600 transition font-medium">
+                                        ➕ Ajouter
+                                    </button>
+                                    <button onclick="sauvegarderBase()" class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition font-medium">
+                                        💾 Sauvegarder
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Filtres et recherche -->
+                            <div id="editeur-filtres" class="p-4 border-b bg-gray-50" style="display:none;">
+                                <div class="flex gap-4 flex-wrap">
+                                    <input type="text" id="search-question-edit" placeholder="🔍 Rechercher..."
+                                        onkeyup="filtrerQuestionsEditeur()"
+                                        class="flex-1 min-w-[200px] px-4 py-2 border-2 border-gray-200 rounded-xl">
+                                    <select id="filter-status-edit" onchange="filtrerQuestionsEditeur()"
+                                        class="px-4 py-2 border-2 border-gray-200 rounded-xl">
+                                        <option value="">Toutes</option>
+                                        <option value="active">✅ Actives</option>
+                                        <option value="exclue">❌ Exclues</option>
+                                    </select>
+                                    <span class="px-4 py-2 bg-gray-200 rounded-xl text-sm font-medium" id="count-questions-edit">0 questions</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Liste des questions -->
+                            <div id="editeur-contenu" class="p-4 max-h-[600px] overflow-y-auto">
+                                <div class="text-center text-gray-500 py-16">
+                                    <div class="text-6xl mb-4">📝</div>
+                                    <p>Sélectionnez une base de questions pour commencer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Édition Question -->
+    <div id="modal-question" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800" id="modal-question-titre">Nouvelle Question</h3>
+                <button onclick="fermerModalQuestion()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div class="p-6">
+                <input type="hidden" id="edit-question-id">
+                <input type="hidden" id="edit-question-type">
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Question *</label>
+                        <textarea id="edit-question-texte" rows="3"
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-ensam-500"
+                            placeholder="Entrez la question..."></textarea>
+                    </div>
+                    
+                    <!-- Options QCM -->
+                    <div id="edit-options-qcm" class="hidden">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Options (4 réponses)</label>
+                        <div class="space-y-2">
+                            <div class="flex gap-2">
+                                <input type="radio" name="reponse-correcte" value="0" class="mt-3">
+                                <input type="text" id="edit-option-0" class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl" placeholder="Option A">
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="radio" name="reponse-correcte" value="1" class="mt-3">
+                                <input type="text" id="edit-option-1" class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl" placeholder="Option B">
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="radio" name="reponse-correcte" value="2" class="mt-3">
+                                <input type="text" id="edit-option-2" class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl" placeholder="Option C">
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="radio" name="reponse-correcte" value="3" class="mt-3">
+                                <input type="text" id="edit-option-3" class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl" placeholder="Option D">
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Sélectionnez la réponse correcte</p>
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Points</label>
+                            <input type="number" id="edit-qcm-points" min="1" max="10" value="1"
+                                class="w-32 px-4 py-2 border-2 border-gray-200 rounded-xl">
+                        </div>
+                    </div>
+                    
+                    <!-- Options Rédaction -->
+                    <div id="edit-options-redaction" class="hidden">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Points</label>
+                                <input type="number" id="edit-redac-points" min="1" max="20" value="5"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Mots-clés attendus (séparés par virgule)</label>
+                            <input type="text" id="edit-redac-motscles"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"
+                                placeholder="mot1, mot2, mot3...">
+                        </div>
+                    </div>
+                    
+                    <!-- Options GraphQCM -->
+                    <div id="edit-options-graph" class="hidden">
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Type de question</label>
+                                <select id="edit-graph-type" onchange="toggleGraphSubtype()" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+                                    <option value="ordre">Ordre (drag & drop)</option>
+                                    <option value="association">Association</option>
+                                    <option value="classification">Classification</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Points</label>
+                                <input type="number" id="edit-graph-points" min="1" max="10" value="3"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+                            </div>
+                        </div>
+                        
+                        <!-- Type ORDRE -->
+                        <div id="edit-graph-ordre" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Éléments à ordonner (un par ligne, dans l'ordre correct)</label>
+                                <textarea id="edit-graph-elements-ordre" rows="4"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"
+                                    placeholder="Élément 1 (premier)&#10;Élément 2&#10;Élément 3&#10;Élément 4 (dernier)"></textarea>
+                                <p class="text-xs text-gray-500 mt-1">L'ordre des lignes = ordre correct de la réponse</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Type ASSOCIATION -->
+                        <div id="edit-graph-association" class="hidden space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Éléments gauche (un par ligne)</label>
+                                    <textarea id="edit-graph-elements-gauche" rows="4"
+                                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"
+                                        placeholder="Élément gauche 1&#10;Élément gauche 2"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Éléments droite (un par ligne)</label>
+                                    <textarea id="edit-graph-elements-droite" rows="4"
+                                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"
+                                        placeholder="Élément droite 1&#10;Élément droite 2"></textarea>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Associations (format: 0-0, 1-1, ...)</label>
+                                <input type="text" id="edit-graph-associations"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"
+                                    placeholder="0-0, 1-1, 2-2">
+                                <p class="text-xs text-gray-500 mt-1">Index gauche - Index droite (commence à 0)</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Type CLASSIFICATION -->
+                        <div id="edit-graph-classification" class="hidden space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Catégories (une par ligne)</label>
+                                <textarea id="edit-graph-categories" rows="2"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"
+                                    placeholder="Catégorie 1&#10;Catégorie 2"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Éléments (format: nom|catégorie, un par ligne)</label>
+                                <textarea id="edit-graph-elements-classif" rows="4"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl"
+                                    placeholder="Élément A|0&#10;Élément B|1&#10;Élément C|0"></textarea>
+                                <p class="text-xs text-gray-500 mt-1">Index catégorie commence à 0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t bg-gray-50 flex gap-4">
+                <button onclick="fermerModalQuestion()" class="flex-1 py-3 bg-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-300 transition">
+                    Annuler
+                </button>
+                <button onclick="sauvegarderQuestion()" class="flex-1 py-3 bg-ensam-500 text-white font-semibold rounded-xl hover:bg-ensam-600 transition">
+                    💾 Sauvegarder
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '';
+        let authToken = localStorage.getItem('authToken');
+        let currentUser = null;
+        let questionsData = [];
+        let exclusionsData = [];
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            if (authToken) {
+                verifyToken();
+            }
+            document.getElementById('form-login').addEventListener('submit', login);
+        });
+
+        // Auth
+        async function login(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const btn = document.getElementById('btn-login');
+            btn.innerHTML = '<span class="spinner inline-block mr-2"></span> Connexion...';
+            btn.disabled = true;
+            
+            try {
+                const res = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await res.json();
+                
+                if (data.error) {
+                    alert(data.error);
+                    btn.innerHTML = '🔐 Se connecter';
+                    btn.disabled = false;
+                    return;
+                }
+                
+                authToken = data.token;
+                currentUser = data.user;
+                localStorage.setItem('authToken', authToken);
+                
+                showDashboard();
+            } catch (error) {
+                alert('Erreur de connexion');
+                btn.innerHTML = '🔐 Se connecter';
+                btn.disabled = false;
+            }
+        }
+
+        async function verifyToken() {
+            try {
+                const res = await fetch(`${API_URL}/api/auth/verify`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await res.json();
+                if (data.valid) {
+                    currentUser = data.user;
+                    showDashboard();
+                } else {
+                    logout();
+                }
+            } catch {
+                logout();
+            }
+        }
+
+        function logout() {
+            authToken = null;
+            localStorage.removeItem('authToken');
+            document.getElementById('page-login').classList.remove('hidden');
+            document.getElementById('page-dashboard').classList.add('hidden');
+        }
+
+        function showDashboard() {
+            document.getElementById('page-login').classList.add('hidden');
+            document.getElementById('page-dashboard').classList.remove('hidden');
+            document.getElementById('user-name').textContent = currentUser?.nom || 'Utilisateur';
+            refreshStats();
+            loadConfig();
+        }
+
+        // Tabs
+        function showTab(tab) {
+            document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.add('hidden'));
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('bg-gray-100', 'hover:bg-gray-200');
+            });
+            event.target.classList.add('active');
+            event.target.classList.remove('bg-gray-100', 'hover:bg-gray-200');
+            
+            if (tab === 'examens') loadExamens();
+            if (tab === 'questions') chargerQuestions();
+            if (tab === 'correction') chargerCorrections();
+            if (tab === 'creation') chargerListeBases();
+            if (tab === 'config') chargerStatsConfig();
+            if (tab === 'stats-questions') initStatsQuestions();
+            if (tab === 'redteam') chargerRedteamLeaderboard();
+        }
+
+        // RedTeam CTF leaderboard
+        async function chargerRedteamLeaderboard() {
+            const body = document.getElementById('rt-leaderboard-body');
+            if (!body) return;
+            body.innerHTML = '<div style="padding:20px; color:#8b949e;">Chargement...</div>';
+
+            const PHASES = ['reconnaissance','weaponization','exploitation','privilege_escalation','c2','lateral_movement','actions'];
+            const PTS    = { reconnaissance:10, weaponization:15, exploitation:20, privilege_escalation:25, c2:15, lateral_movement:10, actions:30 };
+
+            try {
+                const res = await fetch('/api/professeur/redteam', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
+                const data = await res.json();
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    body.innerHTML = '<div style="padding:20px; color:#8b949e; text-align:center;">Aucun étudiant en mode RedTeam pour l\'instant.</div>';
+                    document.getElementById('rt-total-students').textContent = '0';
+                    document.getElementById('rt-avg-score').textContent = '0';
+                    document.getElementById('rt-top-score').textContent = '0';
+                    document.getElementById('rt-full-chain').textContent = '0';
+                    return;
+                }
+
+                // Calculs résumé
+                const total = data.length;
+                const avg = Math.round(data.reduce((s, e) => s + e.totalPoints, 0) / total);
+                const top = data[0].totalPoints;
+                const full = data.filter(e => e.phasesCompleted === 7).length;
+
+                document.getElementById('rt-total-students').textContent = total;
+                document.getElementById('rt-avg-score').textContent = avg;
+                document.getElementById('rt-top-score').textContent = top;
+                document.getElementById('rt-full-chain').textContent = full;
+
+                // Tableau
+                body.innerHTML = data.map((s, i) => {
+                    const pct = Math.round((s.totalPoints / 125) * 100);
+                    const barColor = pct >= 80 ? '#00ff41' : pct >= 50 ? '#ffa500' : '#ff4444';
+                    const phaseCells = PHASES.map(p => {
+                        const done = s.phases && s.phases[p];
+                        return `<div style="text-align:center; color:${done ? '#00ff41' : '#333'}; font-size:14px;">${done ? '✓' : '·'}</div>`;
+                    }).join('');
+                    return `<div style="display:grid; grid-template-columns:40px 1fr 120px repeat(7,1fr); padding:10px 12px; border-bottom:1px solid #1a1a1a; gap:6px; align-items:center; ${i === 0 ? 'background:#001a00;' : ''}">
+                        <div style="color:${i===0?'#ffd700':i===1?'#c0c0c0':i===2?'#cd7f32':'#555'}; font-weight:bold;">${i+1}</div>
+                        <div>
+                            <div style="color:#fff; font-size:13px;">${s.etudiant || '—'}</div>
+                            <div style="font-size:10px; color:#8b949e; margin-top:2px;">${s.matiere || ''}</div>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="color:${barColor}; font-weight:bold; font-size:14px;">${s.totalPoints}<span style="font-size:10px; color:#555;">/125</span></div>
+                            <div style="height:3px; background:#1a1a1a; border-radius:2px; margin-top:3px;"><div style="height:3px; width:${pct}%; background:${barColor}; border-radius:2px;"></div></div>
+                        </div>
+                        ${phaseCells}
+                    </div>`;
+                }).join('');
+            } catch(e) {
+                body.innerHTML = `<div style="padding:20px; color:#ff4444; text-align:center;">Erreur: ${e.message}</div>`;
+            }
+        }
+
+        // Stats
+        async function refreshStats() {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/stats`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const stats = await res.json();
+                
+                document.getElementById('stat-total').textContent = stats.total;
+                document.getElementById('stat-encours').textContent = stats.enCours;
+                document.getElementById('stat-soumis').textContent = stats.soumis;
+                document.getElementById('stat-moyenne').textContent = stats.moyennes && stats.moyennes.total > 0 ? `${stats.moyennes.total}` : '-';
+                
+                // Charts
+                renderSiteChart(stats.parSite);
+                renderMatiereChart(stats.parMatiere);
+                renderStatsParExamen(stats.parExamen);
+                renderRecentExams(stats.examensRecents || []);
+            } catch (error) {
+                console.error('Erreur stats:', error);
+            }
+        }
+
+        function renderSiteChart(data) {
+            const container = document.getElementById('chart-sites');
+            if (!data || Object.keys(data).length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Aucune donnée</p>';
+                return;
+            }
+            
+            // data = { site: { enCours: X, termines: Y } }
+            container.innerHTML = Object.entries(data).map(([site, stats]) => {
+                const enCours = stats.enCours || 0;
+                const termines = stats.termines || 0;
+                const total = enCours + termines;
+                const maxTotal = Math.max(...Object.values(data).map(s => (s.enCours || 0) + (s.termines || 0)));
+                const widthPercent = maxTotal > 0 ? (total / maxTotal) * 100 : 0;
+                const enCoursPercent = total > 0 ? (enCours / total) * 100 : 0;
+                
+                return `<div class="flex items-center gap-3">
+                    <span class="w-28 text-sm text-gray-600 truncate" title="${site}">${site}</span>
+                    <div class="flex-1 bg-gray-200 rounded-full h-5 overflow-hidden" style="max-width: ${widthPercent}%">
+                        <div class="h-5 flex">
+                            <div class="bg-amber-400 h-5" style="width: ${enCoursPercent}%"></div>
+                            <div class="bg-ensam-500 h-5" style="width: ${100 - enCoursPercent}%"></div>
+                        </div>
+                    </div>
+                    <span class="text-xs text-gray-500 w-20 text-right">${enCours} / ${termines}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function renderMatiereChart(data) {
+            const container = document.getElementById('chart-matieres');
+            
+            if (!data || Object.keys(data).length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Aucune donnée</p>';
+                return;
+            }
+            
+            // data = { matiere: { enCours: X, termines: Y } }
+            container.innerHTML = Object.entries(data).map(([mat, stats]) => {
+                const enCours = stats.enCours || 0;
+                const termines = stats.termines || 0;
+                const total = enCours + termines;
+                const maxTotal = Math.max(...Object.values(data).map(s => (s.enCours || 0) + (s.termines || 0)));
+                const widthPercent = maxTotal > 0 ? (total / maxTotal) * 100 : 0;
+                const enCoursPercent = total > 0 ? (enCours / total) * 100 : 0;
+                
+                return `<div class="flex items-center gap-3">
+                    <span class="w-36 text-sm text-gray-600 truncate" title="${mat}">${mat}</span>
+                    <div class="flex-1 bg-gray-200 rounded-full h-5 overflow-hidden" style="max-width: ${widthPercent}%">
+                        <div class="h-5 flex">
+                            <div class="bg-amber-400 h-5" style="width: ${enCoursPercent}%"></div>
+                            <div class="bg-ensam-500 h-5" style="width: ${100 - enCoursPercent}%"></div>
+                        </div>
+                    </div>
+                    <span class="text-xs text-gray-500 w-20 text-right">${enCours} / ${termines}</span>
+                </div>`;
+            }).join('');
+        }
+        
+        function renderStatsParExamen(data) {
+            const container = document.getElementById('stats-par-examen');
+            if (!data || Object.keys(data).length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8 col-span-full">Aucun examen trouvé</p>';
+                return;
+            }
+            
+            const colors = ['blue', 'purple', 'emerald', 'amber', 'rose', 'cyan'];
+            const icons = ['🔐', '🛡️', '🏭', '📊', '💻', '🌐'];
+            
+            container.innerHTML = Object.entries(data).map(([matiere, stats], idx) => {
+                const color = colors[idx % colors.length];
+                const icon = icons[idx % icons.length];
+                const moyenne = stats.moyenne !== null ? stats.moyenne.toFixed(1) : '-';
+                
+                return `<div class="p-4 rounded-xl border-2 border-${color}-200 bg-${color}-50">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-2xl">${icon}</span>
+                        <h4 class="font-bold text-gray-800 truncate">${matiere}</h4>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div class="bg-white rounded-lg p-2 text-center">
+                            <div class="text-2xl font-bold text-amber-500">${stats.enCours || 0}</div>
+                            <div class="text-xs text-gray-500">En cours</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-2 text-center">
+                            <div class="text-2xl font-bold text-ensam-500">${stats.termines || 0}</div>
+                            <div class="text-xs text-gray-500">Terminés</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-2 text-center">
+                            <div class="text-2xl font-bold text-purple-500">${moyenne}</div>
+                            <div class="text-xs text-gray-500">Moyenne /20</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-2 text-center">
+                            <div class="text-2xl font-bold text-gray-700">${stats.total || 0}</div>
+                            <div class="text-xs text-gray-500">Total</div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderRecentExams(exams) {
+            const tbody = document.getElementById('recent-exams');
+            if (exams.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-gray-500">Aucun examen pour le moment</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = exams.map(e => `
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 font-medium">${e.prenom} ${e.nom}</td>
+                    <td class="py-3 text-gray-600">${e.groupe}</td>
+                    <td class="py-3 text-gray-600">${e.site}</td>
+                    <td class="py-3 text-gray-600">${e.matiere}</td>
+                    <td class="py-3">
+                        ${e.soumis 
+                            ? '<span class="px-2 py-1 bg-ensam-100 text-ensam-700 rounded-lg text-sm">✅ Soumis</span>'
+                            : '<span class="px-2 py-1 bg-amber-100 text-amber-700 rounded-lg text-sm">⏳ En cours</span>'
+                        }
+                    </td>
+                    <td class="py-3 font-semibold">${e.note ? `${e.note.total}/${e.note.totalMax}` : '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Examens
+        async function loadExamens() {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/examens`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const examens = await res.json();
+                
+                const tbody = document.getElementById('examens-list');
+                if (examens.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" class="py-8 text-center text-gray-500">Aucun examen</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = examens.map(e => `
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="py-3 font-medium">${e.prenom} ${e.nom}</td>
+                        <td class="py-3 text-gray-600">${e.groupe}</td>
+                        <td class="py-3 text-gray-600">${e.site}</td>
+                        <td class="py-3 text-gray-600">${e.matiere}</td>
+                        <td class="py-3 text-gray-600 text-sm">${new Date(e.heureDebut).toLocaleString('fr-FR')}</td>
+                        <td class="py-3">
+                            ${e.soumis 
+                                ? '<span class="px-2 py-1 bg-ensam-100 text-ensam-700 rounded-lg text-sm">✅ Soumis</span>'
+                                : '<span class="px-2 py-1 bg-amber-100 text-amber-700 rounded-lg text-sm">⏳ En cours</span>'
+                            }
+                        </td>
+                        <td class="py-3 font-semibold">${e.note ? `${e.note.total}/${e.note.totalMax}` : '-'}</td>
+                        <td class="py-3">
+                            <div class="flex gap-1">
+                                ${!e.soumis ? `
+                                    <button onclick="envoyerMessage('${e.id}')" class="p-1 text-blue-500 hover:text-blue-700" title="Message">💬</button>
+                                    <button onclick="ajouterTemps('${e.id}')" class="p-1 text-green-500 hover:text-green-700" title="Ajouter temps">⏱️</button>
+                                    <button onclick="suspendreEtudiant('${e.id}')" class="p-1 text-amber-500 hover:text-amber-700" title="Suspendre">⏸️</button>
+                                ` : ''}
+                                <button onclick="deleteExamen('${e.id}')" class="p-1 text-red-500 hover:text-red-700" title="Supprimer">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur examens:', error);
+            }
+        }
+
+        async function deleteExamen(id) {
+            if (!confirm('Supprimer cet examen ?')) return;
+            
+            try {
+                await fetch(`${API_URL}/api/professeur/examen/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                loadExamens();
+                refreshStats();
+            } catch (error) {
+                alert('Erreur lors de la suppression');
+            }
+        }
+
+        async function resetExamens() {
+            if (!confirm('⚠️ Supprimer TOUS les examens ? Cette action est irréversible.')) return;
+            
+            try {
+                await fetch(`${API_URL}/api/professeur/reset`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                loadExamens();
+                refreshStats();
+                alert('Tous les examens ont été réinitialisés');
+            } catch (error) {
+                alert('Erreur lors de la réinitialisation');
+            }
+        }
+
+        // Questions - Charger les matières dynamiquement
+        let questionsBasesLoaded = false;
+        
+        async function chargerMatieresQuestions() {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/bases`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const bases = await res.json();
+                
+                // Grouper par matière (insensible à la casse)
+                const matieres = {};
+                bases.forEach(b => {
+                    const matiereKey = (b.matiere || 'Autre').toLowerCase().trim();
+                    if (!matieres[matiereKey]) {
+                        matieres[matiereKey] = {
+                            nom: b.matiere || 'Autre',
+                            fichiers: {}
+                        };
+                    }
+                    matieres[matiereKey].fichiers[b.type] = b.fichier;
+                });
+                
+                // Remplir le select
+                const select = document.getElementById('filter-matiere');
+                select.innerHTML = Object.entries(matieres).map(([key, m]) => {
+                    const icon = key.includes('mobile') ? '🔐' : key.includes('ot') ? '🏭' : '🛡️';
+                    return `<option value="${key}" data-fichiers='${JSON.stringify(m.fichiers)}'>${icon} ${m.nom}</option>`;
+                }).join('');
+                
+                questionsBasesLoaded = true;
+                
+                // Charger les questions de la première matière
+                if (Object.keys(matieres).length > 0) {
+                    chargerQuestions();
+                }
+            } catch (error) {
+                console.error('Erreur chargement matières:', error);
+            }
+        }
+        
+        async function chargerQuestions() {
+            // Charger les matières si pas encore fait
+            if (!questionsBasesLoaded) {
+                await chargerMatieresQuestions();
+                return;
+            }
+            
+            const select = document.getElementById('filter-matiere');
+            const selectedOption = select.options[select.selectedIndex];
+            if (!selectedOption || !selectedOption.dataset.fichiers) {
+                document.getElementById('questions-list').innerHTML = '<p class="text-gray-500 text-center py-8">Aucune matière disponible</p>';
+                return;
+            }
+            
+            const fichiers = JSON.parse(selectedOption.dataset.fichiers);
+            const type = document.querySelector('input[name="filter-type"]:checked').value;
+            const fichier = fichiers[type];
+            
+            if (!fichier) {
+                document.getElementById('questions-list').innerHTML = `<p class="text-gray-500 text-center py-8">Aucune base de type "${type}" pour cette matière</p>`;
+                document.getElementById('questions-count').textContent = '0';
+                document.getElementById('questions-excluded').textContent = '0';
+                questionsData = [];
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/bases/${encodeURIComponent(fichier)}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await res.json();
+                
+                questionsData = data.questions || [];
+                exclusionsData = questionsData.filter(q => q.exclue).map(q => q.id);
+                
+                document.getElementById('questions-count').textContent = questionsData.length;
+                document.getElementById('questions-excluded').textContent = exclusionsData.length;
+                
+                afficherQuestions();
+            } catch (error) {
+                console.error('Erreur questions:', error);
+                document.getElementById('questions-list').innerHTML = '<p class="text-red-500 text-center py-8">Erreur de chargement</p>';
+            }
+        }
+
+        function afficherQuestions() {
+            const container = document.getElementById('questions-list');
+            const search = document.getElementById('search-questions').value.toLowerCase();
+            
+            const filtered = questionsData.filter(q => 
+                q.question.toLowerCase().includes(search)
+            );
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Aucune question trouvée</p>';
+                return;
+            }
+            
+            container.innerHTML = filtered.map(q => {
+                const isExcluded = exclusionsData.includes(q.id);
+                return `
+                    <div class="question-card p-4 rounded-xl border-2 ${isExcluded ? 'excluded border-red-200' : 'border-gray-200 hover:border-ensam-300'}">
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" ${isExcluded ? 'checked' : ''} 
+                                onchange="toggleExclusion(${q.id})"
+                                class="mt-1 w-5 h-5 rounded border-gray-300 text-red-500 focus:ring-red-500">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-sm font-medium">ID: ${q.id}</span>
+                                    ${q.points ? `<span class="px-2 py-0.5 bg-ensam-100 text-ensam-700 rounded text-sm">${q.points} pts</span>` : ''}
+                                </div>
+                                <p class="text-gray-800">${q.question}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filtrerQuestions() {
+            afficherQuestions();
+        }
+
+        async function toggleExclusion(id) {
+            const matiere = document.getElementById('filter-matiere').value;
+            const type = document.querySelector('input[name="filter-type"]:checked').value;
+            
+            if (exclusionsData.includes(id)) {
+                exclusionsData = exclusionsData.filter(e => e !== id);
+            } else {
+                exclusionsData.push(id);
+            }
+            
+            try {
+                await fetch(`${API_URL}/api/professeur/exclusions/${matiere}/${type}`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ exclusions: exclusionsData })
+                });
+                
+                document.getElementById('questions-excluded').textContent = exclusionsData.length;
+                afficherQuestions();
+            } catch (error) {
+                alert('Erreur lors de la mise à jour');
+            }
+        }
+
+        // Config
+        async function loadConfig() {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/config`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const config = await res.json();
+                
+                document.getElementById('config-actif').checked = config.examActif !== false;
+                document.getElementById('config-message').value = config.messageAccueil || '';
+                document.getElementById('config-duree').value = config.dureeExamen || 50;
+                document.getElementById('config-qcm').value = config.nombreQCM || 10;
+                document.getElementById('config-graphqcm').value = config.nombreGraphQcm || 10;
+                document.getElementById('config-redaction').value = config.nombreRedaction || 3;
+            } catch (error) {
+                console.error('Erreur config:', error);
+            }
+        }
+
+        async function sauvegarderConfig() {
+            const config = {
+                examActif: document.getElementById('config-actif').checked,
+                messageAccueil: document.getElementById('config-message').value,
+                dureeExamen: parseInt(document.getElementById('config-duree').value),
+                nombreQCM: parseInt(document.getElementById('config-qcm').value),
+                nombreGraphQcm: parseInt(document.getElementById('config-graphqcm').value),
+                nombreRedaction: parseInt(document.getElementById('config-redaction').value)
+            };
+            
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/config`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(config)
+                });
+                
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ Configuration sauvegardée !');
+                }
+            } catch (error) {
+                alert('Erreur lors de la sauvegarde');
+            }
+        }
+
+        // ==================== CORRECTION ====================
+        let correctionsData = [];
+        let correctionsFiltered = [];
+        let correctionPage = 0;
+        const CORRECTIONS_PAR_PAGE = 20;
+        let copieActuelle = null;
+        let cheminCopieActuelle = null;
+        let indexCopieActuelle = -1;
+        let notesQcmParQuestion = [];
+        let notesGraphQcmParQuestion = [];
+        let notesRedactionParQuestion = [];
+
+        async function chargerCorrections() {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/corrections`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                correctionsData = await res.json();
+                
+                // Extraire les sites et groupes uniques pour les filtres
+                populerFiltres();
+                // Mettre à jour les statistiques
+                mettreAJourStatsCorrection();
+                // Afficher les corrections
+                filtrerCorrections();
+            } catch (error) {
+                console.error('Erreur corrections:', error);
+            }
+        }
+
+        function populerFiltres() {
+            const sites = [...new Set(correctionsData.map(c => c.etudiant?.site).filter(Boolean))].sort();
+            const groupes = [...new Set(correctionsData.map(c => c.etudiant?.groupe).filter(Boolean))].sort();
+            
+            const siteSelect = document.getElementById('filter-correction-site');
+            const groupeSelect = document.getElementById('filter-correction-groupe');
+            
+            // Garder la première option et ajouter les sites
+            siteSelect.innerHTML = '<option value="">Tous les sites</option>' + 
+                sites.map(s => `<option value="${s}">📍 ${s}</option>`).join('');
+            
+            // Garder la première option et ajouter les groupes
+            groupeSelect.innerHTML = '<option value="">Tous les groupes</option>' + 
+                groupes.map(g => `<option value="${g}">👥 ${g}</option>`).join('');
+        }
+
+        function mettreAJourStatsCorrection() {
+            const total = correctionsData.length;
+            const corriges = correctionsData.filter(c => c.corrige).length;
+            const aCorriger = total - corriges;
+            
+            // Calculer la moyenne des copies corrigées
+            const copiesAvecNote = correctionsData.filter(c => c.corrige && c.note?.total !== undefined);
+            let moyenne = '-';
+            if (copiesAvecNote.length > 0) {
+                const somme = copiesAvecNote.reduce((sum, c) => {
+                    const pct = c.note.totalMax > 0 ? (c.note.total / c.note.totalMax) * 20 : 0;
+                    return sum + pct;
+                }, 0);
+                moyenne = (somme / copiesAvecNote.length).toFixed(1) + '/20';
+            }
+            
+            document.getElementById('stat-total-copies').textContent = total;
+            document.getElementById('stat-a-corriger').textContent = aCorriger;
+            document.getElementById('stat-corriges').textContent = corriges;
+            document.getElementById('stat-moyenne-correction').textContent = moyenne;
+        }
+
+        function filtrerCorrections() {
+            const container = document.getElementById('liste-corrections');
+            const search = document.getElementById('search-correction').value.toLowerCase();
+            const siteFilter = document.getElementById('filter-correction-site').value;
+            const matiereFilter = document.getElementById('filter-correction-matiere').value;
+            const groupeFilter = document.getElementById('filter-correction-groupe').value;
+            const statusFilter = document.getElementById('filter-correction-status').value;
+            
+            correctionsFiltered = correctionsData.filter(c => {
+                const matchSearch = `${c.etudiant?.nom || ''} ${c.etudiant?.prenom || ''} ${c.etudiant?.groupe || ''}`.toLowerCase().includes(search);
+                const matchSite = !siteFilter || c.etudiant?.site === siteFilter;
+                const matchMatiere = !matiereFilter || c.matiere === matiereFilter;
+                const matchGroupe = !groupeFilter || c.etudiant?.groupe === groupeFilter;
+                const matchStatus = !statusFilter || 
+                    (statusFilter === 'corrige' && c.corrige) || 
+                    (statusFilter === 'non_corrige' && !c.corrige);
+                return matchSearch && matchSite && matchMatiere && matchGroupe && matchStatus;
+            });
+            
+            // Trier par groupe puis par nom
+            correctionsFiltered.sort((a, b) => {
+                const groupeA = a.etudiant?.groupe || '';
+                const groupeB = b.etudiant?.groupe || '';
+                if (groupeA !== groupeB) return groupeA.localeCompare(groupeB);
+                return (a.etudiant?.nom || '').localeCompare(b.etudiant?.nom || '');
+            });
+
+            correctionPage = 0;
+            afficherPageCorrections(groupeFilter);
+        }
+
+        function afficherPageCorrections(groupeFilter) {
+            const container = document.getElementById('liste-corrections');
+            const total = correctionsFiltered.length;
+            const debut = correctionPage * CORRECTIONS_PAR_PAGE;
+            const fin = Math.min(debut + CORRECTIONS_PAR_PAGE, total);
+            const page = correctionsFiltered.slice(debut, fin);
+
+            // Mettre à jour le compteur
+            document.getElementById('correction-count').textContent =
+                `${total} étudiant(s) — page ${correctionPage + 1}/${Math.ceil(total / CORRECTIONS_PAR_PAGE) || 1}`;
+
+            if (total === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500 py-8">Aucune copie trouvée</div>';
+                return;
+            }
+
+            let html = '';
+            let currentGroupe = null;
+
+            page.forEach((c, pageIdx) => {
+                const idx = debut + pageIdx;
+                const groupe = c.etudiant?.groupe || 'Sans groupe';
+
+                if (!groupeFilter && groupe !== currentGroupe) {
+                    currentGroupe = groupe;
+                    html += `<div class="text-xs font-bold text-gray-500 uppercase mt-4 mb-2 px-2 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-ensam-500 rounded-full"></span>
+                        ${groupe}
+                    </div>`;
+                }
+
+                const isActive = cheminCopieActuelle === c.chemin;
+                const noteSur20 = c.note?.noteSur20 || (c.note?.totalMax > 0 ? ((c.note?.total || 0) / c.note.totalMax * 20).toFixed(1) : '-');
+                const violationsBadge = (c.violations?.length > 0)
+                    ? `<div class="px-2 py-1 bg-red-100 text-red-700 rounded-lg text-xs font-medium" title="${c.violations.length} violation(s) anti-triche">⚠️ ${c.violations.length}</div>`
+                    : '';
+                html += `
+                <div onclick="chargerCopieParIndex(${idx})"
+                    class="p-3 rounded-xl border-2 cursor-pointer transition-all ${isActive ? 'border-ensam-500 bg-ensam-100 ring-2 ring-ensam-300' : c.corrige ? 'border-ensam-200 bg-ensam-50 hover:border-ensam-400' : 'border-gray-200 hover:bg-gray-50 hover:border-gray-300'}">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <!-- [VULN-011] XSS Stocké: nom/prenom injecté via innerHTML sans échappement -->
+                            <div class="font-semibold text-gray-800">${c.etudiant?.prenom || ''} ${c.etudiant?.nom || ''}</div>
+                            <div class="text-xs text-gray-500">${c.etudiant?.site || ''} • ${c.matiere || ''}</div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            ${violationsBadge}
+                            ${c.corrige
+                                ? `<div class="px-2 py-1 bg-gradient-to-r from-ensam-500 to-ensam-600 text-white rounded-lg text-sm font-bold">${noteSur20}/20</div>
+                                   <div class="text-xs text-gray-500">${c.note?.total || 0}/${c.note?.totalMax || 0} pts</div>`
+                                : '<div class="px-2 py-1 bg-amber-100 text-amber-700 rounded-lg text-xs font-medium">⏳</div>'
+                            }
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            // Contrôles de pagination
+            const nbPages = Math.ceil(total / CORRECTIONS_PAR_PAGE);
+            if (nbPages > 1) {
+                html += `<div class="flex items-center justify-between mt-4 pt-3 border-t">
+                    <button onclick="changerPageCorrection(-1)" ${correctionPage === 0 ? 'disabled' : ''}
+                        class="px-4 py-2 rounded-xl text-sm font-medium ${correctionPage === 0 ? 'text-gray-300 cursor-not-allowed' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}">
+                        ← Précédent
+                    </button>
+                    <span class="text-xs text-gray-500">${correctionPage + 1} / ${nbPages}</span>
+                    <button onclick="changerPageCorrection(1)" ${correctionPage >= nbPages - 1 ? 'disabled' : ''}
+                        class="px-4 py-2 rounded-xl text-sm font-medium ${correctionPage >= nbPages - 1 ? 'text-gray-300 cursor-not-allowed' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}">
+                        Suivant →
+                    </button>
+                </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function changerPageCorrection(delta) {
+            const nbPages = Math.ceil(correctionsFiltered.length / CORRECTIONS_PAR_PAGE);
+            correctionPage = Math.max(0, Math.min(correctionPage + delta, nbPages - 1));
+            const groupeFilter = document.getElementById('filter-correction-groupe').value;
+            afficherPageCorrections(groupeFilter);
+        }
+
+        function chargerCopieParIndex(idx) {
+            indexCopieActuelle = idx;
+            const c = correctionsFiltered[idx];
+            if (c) {
+                chargerCopie(c.chemin);
+            }
+        }
+
+        function copiePrec() {
+            if (indexCopieActuelle > 0) {
+                chargerCopieParIndex(indexCopieActuelle - 1);
+            }
+        }
+
+        function copieSuiv() {
+            if (indexCopieActuelle < correctionsFiltered.length - 1) {
+                chargerCopieParIndex(indexCopieActuelle + 1);
+            }
+        }
+
+        async function chargerCopie(chemin) {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/corrections/copie?path=${encodeURIComponent(chemin)}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                copieActuelle = await res.json();
+                cheminCopieActuelle = chemin;
+                
+                // Trouver l'index dans la liste filtrée
+                indexCopieActuelle = correctionsFiltered.findIndex(c => c.chemin === chemin);
+                
+                afficherCopie();
+                filtrerCorrections(); // Rafraîchir pour montrer la sélection
+            } catch (error) {
+                alert('Erreur lors du chargement de la copie');
+            }
+        }
+
+        function afficherCopie() {
+            const c = copieActuelle;
+            // [VULN-011] XSS Stocké: innerHTML utilisé au lieu de textContent — le nom peut contenir du HTML/JS
+            document.getElementById('correction-titre').innerHTML = `📝 ${c.etudiant?.prenom || ''} ${c.etudiant?.nom || ''}`;
+            
+            // Afficher infos avec tentatives si disponibles
+            let infoText = `${c.etudiant?.groupe || ''} • ${c.etudiant?.site || ''} • ${c.etudiant?.matiere === 'gestion_intrusion' ? 'Gestion Intrusion' : 'Sécurité Mobile'}`;
+            if (c._fichiers?.tentatives?.length > 1) {
+                infoText += ` • ${c._fichiers.tentatives.length} tentatives`;
+            }
+            document.getElementById('correction-info').textContent = infoText;
+            
+            document.getElementById('correction-note-globale').classList.remove('hidden');
+            document.getElementById('correction-nav').classList.remove('hidden');
+            document.getElementById('correction-actions').classList.remove('hidden');
+            
+            // Utiliser la structure réelle du fichier resultats.json
+            const detailQCM = c.detailQCM || [];
+            const detailGraphQCM = c.detailGraphQCM || [];
+            const questionsRedaction = c.questionsRedaction || [];
+            
+            // Initialiser les notes par question (QCM: 1 pt par défaut si correct)
+            notesQcmParQuestion = detailQCM.map((q, i) => {
+                return c.note?.notesQcm?.[i] ?? (q.correct ? 1 : 0);
+            });
+            
+            // Initialiser les notes GraphQCM
+            notesGraphQcmParQuestion = detailGraphQCM.map((q, i) => {
+                return c.note?.notesGraphQcm?.[i] ?? q.pointsObtenus;
+            });
+            
+            // Initialiser les notes rédaction
+            notesRedactionParQuestion = questionsRedaction.map((q, i) => {
+                return c.note?.notesRedaction?.[i] || 0;
+            });
+            
+            // Calculer les points max
+            const maxQcm = detailQCM.length;
+            const maxGraphQcm = detailGraphQCM.reduce((sum, q) => sum + (q.pointsMax || 0), 0);
+            const maxRedaction = questionsRedaction.reduce((sum, q) => sum + (q.points || 0), 0);
+            document.getElementById('max-redaction-pts').textContent = maxRedaction;
+            
+            // Générer les inputs de notes par question
+            genererInputsNotesRedaction(questionsRedaction);
+            
+            calculerNoteTotale();
+            
+            let html = '';
+            
+            // Section QCM avec modification des notes
+            if (detailQCM.length > 0) {
+                const noteQcmTotal = notesQcmParQuestion.reduce((sum, n) => sum + n, 0);
+                html += `<div id="section-qcm" class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2 sticky top-0 bg-white py-2 z-10">
+                        <span class="w-8 h-8 bg-ensam-100 text-ensam-700 rounded-lg flex items-center justify-center text-sm font-bold">1</span>
+                        QCM - <span id="total-qcm-display">${noteQcmTotal}</span>/${maxQcm} pts
+                    </h3>
+                    <div class="space-y-3">`;
+                
+                detailQCM.forEach((q, i) => {
+                    const correct = q.correct;
+                    const skip = q.reponseEtudiant === -1;
+                    const noteActuelle = notesQcmParQuestion[i];
+                    
+                    html += `<div class="p-3 rounded-xl border-2 ${noteActuelle > 0 ? 'border-ensam-200 bg-ensam-50' : skip ? 'border-amber-200 bg-amber-50' : 'border-red-200 bg-red-50'}">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="font-medium text-gray-800 flex-1">${i+1}. ${q.question}</div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="note-qcm-${i}" min="0" max="1" step="0.5" value="${noteActuelle}"
+                                    onchange="updateNoteQcm(${i}, this.value)"
+                                    class="w-14 px-2 py-1 border-2 ${noteActuelle > 0 ? 'border-ensam-300' : 'border-red-300'} rounded-lg text-center font-bold ${noteActuelle > 0 ? 'text-ensam-700' : 'text-red-700'} bg-white text-sm">
+                                <span class="text-xs text-gray-500">/ 1</span>
+                            </div>
+                        </div>
+                        <div class="text-sm mt-2">
+                            <div class="flex gap-4 items-center">
+                                <span class="${correct ? 'text-ensam-600 font-medium' : 'text-red-600'}">
+                                    Réponse: ${skip ? 'Je ne sais pas' : String.fromCharCode(65 + q.reponseEtudiant)}
+                                </span>
+                                ${!correct ? `<span class="text-ensam-600 font-medium">Correcte: ${String.fromCharCode(65 + q.reponseCorrecte)}</span>` : ''}
+                                <span class="text-xs px-2 py-1 rounded ${correct ? 'bg-ensam-200 text-ensam-800' : skip ? 'bg-amber-200 text-amber-800' : 'bg-red-200 text-red-800'}">${correct ? '✓ Auto' : skip ? '? Skip' : '✗ Faux'}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+                
+                html += '</div></div>';
+            }
+            
+            // Section GraphQCM avec modification des notes
+            if (detailGraphQCM.length > 0) {
+                const noteGraphTotal = notesGraphQcmParQuestion.reduce((sum, n) => sum + n, 0);
+                html += `<div id="section-graphqcm" class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2 sticky top-0 bg-white py-2 z-10">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center text-sm font-bold">2</span>
+                        Glisser-Déposer - <span id="total-graph-display">${noteGraphTotal}</span>/${maxGraphQcm} pts
+                    </h3>
+                    <div class="space-y-3">`;
+                
+                detailGraphQCM.forEach((q, i) => {
+                    const noteActuelle = notesGraphQcmParQuestion[i];
+                    const pctCorrect = q.pointsMax > 0 ? (noteActuelle / q.pointsMax) * 100 : 0;
+                    const borderColor = pctCorrect === 100 ? 'border-ensam-200 bg-ensam-50' : pctCorrect > 0 ? 'border-amber-200 bg-amber-50' : 'border-red-200 bg-red-50';
+                    
+                    html += `<div class="p-3 rounded-xl border-2 ${borderColor}">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="font-medium text-gray-800 flex-1">${i+1}. ${q.question}</div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="note-graph-${i}" min="0" max="${q.pointsMax}" step="0.5" value="${noteActuelle}"
+                                    onchange="updateNoteGraphQcm(${i}, this.value, ${q.pointsMax})"
+                                    class="w-14 px-2 py-1 border-2 border-blue-300 rounded-lg text-center font-bold text-blue-700 bg-white text-sm">
+                                <span class="text-xs text-gray-500">/ ${q.pointsMax}</span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500 mb-2">Type: ${q.type} | Auto: ${q.pointsObtenus}/${q.pointsMax}</div>
+                        <div class="bg-white p-2 rounded-lg border text-sm">
+                            ${formatReponseGraphQCM(q.reponseEtudiant, q.type)}
+                        </div>
+                    </div>`;
+                });
+                
+                html += '</div></div>';
+            }
+            
+            // Section Rédaction avec modification des notes
+            if (questionsRedaction.length > 0) {
+                const noteRedacTotal = notesRedactionParQuestion.reduce((sum, n) => sum + n, 0);
+                html += `<div id="section-redaction" class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2 sticky top-0 bg-white py-2 z-10">
+                        <span class="w-8 h-8 bg-purple-100 text-purple-700 rounded-lg flex items-center justify-center text-sm font-bold">3</span>
+                        Rédaction - <span id="total-redac-display">${noteRedacTotal}</span>/${maxRedaction} pts
+                    </h3>
+                    <div class="space-y-4">`;
+                
+                questionsRedaction.forEach((q, i) => {
+                    const reponse = q.reponseEtudiant || '';
+                    const noteQuestion = notesRedactionParQuestion[i] || 0;
+                    const motsCles = q.mots_cles || [];
+                    
+                    html += `<div class="p-4 rounded-xl border-2 border-purple-200 bg-purple-50">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="font-medium text-gray-800 flex-1">${i+1}. ${q.question}</div>
+                            <div class="flex items-center gap-2 ml-4">
+                                <input type="number" id="note-redaction-${i}" min="0" max="${q.points}" step="0.5" value="${noteQuestion}"
+                                    onchange="updateNoteRedaction(${i}, this.value, ${q.points})"
+                                    class="w-16 px-2 py-1 border-2 border-purple-300 rounded-lg text-center font-bold text-purple-700 bg-white">
+                                <span class="text-sm text-purple-600">/ ${q.points}</span>
+                            </div>
+                        </div>
+                        ${motsCles.length > 0 ? `<div class="text-xs text-purple-600 mb-2 p-2 bg-purple-100 rounded-lg">💡 Mots-clés attendus: <strong>${motsCles.join(', ')}</strong></div>` : ''}
+                        <div class="bg-white p-3 rounded-lg border border-purple-200 text-gray-700 whitespace-pre-wrap min-h-[80px]">${reponse || '<em class="text-gray-400">Aucune réponse fournie par l\'étudiant</em>'}</div>
+                    </div>`;
+                });
+                
+                html += '</div></div>';
+            }
+            
+            // Afficher les captures d'écran si disponibles
+            if (c._fichiers?.captures?.length > 0) {
+                html += `<div id="section-captures" class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-gray-100 text-gray-700 rounded-lg flex items-center justify-center text-sm font-bold">📸</span>
+                        Captures d'écran (${c._fichiers.captures.length})
+                    </h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        ${c._fichiers.captures.map(cap => `
+                            <a href="${API_URL}/api/professeur/corrections/capture?path=${encodeURIComponent(c._cheminDossier + '/' + cap)}" 
+                               target="_blank" class="block p-2 bg-gray-100 rounded-lg hover:bg-gray-200 text-sm text-center">
+                                📷 ${cap}
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>`;
+            }
+            
+            document.getElementById('correction-contenu').innerHTML = html;
+        }
+        
+        function updateNoteQcm(index, value) {
+            let note = parseFloat(value) || 0;
+            note = Math.max(0, Math.min(note, 1));
+            notesQcmParQuestion[index] = note;
+            
+            const input = document.getElementById(`note-qcm-${index}`);
+            if (input && parseFloat(input.value) !== note) {
+                input.value = note;
+            }
+            
+            calculerNoteTotale();
+        }
+        
+        function updateNoteGraphQcm(index, value, max) {
+            let note = parseFloat(value) || 0;
+            note = Math.max(0, Math.min(note, max));
+            notesGraphQcmParQuestion[index] = note;
+            
+            const input = document.getElementById(`note-graph-${index}`);
+            if (input && parseFloat(input.value) !== note) {
+                input.value = note;
+            }
+            
+            calculerNoteTotale();
+        }
+        
+        // Formater les réponses GraphQCM selon le type
+        function formatReponseGraphQCM(reponse, type) {
+            if (!reponse) return '<em class="text-gray-400">Pas de réponse</em>';
+            
+            if (type === 'ordre' && reponse.ordre) {
+                return `<ol class="list-decimal list-inside space-y-1">
+                    ${reponse.ordre.map(item => `<li>${item}</li>`).join('')}
+                </ol>`;
+            }
+            
+            if (type === 'classification' && reponse.classifications) {
+                const items = Object.entries(reponse.classifications);
+                return `<div class="space-y-1">
+                    ${items.map(([item, cat]) => `<div><span class="font-medium">${item}</span> → Catégorie ${cat}</div>`).join('')}
+                </div>`;
+            }
+            
+            if (type === 'association' && reponse.associations) {
+                const items = Object.entries(reponse.associations);
+                return `<div class="space-y-1">
+                    ${items.map(([idx, val]) => `<div><span class="font-medium">${parseInt(idx)+1}.</span> ${val}</div>`).join('')}
+                </div>`;
+            }
+            
+            return `<pre class="text-xs">${JSON.stringify(reponse, null, 2)}</pre>`;
+        }
+
+        function genererInputsNotesRedaction(questions) {
+            const container = document.getElementById('notes-redaction-container');
+            container.innerHTML = questions.map((q, i) => `
+                <div class="flex items-center gap-1 bg-purple-100 px-2 py-1 rounded-lg">
+                    <span class="text-xs text-purple-600">Q${i+1}:</span>
+                    <span class="text-sm font-bold text-purple-700" id="note-q${i}-display">${notesRedactionParQuestion[i] || 0}</span>
+                    <span class="text-xs text-purple-500">/${q.points}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateNoteRedaction(index, value, max) {
+            let note = parseFloat(value) || 0;
+            note = Math.max(0, Math.min(note, max));
+            notesRedactionParQuestion[index] = note;
+            
+            // Mettre à jour l'affichage dans le footer
+            const display = document.getElementById(`note-q${index}-display`);
+            if (display) display.textContent = note;
+            
+            // Mettre à jour l'input si la valeur a été corrigée
+            const input = document.getElementById(`note-redaction-${index}`);
+            if (input && parseFloat(input.value) !== note) {
+                input.value = note;
+            }
+            
+            calculerNoteTotale();
+        }
+
+        function scrollToCorrectionSection(section) {
+            const el = document.getElementById(`section-${section}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function calculerNoteTotale() {
+            if (!copieActuelle) return;
+            
+            // Calculer les totaux à partir des notes modifiables
+            const noteQcm = notesQcmParQuestion.reduce((sum, n) => sum + (n || 0), 0);
+            const noteGraphQcm = notesGraphQcmParQuestion.reduce((sum, n) => sum + (n || 0), 0);
+            const noteRedaction = notesRedactionParQuestion.reduce((sum, n) => sum + (n || 0), 0);
+            
+            // Calculer les max
+            const detailQCM = copieActuelle.detailQCM || [];
+            const detailGraphQCM = copieActuelle.detailGraphQCM || [];
+            const questionsRedaction = copieActuelle.questionsRedaction || [];
+            
+            const maxQcm = detailQCM.length;
+            const maxGraphQcm = detailGraphQCM.reduce((sum, q) => sum + (q.pointsMax || 0), 0);
+            const maxRedaction = questionsRedaction.reduce((sum, q) => sum + (q.points || 0), 0);
+            
+            const totalMax = maxQcm + maxGraphQcm + maxRedaction;
+            const total = noteQcm + noteGraphQcm + noteRedaction;
+            
+            // Calculer la note sur 20
+            const noteSur20 = totalMax > 0 ? ((total / totalMax) * 20).toFixed(1) : 0;
+            
+            // Mettre à jour l'affichage
+            document.getElementById('note-qcm-affichee').textContent = `${noteQcm}/${maxQcm}`;
+            document.getElementById('note-graph-affichee').textContent = `${noteGraphQcm}/${maxGraphQcm}`;
+            document.getElementById('note-redaction-affichee').textContent = `${noteRedaction}/${maxRedaction}`;
+            document.getElementById('note-totale-affichee').textContent = `${total}/${totalMax}`;
+            document.getElementById('note-sur-20').textContent = noteSur20;
+            document.getElementById('total-redaction-calc').textContent = noteRedaction;
+            
+            // Mettre à jour les totaux dans les sections
+            const qcmDisplay = document.getElementById('total-qcm-display');
+            const graphDisplay = document.getElementById('total-graph-display');
+            const redacDisplay = document.getElementById('total-redac-display');
+            if (qcmDisplay) qcmDisplay.textContent = noteQcm;
+            if (graphDisplay) graphDisplay.textContent = noteGraphQcm;
+            if (redacDisplay) redacDisplay.textContent = noteRedaction;
+        }
+
+        async function sauvegarderCorrection() {
+            if (!copieActuelle || !cheminCopieActuelle) return;
+            
+            // Calculer les totaux
+            const noteQcm = notesQcmParQuestion.reduce((sum, n) => sum + (n || 0), 0);
+            const noteGraphQcm = notesGraphQcmParQuestion.reduce((sum, n) => sum + (n || 0), 0);
+            const noteRedaction = notesRedactionParQuestion.reduce((sum, n) => sum + (n || 0), 0);
+            
+            // Calculer les max
+            const detailQCM = copieActuelle.detailQCM || [];
+            const detailGraphQCM = copieActuelle.detailGraphQCM || [];
+            const questionsRedaction = copieActuelle.questionsRedaction || [];
+            
+            const maxQcm = detailQCM.length;
+            const maxGraphQcm = detailGraphQCM.reduce((sum, q) => sum + (q.pointsMax || 0), 0);
+            const maxRedaction = questionsRedaction.reduce((sum, q) => sum + (q.points || 0), 0);
+            const totalMax = maxQcm + maxGraphQcm + maxRedaction;
+            const total = noteQcm + noteGraphQcm + noteRedaction;
+            
+            // Sauvegarder toutes les notes par question
+            copieActuelle.note = copieActuelle.note || {};
+            copieActuelle.note.notesQcm = [...notesQcmParQuestion];
+            copieActuelle.note.notesGraphQcm = [...notesGraphQcmParQuestion];
+            copieActuelle.note.notesRedaction = [...notesRedactionParQuestion];
+            copieActuelle.note.qcm = noteQcm;
+            copieActuelle.note.graphQcm = noteGraphQcm;
+            copieActuelle.note.redaction = noteRedaction;
+            copieActuelle.note.total = total;
+            copieActuelle.note.totalMax = totalMax;
+            copieActuelle.note.pourcentage = totalMax > 0 ? Math.round((total / totalMax) * 100) : 0;
+            copieActuelle.note.noteSur20 = totalMax > 0 ? parseFloat(((total / totalMax) * 20).toFixed(1)) : 0;
+            
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/corrections/save`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ chemin: cheminCopieActuelle, resultats: copieActuelle })
+                });
+                
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ Correction sauvegardée ! Note: ' + copieActuelle.note.noteSur20 + '/20');
+                    // Recharger les données pour mettre à jour les stats
+                    await chargerCorrections();
+                    // Passer automatiquement à la copie suivante si disponible
+                    if (indexCopieActuelle < correctionsFiltered.length - 1) {
+                        if (confirm('Passer à la copie suivante ?')) {
+                            copieSuiv();
+                        }
+                    }
+                }
+            } catch (error) {
+                alert('Erreur lors de la sauvegarde');
+            }
+        }
+
+        // ==================== GESTION EXAMENS EN TEMPS RÉEL ====================
+
+        async function suspendreEtudiant(sessionId) {
+            if (!confirm('Suspendre cet étudiant ?')) return;
+            try {
+                await fetch(`${API_URL}/api/professeur/examen/${sessionId}/suspendre`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                loadExamens();
+                alert('Étudiant suspendu');
+            } catch (error) {
+                alert('Erreur');
+            }
+        }
+
+        async function reprendreEtudiant(sessionId) {
+            try {
+                await fetch(`${API_URL}/api/professeur/examen/${sessionId}/reprendre`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                loadExamens();
+            } catch (error) {
+                alert('Erreur');
+            }
+        }
+
+        async function envoyerMessage(sessionId) {
+            const texte = prompt('Message à envoyer à l\'étudiant:');
+            if (!texte) return;
+            
+            try {
+                await fetch(`${API_URL}/api/professeur/examen/${sessionId}/message`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ texte })
+                });
+                alert('Message envoyé');
+            } catch (error) {
+                alert('Erreur');
+            }
+        }
+
+        async function ajouterTemps(sessionId) {
+            const minutes = prompt('Minutes à ajouter:', '5');
+            if (!minutes) return;
+            
+            try {
+                await fetch(`${API_URL}/api/professeur/examen/${sessionId}/temps`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ minutes: parseInt(minutes) })
+                });
+                loadExamens();
+                alert(`${minutes} minutes ajoutées`);
+            } catch (error) {
+                alert('Erreur');
+            }
+        }
+
+        // ==================== GESTION DES QUESTIONS (CRUD) ====================
+
+        let questionEditId = null;
+
+        function ouvrirModalAjoutQuestion() {
+            questionEditId = null;
+            document.getElementById('modal-question').classList.remove('hidden');
+            document.getElementById('modal-question').classList.add('flex');
+            document.getElementById('modal-question-title').textContent = 'Ajouter une question';
+            document.getElementById('form-question').reset();
+            updateFormType();
+        }
+
+        function fermerModalQuestion() {
+            document.getElementById('modal-question').classList.add('hidden');
+            document.getElementById('modal-question').classList.remove('flex');
+        }
+
+        function updateFormType() {
+            const type = document.querySelector('input[name="filter-type"]:checked').value;
+            document.getElementById('qcm-fields').classList.toggle('hidden', type !== 'qcm');
+            document.getElementById('redaction-fields').classList.toggle('hidden', type !== 'redaction');
+        }
+
+        async function sauvegarderQuestion(e) {
+            e.preventDefault();
+            
+            const matiere = document.getElementById('filter-matiere').value;
+            const type = document.querySelector('input[name="filter-type"]:checked').value;
+            
+            let question = {
+                question: document.getElementById('question-text').value
+            };
+            
+            if (type === 'qcm') {
+                question.options = [
+                    document.getElementById('option-a').value,
+                    document.getElementById('option-b').value,
+                    document.getElementById('option-c').value,
+                    document.getElementById('option-d').value
+                ];
+                question.reponse = parseInt(document.getElementById('reponse-correcte').value);
+            } else if (type === 'redaction') {
+                question.points = parseInt(document.getElementById('question-points').value) || 5;
+                const motsCles = document.getElementById('question-motscles').value;
+                if (motsCles) {
+                    question.mots_cles = motsCles.split(',').map(m => m.trim());
+                }
+            }
+            
+            try {
+                const url = questionEditId 
+                    ? `${API_URL}/api/professeur/questions/${matiere}/${type}/${questionEditId}`
+                    : `${API_URL}/api/professeur/questions/${matiere}/${type}/add`;
+                
+                const res = await fetch(url, {
+                    method: questionEditId ? 'PUT' : 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question })
+                });
+                
+                const data = await res.json();
+                if (data.success) {
+                    fermerModalQuestion();
+                    chargerQuestions();
+                    alert('✅ Question sauvegardée !');
+                }
+            } catch (error) {
+                alert('Erreur lors de la sauvegarde');
+            }
+        }
+
+        async function supprimerQuestion(id) {
+            if (!confirm('Supprimer cette question ?')) return;
+            
+            const matiere = document.getElementById('filter-matiere').value;
+            const type = document.querySelector('input[name="filter-type"]:checked').value;
+            
+            try {
+                await fetch(`${API_URL}/api/professeur/questions/${matiere}/${type}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                chargerQuestions();
+            } catch (error) {
+                alert('Erreur lors de la suppression');
+            }
+        }
+
+        // Auto-refresh stats every 30s
+        setInterval(() => {
+            if (!document.getElementById('page-dashboard').classList.contains('hidden')) {
+                refreshStats();
+            }
+        }, 30000);
+
+        // ==================== CRÉATION D'EXAMEN ====================
+        let basesQuestions = [];
+        let baseActuelle = null;
+        let questionsEditeur = [];
+        let questionsModifiees = false;
+
+        async function chargerListeBases() {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/bases`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                basesQuestions = await res.json();
+                afficherListeBases();
+            } catch (error) {
+                console.error('Erreur chargement bases:', error);
+            }
+        }
+
+        function afficherListeBases() {
+            const container = document.getElementById('liste-fichiers-questions');
+            if (!basesQuestions || basesQuestions.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500 py-4">Aucune base trouvée</div>';
+                return;
+            }
+
+            // Normaliser les noms de matières (ignorer la casse)
+            const groupes = {};
+            const nomAffichage = {}; // Garder le premier nom trouvé pour l'affichage
+            basesQuestions.forEach(b => {
+                const matiereOriginal = b.matiere || 'Autre';
+                const matiereKey = matiereOriginal.toLowerCase().trim();
+                if (!groupes[matiereKey]) {
+                    groupes[matiereKey] = [];
+                    nomAffichage[matiereKey] = matiereOriginal; // Garder le premier nom pour l'affichage
+                }
+                groupes[matiereKey].push(b);
+            });
+
+            let html = '';
+            for (const [matiereKey, bases] of Object.entries(groupes)) {
+                const matiere = nomAffichage[matiereKey];
+                const icon = matiereKey.includes('mobile') ? '🔐' : matiereKey.includes('ot') ? '🏭' : '🛡️';
+                html += `<div class="mb-4">
+                    <div class="text-xs font-bold text-gray-500 uppercase mb-2">${icon} ${matiere}</div>`;
+                
+                bases.forEach(b => {
+                    const isActive = baseActuelle?.fichier === b.fichier;
+                    const typeIcon = b.type === 'qcm' ? '📝' : b.type === 'redaction' ? '✍️' : '🔀';
+                    html += `<div onclick="chargerBase('${b.fichier}')" 
+                        class="p-3 rounded-xl cursor-pointer transition-all mb-2 ${isActive ? 'bg-ensam-100 border-2 border-ensam-500' : 'bg-gray-50 hover:bg-gray-100 border-2 border-transparent'}">
+                        <div class="flex items-center justify-between">
+                            <span class="font-medium text-sm">${typeIcon} ${b.type.toUpperCase()}</span>
+                            <span class="text-xs text-gray-500">${b.count} Q</span>
+                        </div>
+                    </div>`;
+                });
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        async function chargerBase(fichier) {
+            if (questionsModifiees && !confirm('Des modifications non sauvegardées seront perdues. Continuer ?')) {
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/bases/${encodeURIComponent(fichier)}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await res.json();
+                
+                // Normaliser le type en minuscules
+                let normalizedType = (data.type || 'qcm').toLowerCase().replace(' ', '_');
+                if (normalizedType === 'graphqcm') normalizedType = 'graph_qcm';
+                if (fichier.includes('redaction')) normalizedType = 'redaction';
+                else if (fichier.includes('graph')) normalizedType = 'graph_qcm';
+                
+                baseActuelle = { fichier, ...data, type: normalizedType };
+                questionsEditeur = data.questions || [];
+                questionsModifiees = false;
+                
+                const typeLabel = normalizedType === 'qcm' ? 'QCM' : normalizedType === 'redaction' ? 'Rédaction' : 'GraphQCM';
+                document.getElementById('editeur-titre').textContent = `🎓 ${data.matiere || 'Base'} - ${typeLabel}`;
+                document.getElementById('editeur-info').textContent = `${questionsEditeur.length} questions • ${fichier}`;
+                document.getElementById('editeur-actions').style.display = 'flex';
+                document.getElementById('editeur-filtres').style.display = 'block';
+                
+                afficherQuestionsEditeur();
+                afficherListeBases();
+            } catch (error) {
+                alert('Erreur lors du chargement de la base');
+            }
+        }
+
+        function afficherQuestionsEditeur() {
+            const container = document.getElementById('editeur-contenu');
+            const search = document.getElementById('search-question-edit')?.value?.toLowerCase() || '';
+            const statusFilter = document.getElementById('filter-status-edit')?.value || '';
+            
+            let filtered = questionsEditeur.filter(q => {
+                const matchSearch = q.question.toLowerCase().includes(search);
+                const isExclue = q.exclue || false;
+                const matchStatus = !statusFilter || 
+                    (statusFilter === 'active' && !isExclue) ||
+                    (statusFilter === 'exclue' && isExclue);
+                return matchSearch && matchStatus;
+            });
+
+            document.getElementById('count-questions-edit').textContent = `${filtered.length}/${questionsEditeur.length} questions`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500 py-8">Aucune question trouvée</div>';
+                return;
+            }
+
+            const type = baseActuelle?.type || 'qcm';
+            container.innerHTML = filtered.map((q, idx) => {
+                const realIdx = questionsEditeur.indexOf(q);
+                const isExclue = q.exclue || false;
+                
+                return `<div class="p-4 rounded-xl border-2 mb-3 ${isExclue ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-white'} hover:shadow-md transition">
+                    <div class="flex justify-between items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs font-bold px-2 py-1 rounded ${isExclue ? 'bg-red-200 text-red-700' : 'bg-ensam-100 text-ensam-700'}">
+                                    #${q.id || realIdx + 1}
+                                </span>
+                                ${type === 'qcm' ? '<span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">QCM</span>' : ''}
+                                ${type === 'redaction' ? `<span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">${q.points || 5} pts</span>` : ''}
+                                ${type === 'graph_qcm' ? `<span class="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded">${q.type || 'ordre'}</span>` : ''}
+                            </div>
+                            <p class="text-gray-800 font-medium">${q.question}</p>
+                            ${type === 'qcm' && q.options ? `
+                                <div class="mt-2 grid grid-cols-2 gap-1 text-sm">
+                                    ${q.options.map((opt, i) => `
+                                        <div class="px-2 py-1 rounded ${i === q.reponse ? 'bg-ensam-100 text-ensam-700 font-medium' : 'text-gray-600'}">
+                                            ${String.fromCharCode(65+i)}. ${opt}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                            ${type === 'redaction' && q.mots_cles ? `
+                                <div class="mt-2 text-xs text-purple-600">Mots-clés: ${q.mots_cles.join(', ')}</div>
+                            ` : ''}
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <button onclick="editerQuestion(${realIdx})" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-sm hover:bg-blue-200">✏️</button>
+                            <button onclick="dupliquerQuestion(${realIdx})" class="px-3 py-1 bg-amber-100 text-amber-700 rounded-lg text-sm hover:bg-amber-200">📋</button>
+                            <button onclick="toggleExclureQuestion(${realIdx})" class="px-3 py-1 ${isExclue ? 'bg-ensam-100 text-ensam-700' : 'bg-red-100 text-red-700'} rounded-lg text-sm hover:opacity-80">
+                                ${isExclue ? '✅' : '❌'}
+                            </button>
+                            <button onclick="supprimerQuestionEditeur(${realIdx})" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200">🗑️</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function filtrerQuestionsEditeur() {
+            afficherQuestionsEditeur();
+        }
+
+        function ajouterQuestion() {
+            if (!baseActuelle) {
+                alert('Veuillez d\'abord sélectionner une base de questions');
+                return;
+            }
+            
+            document.getElementById('edit-question-id').value = '';
+            document.getElementById('edit-question-type').value = baseActuelle.type;
+            document.getElementById('edit-question-texte').value = '';
+            
+            // Afficher les bons champs selon le type
+            const isQcm = baseActuelle.type === 'qcm';
+            const isRedaction = baseActuelle.type === 'redaction';
+            const isGraph = baseActuelle.type === 'graph_qcm';
+            
+            document.getElementById('edit-options-qcm').classList.toggle('hidden', !isQcm);
+            document.getElementById('edit-options-redaction').classList.toggle('hidden', !isRedaction);
+            document.getElementById('edit-options-graph').classList.toggle('hidden', !isGraph);
+            
+            // Reset les champs QCM
+            for (let i = 0; i < 4; i++) {
+                const input = document.getElementById(`edit-option-${i}`);
+                if (input) input.value = '';
+            }
+            document.querySelectorAll('input[name="reponse-correcte"]').forEach(r => r.checked = false);
+            document.getElementById('edit-qcm-points').value = 1;
+            
+            // Reset les champs Rédaction
+            document.getElementById('edit-redac-points').value = 5;
+            document.getElementById('edit-redac-motscles').value = '';
+            
+            // Reset les champs Graph
+            document.getElementById('edit-graph-type').value = 'ordre';
+            document.getElementById('edit-graph-points').value = 3;
+            toggleGraphSubtype();
+            document.getElementById('edit-graph-elements-ordre').value = '';
+            document.getElementById('edit-graph-elements-gauche').value = '';
+            document.getElementById('edit-graph-elements-droite').value = '';
+            document.getElementById('edit-graph-associations').value = '';
+            document.getElementById('edit-graph-categories').value = '';
+            document.getElementById('edit-graph-elements-classif').value = '';
+            
+            document.getElementById('modal-question-titre').textContent = 'Nouvelle Question';
+            document.getElementById('modal-question').classList.remove('hidden');
+        }
+
+        function editerQuestion(idx) {
+            const q = questionsEditeur[idx];
+            if (!q) return;
+            
+            document.getElementById('edit-question-id').value = idx;
+            document.getElementById('edit-question-type').value = baseActuelle.type;
+            document.getElementById('edit-question-texte').value = q.question;
+            
+            // Afficher les bons champs selon le type
+            const isQcm = baseActuelle.type === 'qcm';
+            const isRedaction = baseActuelle.type === 'redaction';
+            const isGraph = baseActuelle.type === 'graph_qcm';
+            
+            document.getElementById('edit-options-qcm').classList.toggle('hidden', !isQcm);
+            document.getElementById('edit-options-redaction').classList.toggle('hidden', !isRedaction);
+            document.getElementById('edit-options-graph').classList.toggle('hidden', !isGraph);
+            
+            // Remplir les champs QCM
+            if (isQcm) {
+                // Reset d'abord
+                for (let i = 0; i < 4; i++) {
+                    const input = document.getElementById(`edit-option-${i}`);
+                    if (input) input.value = '';
+                }
+                document.querySelectorAll('input[name="reponse-correcte"]').forEach(r => r.checked = false);
+                
+                // Puis remplir avec les données
+                if (q.options && Array.isArray(q.options)) {
+                    q.options.forEach((opt, i) => {
+                        const input = document.getElementById(`edit-option-${i}`);
+                        if (input) input.value = opt;
+                    });
+                }
+                // Sélectionner la bonne réponse
+                const reponseIdx = q.reponse !== undefined ? q.reponse : 0;
+                const radioToCheck = document.querySelector(`input[name="reponse-correcte"][value="${reponseIdx}"]`);
+                if (radioToCheck) radioToCheck.checked = true;
+                // Points QCM
+                document.getElementById('edit-qcm-points').value = q.points || 1;
+            }
+            
+            // Remplir les champs Rédaction
+            if (isRedaction) {
+                document.getElementById('edit-redac-points').value = q.points || 5;
+                document.getElementById('edit-redac-motscles').value = (q.mots_cles || []).join(', ');
+            }
+            
+            // Remplir les champs Graph
+            if (isGraph) {
+                const graphType = q.type || 'ordre';
+                document.getElementById('edit-graph-type').value = graphType;
+                document.getElementById('edit-graph-points').value = q.points || 3;
+                toggleGraphSubtype();
+                
+                // Remplir selon le type
+                if (graphType === 'ordre') {
+                    const elements = q.elements || q.items || [];
+                    document.getElementById('edit-graph-elements-ordre').value = elements.join('\n');
+                } else if (graphType === 'association') {
+                    document.getElementById('edit-graph-elements-gauche').value = (q.elements_gauche || []).join('\n');
+                    document.getElementById('edit-graph-elements-droite').value = (q.elements_droite || []).join('\n');
+                    // Convertir associations [[0,0],[1,1]] en "0-0, 1-1"
+                    const assocs = (q.associations || []).map(a => `${a[0]}-${a[1]}`).join(', ');
+                    document.getElementById('edit-graph-associations').value = assocs;
+                } else if (graphType === 'classification') {
+                    document.getElementById('edit-graph-categories').value = (q.categories || []).join('\n');
+                    // Convertir elements [{nom, categorie}] en "nom|categorie"
+                    const elems = (q.elements || []).map(e => `${e.nom}|${e.categorie}`).join('\n');
+                    document.getElementById('edit-graph-elements-classif').value = elems;
+                }
+            }
+            
+            document.getElementById('modal-question-titre').textContent = 'Modifier Question #' + (q.id || idx + 1);
+            document.getElementById('modal-question').classList.remove('hidden');
+        }
+        
+        function toggleGraphSubtype() {
+            const type = document.getElementById('edit-graph-type').value;
+            document.getElementById('edit-graph-ordre').classList.toggle('hidden', type !== 'ordre');
+            document.getElementById('edit-graph-association').classList.toggle('hidden', type !== 'association');
+            document.getElementById('edit-graph-classification').classList.toggle('hidden', type !== 'classification');
+        }
+
+        function fermerModalQuestion() {
+            document.getElementById('modal-question').classList.add('hidden');
+        }
+
+        function sauvegarderQuestion() {
+            const idx = document.getElementById('edit-question-id').value;
+            const type = baseActuelle.type;
+            const texte = document.getElementById('edit-question-texte').value.trim();
+            
+            if (!texte) {
+                alert('La question est obligatoire');
+                return;
+            }
+            
+            let question = { question: texte };
+            
+            if (type === 'qcm') {
+                question.options = [];
+                for (let i = 0; i < 4; i++) {
+                    question.options.push(document.getElementById(`edit-option-${i}`).value || `Option ${String.fromCharCode(65+i)}`);
+                }
+                const reponseChecked = document.querySelector('input[name="reponse-correcte"]:checked');
+                question.reponse = reponseChecked ? parseInt(reponseChecked.value) : 0;
+                question.points = parseInt(document.getElementById('edit-qcm-points').value) || 1;
+            }
+            
+            if (type === 'redaction') {
+                question.points = parseInt(document.getElementById('edit-redac-points').value) || 5;
+                const motsCles = document.getElementById('edit-redac-motscles').value;
+                if (motsCles) {
+                    question.mots_cles = motsCles.split(',').map(m => m.trim()).filter(m => m);
+                }
+            }
+            
+            if (type === 'graph_qcm') {
+                const graphType = document.getElementById('edit-graph-type').value;
+                question.type = graphType;
+                question.points = parseInt(document.getElementById('edit-graph-points').value) || 3;
+                
+                if (graphType === 'ordre') {
+                    const elements = document.getElementById('edit-graph-elements-ordre').value;
+                    question.elements = elements.split('\n').map(e => e.trim()).filter(e => e);
+                    // reponse_ordre = indices dans l'ordre [0,1,2,3...]
+                    question.reponse_ordre = question.elements.map((_, i) => i);
+                } else if (graphType === 'association') {
+                    question.elements_gauche = document.getElementById('edit-graph-elements-gauche').value
+                        .split('\n').map(e => e.trim()).filter(e => e);
+                    question.elements_droite = document.getElementById('edit-graph-elements-droite').value
+                        .split('\n').map(e => e.trim()).filter(e => e);
+                    // Convertir "0-0, 1-1" en [[0,0],[1,1]]
+                    const assocStr = document.getElementById('edit-graph-associations').value;
+                    question.associations = assocStr.split(',').map(a => {
+                        const parts = a.trim().split('-');
+                        return [parseInt(parts[0]) || 0, parseInt(parts[1]) || 0];
+                    }).filter(a => !isNaN(a[0]) && !isNaN(a[1]));
+                } else if (graphType === 'classification') {
+                    question.categories = document.getElementById('edit-graph-categories').value
+                        .split('\n').map(e => e.trim()).filter(e => e);
+                    // Convertir "nom|categorie" en [{nom, categorie}]
+                    const elemsStr = document.getElementById('edit-graph-elements-classif').value;
+                    question.elements = elemsStr.split('\n').map(line => {
+                        const parts = line.trim().split('|');
+                        return { nom: parts[0] || '', categorie: parseInt(parts[1]) || 0 };
+                    }).filter(e => e.nom);
+                }
+            }
+            
+            if (idx === '') {
+                // Nouvelle question
+                question.id = Math.max(0, ...questionsEditeur.map(q => q.id || 0)) + 1;
+                questionsEditeur.push(question);
+            } else {
+                // Modification
+                const oldQ = questionsEditeur[parseInt(idx)];
+                question.id = oldQ.id || parseInt(idx) + 1;
+                question.exclue = oldQ.exclue;
+                questionsEditeur[parseInt(idx)] = question;
+            }
+            
+            questionsModifiees = true;
+            fermerModalQuestion();
+            afficherQuestionsEditeur();
+            document.getElementById('editeur-info').textContent = `${questionsEditeur.length} questions • ${baseActuelle.fichier} (modifié)`;
+        }
+
+        function dupliquerQuestion(idx) {
+            const q = { ...questionsEditeur[idx] };
+            q.id = Math.max(0, ...questionsEditeur.map(q => q.id || 0)) + 1;
+            q.question = q.question + ' (copie)';
+            questionsEditeur.push(q);
+            questionsModifiees = true;
+            afficherQuestionsEditeur();
+        }
+
+        function toggleExclureQuestion(idx) {
+            questionsEditeur[idx].exclue = !questionsEditeur[idx].exclue;
+            questionsModifiees = true;
+            afficherQuestionsEditeur();
+        }
+
+        function supprimerQuestionEditeur(idx) {
+            if (!confirm('Supprimer cette question ?')) return;
+            questionsEditeur.splice(idx, 1);
+            questionsModifiees = true;
+            afficherQuestionsEditeur();
+        }
+
+        async function sauvegarderBase() {
+            if (!baseActuelle || !questionsModifiees) {
+                alert('Aucune modification à sauvegarder');
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/bases/${encodeURIComponent(baseActuelle.fichier)}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        matiere: baseActuelle.matiere,
+                        type: baseActuelle.type,
+                        questions: questionsEditeur
+                    })
+                });
+                
+                const data = await res.json();
+                if (data.success) {
+                    questionsModifiees = false;
+                    document.getElementById('editeur-info').textContent = `${questionsEditeur.length} questions • ${baseActuelle.fichier}`;
+                    alert('✅ Base sauvegardée !');
+                    chargerListeBases();
+                }
+            } catch (error) {
+                alert('Erreur lors de la sauvegarde');
+            }
+        }
+
+        async function creerNouvelleBase() {
+            const matiere = prompt('Nom de la matière (ex: securite_mobile, gestion_intrusion):');
+            if (!matiere) return;
+            
+            const type = prompt('Type de questions (qcm, redaction, graph_qcm):');
+            if (!type || !['qcm', 'redaction', 'graph_qcm'].includes(type)) {
+                alert('Type invalide');
+                return;
+            }
+            
+            const fichier = `${matiere}_${type}.json`;
+            
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/bases`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fichier,
+                        matiere: matiere.replace(/_/g, ' '),
+                        type,
+                        questions: []
+                    })
+                });
+                
+                const data = await res.json();
+                if (data.success) {
+                    await chargerListeBases();
+                    chargerBase(fichier);
+                }
+            } catch (error) {
+                alert('Erreur lors de la création');
+            }
+        }
+
+        // Importer un fichier JSON
+        async function importerFichierJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Vérifier l'extension
+            if (!file.name.endsWith('.json')) {
+                alert('Veuillez sélectionner un fichier JSON');
+                event.target.value = '';
+                return;
+            }
+            
+            try {
+                const contenu = await file.text();
+                const data = JSON.parse(contenu);
+                
+                // Valider la structure du fichier
+                if (!data.questions || !Array.isArray(data.questions)) {
+                    alert('Le fichier JSON doit contenir un tableau "questions"');
+                    event.target.value = '';
+                    return;
+                }
+                
+                // Demander le nom du fichier de destination
+                let nomFichier = file.name;
+                const nouveauNom = prompt('Nom du fichier (sans extension):', nomFichier.replace('.json', ''));
+                if (!nouveauNom) {
+                    event.target.value = '';
+                    return;
+                }
+                nomFichier = nouveauNom.replace(/[^a-zA-Z0-9_-]/g, '_') + '.json';
+                
+                // Déterminer le type automatiquement si non présent
+                let type = data.type;
+                if (!type) {
+                    if (nomFichier.includes('redaction')) type = 'redaction';
+                    else if (nomFichier.includes('graph')) type = 'graph_qcm';
+                    else type = 'qcm';
+                }
+                
+                // Envoyer au serveur
+                const res = await fetch(`${API_URL}/api/professeur/bases/import`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fichier: nomFichier,
+                        matiere: data.matiere || nouveauNom.replace(/_/g, ' '),
+                        type: type,
+                        questions: data.questions
+                    })
+                });
+                
+                const result = await res.json();
+                if (result.success) {
+                    alert(`✅ Fichier importé avec succès!\n${data.questions.length} questions ajoutées.`);
+                    await chargerListeBases();
+                    chargerBase(nomFichier);
+                } else {
+                    alert('Erreur: ' + (result.error || 'Import échoué'));
+                }
+            } catch (error) {
+                console.error('Erreur import:', error);
+                alert('Erreur lors de la lecture du fichier JSON. Vérifiez le format.');
+            }
+            
+            event.target.value = ''; // Reset input
+        }
+
+        // Charger les stats de config - Dynamique par matière
+        let configMatieres = {};
+        
+        async function chargerStatsConfig() {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/bases`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const bases = await res.json();
+                
+                // Grouper par matière (insensible à la casse)
+                const matieres = {};
+                bases.forEach(b => {
+                    const matiereKey = (b.matiere || 'Autre').toLowerCase().trim();
+                    if (!matieres[matiereKey]) {
+                        matieres[matiereKey] = {
+                            nom: b.matiere || 'Autre',
+                            qcm: 0, graph: 0, redac: 0
+                        };
+                    }
+                    if (b.type === 'qcm') matieres[matiereKey].qcm += b.count;
+                    else if (b.type === 'graph_qcm') matieres[matiereKey].graph += b.count;
+                    else if (b.type === 'redaction') matieres[matiereKey].redac += b.count;
+                });
+                
+                configMatieres = matieres;
+                afficherConfigMatieres(matieres);
+            } catch (error) {
+                console.error('Erreur stats config:', error);
+                document.getElementById('config-matieres-container').innerHTML = 
+                    '<div class="text-center text-red-500 py-8 col-span-full">Erreur de chargement</div>';
+            }
+        }
+        
+        function afficherConfigMatieres(matieres) {
+            const container = document.getElementById('config-matieres-container');
+            const keys = Object.keys(matieres);
+            
+            document.getElementById('config-matieres-count').textContent = `${keys.length} examen(s) trouvé(s)`;
+            
+            if (keys.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500 py-8 col-span-full">Aucune base de questions trouvée</div>';
+                return;
+            }
+            
+            // Couleurs pour les cartes
+            const colors = ['blue', 'purple', 'emerald', 'amber', 'rose', 'cyan', 'indigo', 'orange'];
+            const icons = ['🔐', '🛡️', '🏭', '📊', '💻', '🌐', '📱', '🔧'];
+            
+            container.innerHTML = keys.map((key, idx) => {
+                const m = matieres[key];
+                const color = colors[idx % colors.length];
+                const icon = icons[idx % icons.length];
+                const safeKey = key.replace(/[^a-z0-9]/g, '_');
+                
+                return `<div class="bg-white rounded-xl p-4 border-2 border-${color}-200 hover:border-${color}-400 transition">
+                    <h3 class="text-md font-bold text-gray-800 mb-3 flex items-center gap-2">
+                        <span class="text-xl">${icon}</span>
+                        <span class="truncate">${m.nom}</span>
+                    </h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Durée (min)</label>
+                            <input type="number" id="config-${safeKey}-duree" min="5" max="180" value="50"
+                                class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg text-sm">
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1">QCM</label>
+                                <input type="number" id="config-${safeKey}-qcm" min="0" max="${m.qcm}" value="${Math.min(8, m.qcm)}"
+                                    class="w-full px-2 py-1 border-2 border-gray-200 rounded-lg text-center text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1">Graph</label>
+                                <input type="number" id="config-${safeKey}-graph" min="0" max="${m.graph}" value="${Math.min(8, m.graph)}"
+                                    class="w-full px-2 py-1 border-2 border-gray-200 rounded-lg text-center text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1">Rédac</label>
+                                <input type="number" id="config-${safeKey}-redac" min="0" max="${m.redac}" value="${Math.min(4, m.redac)}"
+                                    class="w-full px-2 py-1 border-2 border-gray-200 rounded-lg text-center text-sm">
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500 p-2 bg-gray-50 rounded-lg">
+                            📊 Disponibles: ${m.qcm} QCM, ${m.graph} Graph, ${m.redac} Rédac
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+    </script>
+
+    <!-- Modal Ajout/Modification Question -->
+    <div id="modal-question" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="px-6 py-4 border-b flex justify-between items-center sticky top-0 bg-white">
+                <h3 class="text-lg font-bold" id="modal-question-title">Ajouter une question</h3>
+                <button onclick="fermerModalQuestion()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div class="p-6">
+                <form id="form-question" onsubmit="sauvegarderQuestion(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Question</label>
+                        <textarea id="question-text" rows="3" required
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-ensam-500"></textarea>
+                    </div>
+                    
+                    <!-- Champs QCM -->
+                    <div id="qcm-fields">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Options de réponse</label>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center font-bold">A</span>
+                                <input type="text" id="option-a" class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl" placeholder="Option A">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center font-bold">B</span>
+                                <input type="text" id="option-b" class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl" placeholder="Option B">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center font-bold">C</span>
+                                <input type="text" id="option-c" class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl" placeholder="Option C">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center font-bold">D</span>
+                                <input type="text" id="option-d" class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl" placeholder="Option D">
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Réponse correcte</label>
+                            <select id="reponse-correcte" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+                                <option value="0">A</option>
+                                <option value="1">B</option>
+                                <option value="2">C</option>
+                                <option value="3">D</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Champs Rédaction -->
+                    <div id="redaction-fields" class="hidden">
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Points</label>
+                            <input type="number" id="question-points" min="1" max="20" value="5"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Mots-clés (séparés par virgule)</label>
+                            <input type="text" id="question-motscles" placeholder="mot1, mot2, mot3"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl">
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4 flex gap-3">
+                        <button type="button" onclick="fermerModalQuestion()" 
+                            class="flex-1 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200">
+                            Annuler
+                        </button>
+                        <button type="submit" 
+                            class="flex-1 py-3 bg-gradient-to-r from-ensam-500 to-ensam-600 text-white font-semibold rounded-xl hover:from-ensam-600 hover:to-ensam-700">
+                            💾 Sauvegarder
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcuts-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold mb-4">⌨️ Raccourcis Clavier</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between"><span>Mode sombre</span><span class="kbd">Ctrl+D</span></div>
+                <div class="flex justify-between"><span>Tableau de bord</span><span class="kbd">Ctrl+1</span></div>
+                <div class="flex justify-between"><span>Examens</span><span class="kbd">Ctrl+2</span></div>
+                <div class="flex justify-between"><span>Création</span><span class="kbd">Ctrl+3</span></div>
+                <div class="flex justify-between"><span>Questions</span><span class="kbd">Ctrl+4</span></div>
+                <div class="flex justify-between"><span>Configuration</span><span class="kbd">Ctrl+5</span></div>
+                <div class="flex justify-between"><span>Correction</span><span class="kbd">Ctrl+6</span></div>
+                <div class="flex justify-between"><span>Actualiser</span><span class="kbd">Ctrl+R</span></div>
+                <div class="flex justify-between"><span>Aide raccourcis</span><span class="kbd">Ctrl+/</span></div>
+            </div>
+            <button onclick="document.getElementById('shortcuts-modal').classList.add('hidden')" 
+                class="mt-4 w-full py-2 bg-ensam-500 text-white rounded-xl">Fermer</button>
+        </div>
+    </div>
+
+    <!-- Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <!-- V3 Features Script -->
+    <script>
+        // ==================== SOCKET.IO ====================
+        let socket;
+        const notifications = [];
+        
+        function initSocket() {
+            socket = io();
+            
+            socket.on('connect', () => {
+                console.log('WebSocket connecté');
+                showToast('Connecté au serveur', 'success');
+            });
+            
+            socket.on('disconnect', () => {
+                console.log('WebSocket déconnecté');
+                showToast('Connexion perdue', 'warning');
+            });
+            
+            socket.on('prof-notification', (data) => {
+                addNotification(data);
+                if (data.event === 'exam-started') {
+                    showToast(`📝 ${data.data.prenom} ${data.data.nom} a commencé un examen`, 'info');
+                } else if (data.event === 'exam-submitted') {
+                    showToast(`✅ ${data.data.prenom} ${data.data.nom} a soumis (${data.data.note}/20)`, 'success');
+                    refreshStats();
+                }
+            });
+            
+            socket.on('action', (data) => {
+                console.log('Action:', data);
+            });
+        }
+        
+        // ==================== NOTIFICATIONS ====================
+        function addNotification(notif) {
+            notifications.unshift(notif);
+            if (notifications.length > 50) notifications.pop();
+            updateNotificationBadge();
+            renderNotifications();
+        }
+        
+        function updateNotificationBadge() {
+            const badge = document.getElementById('notif-badge');
+            const unread = notifications.filter(n => !n.read).length;
+            if (unread > 0) {
+                badge.textContent = unread > 9 ? '9+' : unread;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+        
+        function renderNotifications() {
+            const list = document.getElementById('notif-list');
+            if (notifications.length === 0) {
+                list.innerHTML = '<div class="p-4 text-center text-gray-500">Aucune notification</div>';
+                return;
+            }
+            list.innerHTML = notifications.slice(0, 20).map(n => {
+                const icon = n.event === 'exam-started' ? '📝' : n.event === 'exam-submitted' ? '✅' : '📌';
+                const time = new Date(n.timestamp).toLocaleTimeString('fr-FR');
+                return `<div class="p-3 hover:bg-gray-50 cursor-pointer ${n.read ? 'opacity-60' : ''}">
+                    <div class="flex items-start gap-2">
+                        <span>${icon}</span>
+                        <div class="flex-1">
+                            <div class="text-sm text-gray-800">${n.data?.prenom || ''} ${n.data?.nom || ''}</div>
+                            <div class="text-xs text-gray-500">${n.event} - ${time}</div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        
+        function toggleNotifications() {
+            const panel = document.getElementById('notif-panel');
+            panel.classList.toggle('hidden');
+            notifications.forEach(n => n.read = true);
+            updateNotificationBadge();
+        }
+        
+        // ==================== THEME ====================
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            document.getElementById('theme-toggle').classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+        
+        function loadTheme() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.body.classList.add('dark');
+                document.getElementById('theme-toggle')?.classList.add('dark');
+            }
+        }
+        
+        // ==================== TOAST ====================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+        
+        // ==================== KEYBOARD SHORTCUTS ====================
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'd':
+                        e.preventDefault();
+                        toggleTheme();
+                        break;
+                    case '1':
+                        e.preventDefault();
+                        showTab('dashboard');
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        showTab('examens');
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        showTab('creation');
+                        break;
+                    case '4':
+                        e.preventDefault();
+                        showTab('questions');
+                        break;
+                    case '5':
+                        e.preventDefault();
+                        showTab('config');
+                        break;
+                    case '6':
+                        e.preventDefault();
+                        showTab('correction');
+                        break;
+                    case '/':
+                        e.preventDefault();
+                        document.getElementById('shortcuts-modal').classList.toggle('hidden');
+                        break;
+                }
+            }
+        });
+        
+        // ==================== SERVICE WORKER ====================
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('Service Worker enregistré'))
+                .catch(err => console.log('Service Worker erreur:', err));
+        }
+        
+        // ==================== EXPORT FUNCTIONS ====================
+        async function exportExcel(site, matiere) {
+            const params = new URLSearchParams();
+            if (site) params.append('site', site);
+            if (matiere) params.append('matiere', matiere);
+            
+            window.open(`${API_URL}/api/professeur/export/excel?${params}`, '_blank');
+            showToast('Export Excel en cours...', 'info');
+        }
+        
+        async function exportPDF(chemin) {
+            window.open(`${API_URL}/api/professeur/export/pdf/${encodeURIComponent(chemin)}`, '_blank');
+            showToast('Génération PDF en cours...', 'info');
+        }
+        
+        // ==================== PREVIEW EXAM ====================
+        async function previewExam(matiere) {
+            try {
+                const res = await fetch(`${API_URL}/api/professeur/preview/${matiere}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const exam = await res.json();
+                
+                alert(`Prévisualisation de l'examen "${matiere}":\n\n` +
+                    `- ${exam.qcm.length} questions QCM\n` +
+                    `- ${exam.graphQcm.length} questions GraphQCM\n` +
+                    `- ${exam.redaction.length} questions Rédaction\n` +
+                    `- Durée: ${exam.duree} minutes`);
+            } catch (error) {
+                showToast('Erreur prévisualisation', 'error');
+            }
+        }
+        
+        // ==================== STATS PAR QUESTION ====================
+        async function initStatsQuestions() {
+            // Peupler le filtre matières
+            try {
+                const res = await fetch(`${API_URL}/api/matieres`, { headers: { 'Authorization': `Bearer ${authToken}` } });
+                const matieres = await res.json();
+                const sel = document.getElementById('filter-stats-matiere');
+                sel.innerHTML = '<option value="">Toutes les matières</option>' +
+                    matieres.map(m => `<option value="${m.id}">${m.nom}</option>`).join('');
+            } catch (e) {}
+        }
+
+        async function chargerStatsQuestions() {
+            const matiere = document.getElementById('filter-stats-matiere').value;
+            const loading = document.getElementById('stats-questions-loading');
+            const container = document.getElementById('stats-questions-container');
+
+            loading.textContent = 'Chargement...';
+            loading.classList.remove('hidden');
+            container.classList.add('hidden');
+
+            try {
+                const url = `${API_URL}/api/professeur/stats/questions${matiere ? `?matiere=${encodeURIComponent(matiere)}` : ''}`;
+                const res = await fetch(url, { headers: { 'Authorization': `Bearer ${authToken}` } });
+                const stats = await res.json();
+
+                if (stats.length === 0) {
+                    loading.textContent = 'Aucune donnée disponible. Des examens doivent être soumis pour voir les statistiques.';
+                    return;
+                }
+
+                container.innerHTML = stats.map((q, i) => {
+                    const pct = q.tauxReussite;
+                    const color = pct < 40 ? 'bg-red-500' : pct < 70 ? 'bg-amber-500' : 'bg-ensam-500';
+                    const badge = pct < 40 ? 'bg-red-100 text-red-700' : pct < 70 ? 'bg-amber-100 text-amber-700' : 'bg-ensam-100 text-ensam-700';
+                    return `
+                    <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                        <div class="flex items-start justify-between gap-4 mb-2">
+                            <p class="text-sm font-medium text-gray-800 flex-1">${i + 1}. ${q.question}</p>
+                            <span class="shrink-0 px-3 py-1 rounded-full text-sm font-bold ${badge}">${pct}%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                <div class="${color} h-2 rounded-full transition-all" style="width:${pct}%"></div>
+                            </div>
+                            <span class="text-xs text-gray-500 shrink-0">${q.bonnes}/${q.total} réussis</span>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                loading.classList.add('hidden');
+                container.classList.remove('hidden');
+            } catch (e) {
+                loading.textContent = 'Erreur lors du chargement des statistiques.';
+            }
+        }
+
+        // ==================== INIT V3 ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            if (authToken) {
+                initSocket();
+            }
+        });
+        
+        // Override login to init socket
+        const originalLogin = typeof login === 'function' ? login : null;
+        if (originalLogin) {
+            window.loginOriginal = originalLogin;
+        }
+    </script>
+</body>
+</html>

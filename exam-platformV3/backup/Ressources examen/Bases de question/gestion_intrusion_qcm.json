@@ -1,0 +1,706 @@
+{
+  "matiere": "Gestion des Intrusions",
+  "type": "QCM",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Quel est le premier programme auto-réplicatif créé en 1971 ?",
+      "options": ["Morris Worm", "Creeper", "ILOVEYOU", "Melissa"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 2,
+      "question": "Qui a développé le programme Creeper ?",
+      "options": ["Robert Tappan Morris", "Bob Thomas (BBN)", "Kevin Mitnick", "John McAfee"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 3,
+      "question": "Combien de machines le Morris Worm a-t-il infectées en 1988 ?",
+      "options": ["600", "6 000", "60 000", "600 000"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 4,
+      "question": "Quelles vulnérabilités exploitait le Morris Worm ?",
+      "options": ["Failles dans sendmail, finger, mots de passe UNIX", "Failles dans Windows", "Vulnérabilités SSL", "Failles dans Apache"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 5,
+      "question": "En quelle année les premiers antivirus sont-ils apparus ?",
+      "options": ["1985", "1987", "1990", "1995"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 6,
+      "question": "Quelle organisation a été créée en 1988 suite au Morris Worm ?",
+      "options": ["NSA", "CERT (Computer Emergency Response Team)", "FBI Cyber Division", "ANSSI"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 7,
+      "question": "En quelle année TCP/IP a-t-il été standardisé ?",
+      "options": ["1975", "1980", "1983", "1990"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 8,
+      "question": "Quel algorithme de chiffrement asymétrique a été introduit en 1977 ?",
+      "options": ["AES", "DES", "RSA", "SHA"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 9,
+      "question": "Qu'est-ce que la Triade CIA ?",
+      "options": ["Central Intelligence Agency", "Confidentialité, Intégrité, Disponibilité", "Computer, Internet, Application", "Cryptography, Identification, Authentication"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 10,
+      "question": "Quel modèle de sécurité caractérise les années 1990 ?",
+      "options": ["Zero Trust", "Sécurité périmétrique (château fort)", "DevSecOps", "Cloud Security"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 11,
+      "question": "Quelle approche caractérise les années 2000 ?",
+      "options": ["Sécurité locale uniquement", "Défense en profondeur", "Zero Trust", "Pas de sécurité"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 12,
+      "question": "Quel concept est apparu dans les années 2010-2020 ?",
+      "options": ["Premiers antivirus", "Zero Trust (Never trust, always verify)", "Premiers pare-feu", "TCP/IP"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 13,
+      "question": "Que signifie XDR ?",
+      "options": ["eXtreme Data Recovery", "Extended Detection and Response", "eXternal Defense Router", "eXtra Data Replication"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 14,
+      "question": "Que signifie MTTD ?",
+      "options": ["Maximum Time To Deploy", "Mean Time To Detect", "Minimum Time To Delete", "Mean Time To Destroy"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 15,
+      "question": "Pourquoi la détection est-elle essentielle aujourd'hui ?",
+      "options": ["Les pare-feu suffisent", "Les attaques contournent les défenses périmétriques", "Il n'y a plus d'attaques", "Les antivirus détectent tout"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 16,
+      "question": "Quel type de détection est basé sur des règles connues ?",
+      "options": ["Détection comportementale", "Détection par signature", "Détection par IA", "Détection aléatoire"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 17,
+      "question": "Quel est l'inconvénient majeur de la détection par signature ?",
+      "options": ["Trop lente", "Inefficace face aux zero-day", "Trop coûteuse", "Nécessite trop de ressources"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 18,
+      "question": "Quel type de détection est adapté aux APT ?",
+      "options": ["Détection par signature uniquement", "Détection comportementale (anomalies)", "Pas de détection possible", "Détection manuelle uniquement"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 19,
+      "question": "Quels algorithmes sont utilisés pour la détection basée IA ?",
+      "options": ["MD5, SHA", "RF, KNN, CNN, LSTM", "RSA, AES", "TCP, UDP"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 20,
+      "question": "Que signifie NIDS ?",
+      "options": ["Network Intrusion Detection System", "New Internet Defense System", "National ID Security", "Network ID Scanner"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 21,
+      "question": "Que signifie HIDS ?",
+      "options": ["Hardware ID System", "Host Intrusion Detection System", "High-level IDS", "Hybrid IDS"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 22,
+      "question": "Quelle est la fonction d'un IPS ?",
+      "options": ["Analyse uniquement", "Prévention inline (blocage)", "Backup", "Chiffrement"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 23,
+      "question": "Que signifie SIEM ?",
+      "options": ["Security Information and Event Management", "System Integration Event Monitor", "Secure Internet Email Manager", "Simple Intrusion Event Monitor"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 24,
+      "question": "Quel est le cycle opérationnel de détection ?",
+      "options": ["Collecte → Analyse → Alerte → Investigation → Réponse", "Alerte → Collecte → Réponse", "Investigation → Alerte → Collecte", "Réponse → Analyse → Collecte"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 25,
+      "question": "Quel outil est un exemple de NIDS ?",
+      "options": ["Windows Defender", "Snort", "Microsoft Word", "Photoshop"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 26,
+      "question": "Quelle est la différence entre IDS et IPS ?",
+      "options": ["Aucune différence", "IDS détecte, IPS détecte ET bloque", "IPS détecte, IDS bloque", "Les deux sont identiques"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 27,
+      "question": "Que signifie MTTR ?",
+      "options": ["Maximum Time To Repair", "Mean Time To Respond", "Minimum Time To React", "Mean Time To Reboot"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 28,
+      "question": "Quel cadre de référence est utilisé pour la réponse à incident ?",
+      "options": ["ISO 9001", "NIST SP 800-61", "PCI-DSS uniquement", "RGPD uniquement"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 29,
+      "question": "Combien de phases comporte le cycle NIST de réponse à incident ?",
+      "options": ["3", "4", "6", "8"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 30,
+      "question": "Quelle est la première phase du cycle NIST ?",
+      "options": ["Détection", "Préparation", "Éradication", "Récupération"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 31,
+      "question": "Que comprend la phase de Préparation ?",
+      "options": ["Suppression du malware", "Politique IR, Playbooks, SOC opérationnel", "Restauration des backups", "Analyse forensic"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 32,
+      "question": "Que fait-on pendant la phase de Confinement ?",
+      "options": ["On ignore l'incident", "Isolation machine, Blocage IP/C2, Segmentation réseau", "On restaure les backups", "On sensibilise les utilisateurs"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 33,
+      "question": "Que signifie REX dans le contexte de la réponse à incident ?",
+      "options": ["Robot EXpert", "Retour d'EXpérience", "Remote EXecution", "Rapid EXtraction"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 34,
+      "question": "Quel rôle SOC effectue le triage initial ?",
+      "options": ["RSSI", "Analyste L1", "Incident Manager", "Équipe Forensic"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 35,
+      "question": "Quel framework est utilisé pour mapper les techniques d'attaque ?",
+      "options": ["OWASP", "MITRE ATT&CK", "ISO 27001", "COBIT"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 36,
+      "question": "Que fait-on pendant la phase d'Éradication ?",
+      "options": ["On détecte l'incident", "Suppression malware, Patch vulnérabilités, Rotation mots de passe", "On prépare les playbooks", "On ignore le problème"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 37,
+      "question": "Qu'est-ce qu'une vulnérabilité ?",
+      "options": ["Un virus", "Une faiblesse exploitable par une menace", "Un pare-feu", "Un antivirus"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 38,
+      "question": "Quel pourcentage des intrusions exploite des vulnérabilités connues ?",
+      "options": ["10-20%", "40-50%", "80-90%", "100%"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 39,
+      "question": "Quelle est la différence entre vulnérabilité et exploit ?",
+      "options": ["Aucune différence", "Vulnérabilité = faiblesse technique, Exploit = code d'exploitation", "Exploit = faiblesse, Vulnérabilité = code", "Les deux sont des virus"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 40,
+      "question": "Quel outil est utilisé pour scanner les vulnérabilités ?",
+      "options": ["Microsoft Word", "Nessus, OpenVAS, Qualys", "Photoshop", "Excel"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 41,
+      "question": "Que signifie CVSS ?",
+      "options": ["Computer Virus Scanning System", "Common Vulnerability Scoring System", "Central Vulnerability Security Service", "Cyber Vulnerability Scan Software"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 42,
+      "question": "Combien d'étapes comporte le Vulnerability Management Lifecycle ?",
+      "options": ["3", "5", "7", "10"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 43,
+      "question": "Quelle est la première étape de la gestion des vulnérabilités ?",
+      "options": ["Remédiation", "Découverte des actifs", "Reporting", "Scan"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 44,
+      "question": "Qu'est-ce que le Shadow IT ?",
+      "options": ["Un type de malware", "Des actifs IT non inventoriés/non autorisés", "Un antivirus", "Un protocole réseau"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 45,
+      "question": "Que signifie Risk-Based Vulnerability Management ?",
+      "options": ["Ignorer tous les risques", "Prioriser les vulnérabilités selon le risque métier", "Corriger toutes les vulnérabilités en même temps", "Ne rien corriger"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 46,
+      "question": "Quelle norme ISO traite de la gestion des vulnérabilités ?",
+      "options": ["ISO 9001", "ISO 27001 – A.12.6.1", "ISO 14001", "ISO 22000"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 47,
+      "question": "Qui a créé le modèle Cyber Kill Chain ?",
+      "options": ["Microsoft", "Lockheed Martin (2011)", "Google", "Apple"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 48,
+      "question": "Combien de phases comporte la Cyber Kill Chain ?",
+      "options": ["5", "7", "10", "3"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 49,
+      "question": "Quelle est la première phase de la Kill Chain ?",
+      "options": ["Exploitation", "Reconnaissance", "Installation", "C2"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 50,
+      "question": "Que signifie Weaponization ?",
+      "options": ["Achat d'armes", "Création du malware/exploit (armement)", "Livraison du payload", "Exfiltration"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 51,
+      "question": "Quelle phase correspond à la livraison du malware ?",
+      "options": ["Reconnaissance", "Delivery", "Installation", "C2"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 52,
+      "question": "Que signifie C2 dans la Kill Chain ?",
+      "options": ["Computer 2", "Command & Control", "Copy 2", "Code 2"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 53,
+      "question": "Quelle est la dernière phase de la Kill Chain ?",
+      "options": ["Reconnaissance", "Actions on Objectives", "Delivery", "Weaponization"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 54,
+      "question": "Qu'est-ce qu'une intrusion (tentative) ?",
+      "options": ["Un succès garanti", "Une tentative d'accès non autorisé, peut être bloquée", "Un incident confirmé", "Une compromission totale"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 55,
+      "question": "Qu'est-ce qu'un incident de sécurité ?",
+      "options": ["Une tentative bloquée", "Un événement qui compromet la CIA", "Un scan de ports", "Une mise à jour système"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 56,
+      "question": "Qu'est-ce qu'une compromission ?",
+      "options": ["Une tentative échouée", "Prise de contrôle effective d'un système avec persistance", "Un scan de ports", "Une alerte IDS"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 57,
+      "question": "Quelle est la progression de gravité correcte ?",
+      "options": ["Compromission → Incident → Intrusion", "Intrusion → Incident → Compromission", "Incident → Intrusion → Compromission", "Toutes sont équivalentes"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 58,
+      "question": "Que signifie APT ?",
+      "options": ["Advanced Protocol Technology", "Advanced Persistent Threat", "Automatic Penetration Test", "Application Programming Tool"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 59,
+      "question": "Quelles sont les caractéristiques d'une APT ?",
+      "options": ["Simple et rapide", "Sophistiquée, ciblée, prolongée, acteurs étatiques", "Automatique et aléatoire", "Sans objectif précis"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 60,
+      "question": "Quel groupe APT est associé à la Russie ?",
+      "options": ["Lazarus Group", "APT28, APT29", "APT1", "Equation Group"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 61,
+      "question": "Quel groupe APT est associé à la Corée du Nord ?",
+      "options": ["APT28", "Lazarus Group", "APT29", "Fancy Bear"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 62,
+      "question": "Combien de temps une APT peut-elle rester dans un système ?",
+      "options": ["Quelques minutes", "Des mois ou des années", "Quelques secondes", "Une heure maximum"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 63,
+      "question": "Quel type d'exploit utilisent souvent les APT ?",
+      "options": ["Exploits publics uniquement", "Zero-day exploits", "Pas d'exploits", "Exploits obsolètes"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 64,
+      "question": "Qu'est-ce qu'une attaque DDoS ?",
+      "options": ["Vol de données", "Distributed Denial of Service (attaque sur la disponibilité)", "Défacement de site", "Phishing"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 65,
+      "question": "Quel pilier CIA est affecté par un vol de données ?",
+      "options": ["Disponibilité", "Confidentialité", "Intégrité", "Aucun"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 66,
+      "question": "Quel pilier CIA est affecté par un défacement de site web ?",
+      "options": ["Confidentialité", "Intégrité", "Disponibilité", "Aucun"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 67,
+      "question": "Qu'est-ce que la Blue Team ?",
+      "options": ["Équipe offensive", "Équipe défensive (protection, détection, réponse)", "Équipe de développement", "Équipe marketing"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 68,
+      "question": "Qu'est-ce que la Red Team ?",
+      "options": ["Équipe défensive", "Équipe offensive (pentest, exploitation)", "Équipe support", "Équipe RH"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 69,
+      "question": "Quel est l'objectif de la Blue Team ?",
+      "options": ["Attaquer les systèmes", "Réduire l'impact d'une attaque", "Créer des malwares", "Exploiter les vulnérabilités"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 70,
+      "question": "Quel est l'objectif de la Red Team ?",
+      "options": ["Protéger les systèmes", "Découvrir les faiblesses avant l'attaquant réel", "Gérer les incidents", "Installer des antivirus"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 71,
+      "question": "Quels outils utilise la Blue Team ?",
+      "options": ["Metasploit, Cobalt Strike", "SIEM, IDS, EDR", "Nmap uniquement", "Burp Suite uniquement"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 72,
+      "question": "Quels outils utilise la Red Team ?",
+      "options": ["SIEM, EDR", "Metasploit, Nmap, Cobalt Strike", "Antivirus", "Pare-feu"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 73,
+      "question": "Qu'est-ce que la Purple Team ?",
+      "options": ["Une équipe de couleur", "Collaboration entre Blue Team et Red Team", "Une équipe de développement", "Une équipe externe"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 74,
+      "question": "Quel indicateur clé utilise la Blue Team ?",
+      "options": ["Taux de compromission", "MTTD / MTTR", "Nombre d'exploits créés", "Nombre de pentests"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 75,
+      "question": "Quel indicateur clé utilise la Red Team ?",
+      "options": ["MTTD", "Taux de compromission", "Nombre d'alertes", "Temps de réponse"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 76,
+      "question": "Qu'est-ce qu'un pentest ?",
+      "options": ["Un test de performance", "Test d'intrusion pour identifier les vulnérabilités", "Un test unitaire", "Un test de charge"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 77,
+      "question": "Quel scan Nmap utilise le flag -sS ?",
+      "options": ["TCP Connect scan", "SYN scan (half-open)", "UDP scan", "ICMP scan"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 78,
+      "question": "Quel scan Nmap utilise le flag -sT ?",
+      "options": ["SYN scan", "TCP Connect scan", "Stealth scan", "Null scan"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 79,
+      "question": "Qu'est-ce qu'une règle Snort ?",
+      "options": ["Une politique RH", "Une signature de détection d'attaque", "Un protocole réseau", "Un algorithme de chiffrement"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 80,
+      "question": "Que détecte un IDS lors d'un scan de ports ?",
+      "options": ["Rien", "Tentatives de connexion multiples sur différents ports", "Uniquement le trafic HTTP", "Les emails"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 81,
+      "question": "Quel référentiel marocain traite de la réponse à incident ?",
+      "options": ["ANSSI", "DGSSI Maroc", "NIST uniquement", "ISO uniquement"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 82,
+      "question": "Qu'est-ce que le Social Engineering ?",
+      "options": ["Un outil de développement", "Manipulation psychologique pour obtenir des informations", "Un protocole réseau", "Un antivirus"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 83,
+      "question": "Quel est le coût moyen d'une violation de données en 2023 ?",
+      "options": ["100 000$", "1 million$", "4,45 millions$", "10 millions$"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 84,
+      "question": "Combien de jours en moyenne pour détecter une intrusion ?",
+      "options": ["7 jours", "30 jours", "277 jours", "365 jours"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 85,
+      "question": "Quel pourcentage d'entreprises subit une cyberattaque ?",
+      "options": ["50%", "75%", "93%", "100%"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 86,
+      "question": "Quel pourcentage d'attaques cible les PME ?",
+      "options": ["10%", "25%", "43%", "75%"],
+      "reponse": 2,
+      "points": 1
+    },
+    {
+      "id": 87,
+      "question": "Qu'est-ce que la Fiabilité en sûreté de fonctionnement ?",
+      "options": ["Capacité de réparation", "Continuité de service", "Non-divulgation", "Accessibilité"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 88,
+      "question": "Qu'est-ce que la Maintenabilité ?",
+      "options": ["Continuité de service", "Capacité de réparation rapide", "Non-divulgation", "Non-altération"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 89,
+      "question": "Quel type d'attaque affecte la Disponibilité ?",
+      "options": ["Vol de données", "DDoS", "Espionnage", "Phishing"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 90,
+      "question": "Qu'est-ce qu'un IOC (Indicator of Compromise) ?",
+      "options": ["Un antivirus", "Un indice de compromission (IP, hash, domaine)", "Un protocole", "Un firewall"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 91,
+      "question": "Qu'est-ce que le Threat Intelligence ?",
+      "options": ["Un antivirus", "Renseignement sur les menaces", "Un pare-feu", "Un protocole"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 92,
+      "question": "Qu'est-ce qu'un EDR ?",
+      "options": ["Extended Data Recovery", "Endpoint Detection and Response", "External Defense Router", "Email Detection Report"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 93,
+      "question": "Qu'est-ce qu'un SOC ?",
+      "options": ["Software Operation Center", "Security Operations Center", "System Online Control", "Secure Output Channel"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 94,
+      "question": "Qu'est-ce qu'un playbook en réponse à incident ?",
+      "options": ["Un jeu vidéo", "Procédure documentée de réponse", "Un logiciel", "Un rapport"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 95,
+      "question": "Qu'est-ce que la forensic numérique ?",
+      "options": ["Création de malware", "Investigation et collecte de preuves numériques", "Développement logiciel", "Marketing digital"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 96,
+      "question": "Qu'est-ce qu'un honeypot ?",
+      "options": ["Un virus", "Un leurre pour attirer les attaquants", "Un antivirus", "Un pare-feu"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 97,
+      "question": "Qu'est-ce que le patch management ?",
+      "options": ["Création de malware", "Gestion et application des correctifs de sécurité", "Suppression des antivirus", "Désactivation des pare-feu"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 98,
+      "question": "Qu'est-ce qu'une DMZ ?",
+      "options": ["Zone démilitarisée (réseau intermédiaire)", "Direct Memory Zone", "Data Management Zone", "Digital Media Zone"],
+      "reponse": 0,
+      "points": 1
+    },
+    {
+      "id": 99,
+      "question": "Qu'est-ce que le principe du moindre privilège ?",
+      "options": ["Donner tous les droits", "Accorder uniquement les droits nécessaires", "Supprimer tous les droits", "Ignorer les droits"],
+      "reponse": 1,
+      "points": 1
+    },
+    {
+      "id": 100,
+      "question": "Quel est le message clé de la gestion d'intrusion ?",
+      "options": ["La sécurité est inutile", "Il ne s'agit pas de SI mais de QUAND vous serez attaqué", "Les attaques n'existent plus", "Un seul outil suffit"],
+      "reponse": 1,
+      "points": 1
+    }
+  ]
+}

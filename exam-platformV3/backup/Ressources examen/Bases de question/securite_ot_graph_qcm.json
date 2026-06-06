@@ -1,0 +1,115 @@
+{
+  "matiere": "securite ot",
+  "type": "GraphQCM",
+  "description": "Questions glisser-déposer sur la sécurité des systèmes industriels OT/ICS/SCADA",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Reconstituez le modèle Purdue (ISA-95) de bas en haut (niveau 0 à niveau 4)",
+      "type": "ordre",
+      "elements": ["Niveau 0 — Capteurs & actionneurs (terrain)", "Niveau 1 — Contrôle de base (PLC/DCS)", "Niveau 2 — Supervision (SCADA/IHM)", "Niveau 3 — Gestion des opérations (MES/Historian)", "Niveau 4 — Gestion d'entreprise (ERP/IT)"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 4
+    },
+    {
+      "id": 2,
+      "question": "Ordonnez les phases d'une attaque SCADA selon la Cyber Kill Chain",
+      "type": "ordre",
+      "elements": ["Reconnaissance (Shodan, OSINT)", "Weaponization (exploit PLC/HMI)", "Delivery (phishing ingénieur, USB)", "Exploitation (intrusion réseau IT)", "Mouvement latéral (IT vers OT)", "C2 (accès persistent SCADA)", "Actions (manipulation process physique)"],
+      "reponse_ordre": [0, 1, 2, 3, 4, 5, 6],
+      "points": 4
+    },
+    {
+      "id": 3,
+      "question": "Classez ces protocoles industriels selon leur niveau de sécurité natif",
+      "type": "classification",
+      "categories": ["Aucune sécurité native", "Sécurité optionnelle/partielle", "Sécurité intégrée native"],
+      "elements": [
+        {"nom": "Modbus RTU/TCP", "categorie": 0},
+        {"nom": "DNP3 (base)", "categorie": 0},
+        {"nom": "PROFINET (sans extensions)", "categorie": 0},
+        {"nom": "DNP3 avec SAv5", "categorie": 1},
+        {"nom": "IEC 61850 GOOSE", "categorie": 1},
+        {"nom": "OPC-UA", "categorie": 2},
+        {"nom": "EtherNet/IP avec CIP Security", "categorie": 2}
+      ],
+      "points": 4
+    },
+    {
+      "id": 4,
+      "question": "Associez chaque attaque OT célèbre à son infrastructure cible",
+      "type": "association",
+      "elements_gauche": ["Stuxnet (2010)", "Industroyer/CRASHOVERRIDE (2016)", "TRITON/TRISIS (2017)", "Colonial Pipeline (2021)"],
+      "elements_droite": ["Centrifugeuses d'enrichissement uranium (Iran)", "Réseau électrique ukrainien (Kiev)", "Système de sécurité SIS raffinerie (Arabie Saoudite)", "Oléoduc pétrolier (USA — ransomware)"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    },
+    {
+      "id": 5,
+      "question": "Associez chaque composant SCADA à sa fonction principale",
+      "type": "association",
+      "elements_gauche": ["PLC (Automate Programmable)", "RTU (Remote Terminal Unit)", "IHM / HMI", "Data Historian", "Ingénierie Station"],
+      "elements_droite": ["Contrôle local des actionneurs en temps réel", "Acquisition données terrain à distance (réseau étendu)", "Interface opérateur de supervision et contrôle", "Stockage historique horodaté des données process", "Programmation et configuration des automates"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+      "points": 4
+    },
+    {
+      "id": 6,
+      "question": "Classez ces mesures de sécurité OT selon leur catégorie",
+      "type": "classification",
+      "categories": ["Prévention", "Détection", "Récupération"],
+      "elements": [
+        {"nom": "Segmentation réseau / DMZ", "categorie": 0},
+        {"nom": "Patch management OT", "categorie": 0},
+        {"nom": "Authentification forte opérateurs", "categorie": 0},
+        {"nom": "IDS passif réseau OT (Claroty/Nozomi)", "categorie": 1},
+        {"nom": "Surveillance anomalies comportementales", "categorie": 1},
+        {"nom": "Plan de continuité d'activité (PCA)", "categorie": 2},
+        {"nom": "Sauvegarde configurations PLC", "categorie": 2}
+      ],
+      "points": 4
+    },
+    {
+      "id": 7,
+      "question": "Reconstituez les niveaux de sécurité (Security Level) de IEC 62443 du plus bas au plus élevé",
+      "type": "ordre",
+      "elements": ["SL 0 — Aucune exigence de sécurité", "SL 1 — Protection contre violations non intentionnelles", "SL 2 — Protection contre attaquants à faibles ressources", "SL 3 — Protection contre attaquants sophistiqués", "SL 4 — Protection contre attaquants étatiques (APT)"],
+      "reponse_ordre": [0, 1, 2, 3, 4],
+      "points": 4
+    },
+    {
+      "id": 8,
+      "question": "Associez chaque vecteur d'attaque OT à son type de menace",
+      "type": "association",
+      "elements_gauche": ["Clé USB infectée", "Spear phishing ingénieur OT", "Vulnérabilité protocole Modbus", "Accès maintenance à distance non sécurisé", "Compromission supply chain matériel"],
+      "elements_droite": ["Contournement Air Gap / accès physique", "Compromission initiale via ingénierie sociale", "Exploitation absence d'authentification", "Intrusion via VPN/RDP mal configuré", "Hardware backdoor dans équipements tiers"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]],
+      "points": 4
+    },
+    {
+      "id": 9,
+      "question": "Classez ces équipements selon leur niveau dans le modèle Purdue",
+      "type": "classification",
+      "categories": ["Terrain (Niveaux 0-1)", "Supervision (Niveaux 2-3)", "Entreprise (Niveau 4)"],
+      "elements": [
+        {"nom": "Capteur de pression", "categorie": 0},
+        {"nom": "Actionneur vanne", "categorie": 0},
+        {"nom": "PLC Siemens S7", "categorie": 0},
+        {"nom": "Serveur SCADA", "categorie": 1},
+        {"nom": "Data Historian", "categorie": 1},
+        {"nom": "Serveur ERP SAP", "categorie": 2},
+        {"nom": "Workstation ingénierie", "categorie": 2}
+      ],
+      "points": 4
+    },
+    {
+      "id": 10,
+      "question": "Associez chaque framework/norme à son domaine d'application OT",
+      "type": "association",
+      "elements_gauche": ["IEC 62443", "NERC CIP", "NIST SP 800-82", "ISA/IEC 62443-3-3"],
+      "elements_droite": ["Cybersécurité des systèmes de contrôle industriels (ICS) — généraliste", "Sécurité des infrastructures électriques en Amérique du Nord", "Guide cybersécurité pour systèmes de contrôle industriels (NIST)", "Exigences de sécurité système pour systèmes de contrôle (SRs)"],
+      "associations": [[0, 0], [1, 1], [2, 2], [3, 3]],
+      "points": 4
+    }
+  ]
+}

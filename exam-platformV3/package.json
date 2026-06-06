@@ -1,0 +1,34 @@
+{
+  "name": "exam-platform-vuln-ctf",
+  "version": "3.0.0-ctf",
+  "description": "EMSI Exam Platform - CTF Red Team Edition",
+  "main": "server-vuln.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:ctf": "node server-vuln.js",
+    "dev": "nodemon server.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop ensam-exam",
+    "pm2:logs": "pm2 logs ensam-exam"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "exceljs": "^4.4.0",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.3.2",
+    "express-validator": "^7.3.2",
+    "ftp-srv": "^4.6.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "pdfkit": "^0.18.0",
+    "socket.io": "^4.8.3",
+    "uuid": "^9.0.0",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

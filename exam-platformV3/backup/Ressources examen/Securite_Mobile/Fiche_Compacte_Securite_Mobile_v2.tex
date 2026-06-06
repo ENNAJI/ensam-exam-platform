@@ -1,0 +1,253 @@
+\documentclass[9pt,a4paper]{extarticle}
+\usepackage[french]{babel}
+\usepackage[margin=0.8cm]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{fontspec}
+
+\setmainfont{Segoe UI}
+
+\setlength{\columnsep}{0.4cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\titleformat{\section}{\normalfont\bfseries\color{blue}}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\normalfont\bfseries\small\color{teal}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{5pt}{3pt}
+\titlespacing*{\subsection}{0pt}{4pt}{2pt}
+
+\setlist[itemize]{noitemsep, topsep=0pt, leftmargin=*}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+\textbf{\large FICHE DE RÉVISION - SÉCURITÉ DES APPLICATIONS MOBILES}
+\end{center}
+
+\begin{multicols}{2}
+
+\section*{ANDROID vs iOS - ARCHITECTURES}
+
+\subsection*{Distribution \& Sandboxing}
+\textbf{Android:} Open source, stores alternatifs, sideloading APK possible (risque élevé). SELinux + App Sandbox (UID unique par app). Runtime permissions (Android 6.0+).
+
+\textbf{iOS:} App Store exclusif (revue stricte). App Sandbox isolé + Code Signing obligatoire. Privacy prompts contextuels (iOS 14+).
+
+\subsection*{Fragmentation \& Mises à jour}
+\textbf{Android:} 1000+ versions actives, MAJ lentes (fabricant/opérateur).
+
+\textbf{iOS:} >80\% sur iOS 16+ en 6 mois, MAJ OTA rapides Apple direct.
+
+\subsection*{Sécurité Kernel}
+\textbf{Android:} Linux Kernel, SELinux enforcing, Verified Boot.
+
+\textbf{iOS:} XNU (Mach+BSD), Mandatory Code Signing, KASLR, Pointer Authentication.
+
+\subsection*{Environnement Sécurisé}
+\textbf{Android:} TEE (ARM TrustZone), Android Keystore, StrongBox (Android 9+).
+
+\textbf{iOS:} Secure Enclave (coprocesseur dédié), mémoire isolée, clés crypto.
+
+\section*{SÉCURITÉ OFFENSIVE}
+
+\subsection*{Android - Surface Large}
+Sideloading APK, multiplicité OEM, fragmentation patches, root accessible.
+
+\textbf{Attaques:} Malware trojanisé, Banking trojans, Overlay attacks.
+
+\textbf{Coût:} Exploitation moins coûteuse, attaques de masse.
+
+\subsection*{iOS - Surface Restreinte}
+Écosystème fermé, signature obligatoire, jailbreak complexe.
+
+\textbf{Attaques:} Exploits kernel zero-day, chaînes Pegasus-like, WebKit.
+
+\textbf{Coût:} Exploits rares, chers, sophistiqués, attaques ciblées.
+
+\section*{MENACES MOBILES}
+
+\textbf{15\%} apps infectées | \textbf{30\%} apps vulnérables réseau | \textbf{+50\%} phishing/an | \textbf{43\%} vol données
+
+\subsection*{Types de Menaces}
+\textbf{Malware:} Trojans, Spyware, Ransomware, Banking Trojans.
+
+\textbf{Réseau:} MitM, SSL Stripping, Evil Twin, DNS Spoofing.
+
+\textbf{Phishing:} Smishing (SMS), Fake Apps, Quishing (QR), Vishing.
+
+\textbf{Vol données:} SQLite non chiffré, logs exposés, clipboard, SD card.
+
+\subsection*{Vecteurs d'Attaque}
+Apps tierces (>90\% infections), Permissions excessives (90\%+), WiFi publics, Bluetooth/NFC (BlueBorne), Composants exportés.
+
+\section*{ARCHITECTURE ANDROID}
+
+\subsection*{5 Couches}
+1. Applications (Gmail, Chrome, apps tierces)
+
+2. Application Framework (Activity/Package Manager, APIs)
+
+3. ART + Native Libraries (OpenSSL, SQLite, WebKit)
+
+4. HAL (Hardware Abstraction Layer)
+
+5. Linux Kernel (drivers, SELinux, namespaces)
+
+\subsection*{Sandbox Android}
+\textbf{UID unique:} Range 10000-19999, isolation processus/fichiers.
+
+\textbf{Répertoire privé:} /data/data/ permission 700.
+
+\textbf{IPC sécurisé:} Binder, Intent avec permissions, ContentProvider.
+
+\textbf{SELinux:} MAC enforcing, politiques strictes par domaine.
+
+\subsection*{4 Types de Permissions}
+\textbf{Normal:} Auto sans confirmation (INTERNET, BLUETOOTH).
+
+\textbf{Dangerous:} Consentement requis (CAMERA, LOCATION, SMS).
+
+\textbf{Signature:} Même certificat système (INSTALL\_PACKAGES).
+
+\textbf{Special:} Action utilisateur (SYSTEM\_ALERT\_WINDOW).
+
+\subsection*{9 Groupes Permissions Dangereuses}
+CALENDAR, CAMERA, CONTACTS, LOCATION, MICROPHONE, PHONE, SENSORS, SMS, STORAGE
+
+\subsection*{Runtime Permissions (Android 6.0+)}
+1. checkSelfPermission() - vérifier
+
+2. shouldShowRequestPermissionRationale() - expliquer
+
+3. requestPermissions() - demander
+
+4. onRequestPermissionsResult() - gérer
+
+\textbf{Bonnes pratiques:} Demander au moment de l'utilisation, expliquer l'utilité, gérer le refus gracieusement.
+
+\textbf{Pièges:} Tout demander au lancement, ne pas vérifier (révocable), crasher si refusé.
+
+\subsection*{4 Composants Android}
+\textbf{Activity:} Interface utilisateur (exported=false par défaut).
+
+\textbf{Service:} Traitement arrière-plan.
+
+\textbf{BroadcastReceiver:} Écoute événements (BOOT, SMS).
+
+\textbf{ContentProvider:} Partage données inter-apps.
+
+\textbf{Risque exported=true:} Activity lancée par tous, Service exécution arbitraire, ContentProvider accès données, BroadcastReceiver injection intents.
+
+\textbf{Protection:} android:exported="false", android:permission, validation intents, signature-level.
+
+\subsection*{Android KeyStore}
+Clés non extractibles, protection TEE/StrongBox.
+
+\textbf{Opérations:} AES-GCM, RSA-OAEP, ECDSA, RSA.
+
+\textbf{Architecture:} App - KeyStore API - daemon - TEE/StrongBox.
+
+\subsection*{TEE \& StrongBox}
+\textbf{ARM TrustZone:} Normal World vs Secure World, isolation hardware, SMC.
+
+\textbf{StrongBox (9+):} HSM séparé, CPU/mémoire/stockage isolés, résistance side-channel.
+
+\textbf{Usages:} KeyStore, biométrie, WideVine DRM, Trusted UI.
+
+\subsection*{Stockage Sécurisé}
+\textbf{EncryptedSharedPreferences:} AES-256-GCM valeurs, AES-256-SIV clés.
+
+\textbf{EncryptedFile:} AES-256-GCM fichiers.
+
+\textbf{SQLCipher:} AES-256 base SQLite (~10\% perf).
+
+\section*{ARCHITECTURE iOS}
+
+\subsection*{Stack iOS (bas vers haut)}
+1. Core OS: Kernel XNU (Mach+BSD)
+
+2. Core Services: Foundation, Core Data, CloudKit
+
+3. Media Layer: AVFoundation, Core Graphics, Metal
+
+4. Cocoa Touch: UIKit, SwiftUI, ARKit
+
+\subsection*{Secure Boot Chain}
+1. Boot ROM (iBoot) - code immutable, racine confiance
+
+2. LLB (Low-Level Bootloader) - vérifié signature Apple
+
+3. iBoot (2nd stage) - vérifié par LLB
+
+4. iOS Kernel (XNU) - vérifié par iBoot
+
+5. Kernel Extensions - vérifiées par kernel
+
+\textbf{Échec vérification = arrêt immédiat (recovery/DFU)}
+
+Protection rollback via nonces SHSH.
+
+\subsection*{Secure Enclave}
+Coprocesseur ARM dédié, sepOS (microkernel Mach), mémoire chiffrée isolée.
+
+\textbf{Fonctions:} Clés crypto non exportables, Touch ID/Face ID, Apple Pay, TRNG, AES-256.
+
+\subsection*{Code Signing}
+\textbf{Certificats:} Development (<100 devices), Ad Hoc (100 max), App Store, Enterprise.
+
+\textbf{Provisioning:} embedded.mobileprovision (cert + App ID + devices + entitlements).
+
+\textbf{Expiration:} 7 jours (gratuit), 1 an (payant).
+
+\textbf{Vérification:} Signature à chaque lancement, intégrité binaire, entitlements.
+
+\subsection*{App Store Review}
+1. Analyse auto: malware scan, API privées
+
+2. Review manuelle: guidelines, contenu
+
+3. Tests fonctionnels: crash, comportement
+
+4. Vérification métadonnées
+
+\textbf{Rejets:} API privées, collecte sans consentement, bugs critiques, spam.
+
+\textbf{Limites:} Non infaillible, 24-48h délai, bypass JS hot-patching.
+
+\subsection*{iOS Sandbox \& Permissions}
+\textbf{Container:} Bundle/ (lecture seule, signé), Documents/ (iCloud), Library/ (caches), tmp/.
+
+\textbf{Permissions Info.plist:} NSCameraUsageDescription (iOS 10+), NSLocationWhenInUseUsageDescription, NSMicrophoneUsageDescription, NSContactsUsageDescription, NSFaceIDUsageDescription.
+
+\subsection*{Keychain \& Data Protection}
+\textbf{Keychain:} AES-256, géré securityd, clés Secure Enclave. Types: GenericPassword, InternetPassword, Certificate, Key, Identity. Accessibilité: kSecAttrAccessibleWhenUnlocked (recommandé).
+
+\textbf{Data Protection - 4 classes:}
+
+\textbf{Complete:} Inaccessible verrouillé (max sécurité).
+
+\textbf{CompleteUnlessOpen:} Ouvert avant verrouillage.
+
+\textbf{CompleteUntilFirstUserAuthentication:} Après 1er unlock (défaut).
+
+\textbf{None:} Toujours accessible (éviter données sensibles).
+
+\section*{POINTS CLÉS}
+
+\subsection*{Android}
+Sandbox UID + SELinux | 4 types permissions | Runtime 6.0+ | 9 groupes dangerous | 4 composants | KeyStore TEE/StrongBox | EncryptedSharedPreferences
+
+\subsection*{iOS}
+Secure Boot Chain | Code Signing obligatoire | Secure Enclave | App Store Review | Keychain | 4 classes Data Protection | Sandbox container isolé
+
+\subsection*{Comparaison}
+\textbf{Android:} Plus ouvert, surface large, attaques masse.
+
+\textbf{iOS:} Plus fermé, surface restreinte, attaques ciblées sophistiquées.
+
+\end{multicols}
+\end{document}

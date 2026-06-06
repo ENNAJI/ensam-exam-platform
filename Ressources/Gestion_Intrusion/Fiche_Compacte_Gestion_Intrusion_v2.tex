@@ -1,0 +1,240 @@
+\documentclass[9pt,a4paper]{extarticle}
+\usepackage[french]{babel}
+\usepackage[margin=0.8cm]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{fontspec}
+
+\setmainfont{Segoe UI}
+
+\setlength{\columnsep}{0.4cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\titleformat{\section}{\normalfont\bfseries\color{blue}}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\normalfont\bfseries\small\color{teal}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{5pt}{3pt}
+\titlespacing*{\subsection}{0pt}{4pt}{2pt}
+
+\setlist[itemize]{noitemsep, topsep=0pt, leftmargin=*}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+\textbf{\large FICHE DE RÉVISION - GESTION D'INTRUSION}
+\end{center}
+
+\begin{multicols}{2}
+
+\section*{1. ORIGINE CYBERSÉCURITÉ}
+
+\subsection*{Premières Menaces (1970-1980)}
+\textbf{1971 - Creeper:} Premier programme auto-réplicatif sur ARPANET. Bob Thomas (BBN). Message: "I'm the creeper, catch me if you can!". Non malveillant, expérimentation.
+
+\textbf{1988 - Morris Worm:} Premier ver grande échelle. Robert Tappan Morris. 6000 machines (~10\% Internet). Exploitait: sendmail, finger, mots de passe UNIX. Premier incident majeur mondial.
+
+\textbf{1987 - Premiers Antivirus:} Détection virus, signatures statiques, protection locale.
+
+\subsection*{Facteurs Déclencheurs}
+Interconnexion systèmes (ARPANET vers Internet académique). Standardisation TCP/IP (1983). Militarisation réseaux (Défense US, résilience). Triade CIA: Confidentialité, Intégrité, Disponibilité. Besoin confidentialité: données militaires, universitaires, bancaires.
+
+\subsection*{Premières Réponses (1988)}
+\textbf{CERT:} Computer Emergency Response Team, suite Morris Worm.
+
+\textbf{Pare-feu:} Filtrage IP/port, contrôle flux, architectures périmétriques.
+
+\textbf{Authentification:} RSA 1977, politiques mots de passe, identification centralisée.
+
+\subsection*{Évolution Chronologique}
+\textbf{1990s - Périmétrique:} Château fort, pare-feu, DMZ.
+
+\textbf{2000s - Défense profondeur:} IDS/IPS, antivirus, segmentation, anomalies.
+
+\textbf{2010-2020 - Moderne:} Zero Trust, Security by Design, Threat Intelligence, DevSecOps.
+
+\textbf{Actuel:} IA/ML détection, cloud-native, XDR (Extended Detection and Response).
+
+\section*{2. CONCEPTS FONDAMENTAUX}
+
+\subsection*{Détection d'Intrusion - Définition}
+Processus identification activité malveillante/anormale dans système, réseau, application.
+
+\textbf{Objectifs:} Détecter attaques en cours, identifier comportements suspects, repérer violations politique, réduire MTTD (Mean Time To Detect).
+
+\textbf{Pourquoi essentiel?} Pare-feu insuffisants, attaques contournent périmètre, APT invisibles semaines, détection = 2ème ligne défense.
+
+\textbf{Positionnement Kill Chain:} Reconnaissance, Exploitation, C2, Mouvement latéral, Exfiltration.
+
+\textbf{Objectif stratégique:} Réactive vers Proactive (détection précoce).
+
+\subsection*{3 Types de Détection}
+\textbf{1. Par signature:} Règles connues, rapide, efficace attaques connues, inefficace zero-day. Ex: règle Snort scan Nmap.
+
+\textbf{2. Comportementale (Anomalies):} Modèle comportement normal, écarts statistiques, adaptée APT.
+
+\textbf{3. IA/Machine Learning:} Classification (RF, KNN, CNN, LSTM), patterns complexes, sensible attaques adversariales.
+
+\subsection*{Systèmes de Détection}
+\textbf{NIDS:} Analyse trafic réseau.
+
+\textbf{HIDS:} Surveillance hôte.
+
+\textbf{IPS:} Prévention inline (bloque).
+
+\textbf{SIEM:} Corrélation \& vision globale.
+
+\textbf{Cycle:} Collecte - Analyse - Alerte - Investigation - Réponse
+
+\subsection*{Réponse à Incident - Définition}
+Ensemble processus organisationnels, techniques, juridiques pour: contenir incident, limiter impact, restaurer systèmes, préserver preuves, éviter récidive.
+
+\textbf{Pourquoi critique?} Détection différent de protection totale, compromis peut être actif, temps réaction = impact.
+
+\textbf{Objectif:} Réduire MTTR (Mean Time To Respond).
+
+\textbf{Cadres:} NIST SP 800-61, DGSSI Maroc, ISO/IEC 27035.
+
+\textbf{Cycle cyber:} Détection - Réponse - Éradication - Restauration - REX
+
+\subsection*{Cycle NIST (6 phases)}
+\textbf{1. Préparation:} Politique IR, Playbooks, SOC, CERT interne.
+
+\textbf{2. Détection \& Analyse:} Qualification alerte, Triage L1/L2, forensic, MITRE ATT\&CK.
+
+\textbf{3. Confinement:} Isolation machine, Blocage IP/C2, Segmentation, Suspension comptes.
+
+\textbf{4. Éradication:} Suppression malware, Patch, Rotation MDP, Nettoyage persistence.
+
+\textbf{5. Récupération:} Restauration backups, Vérification intégrité, Surveillance renforcée.
+
+\textbf{6. REX:} Analyse causes, MAJ règles IDS, Amélioration playbooks, Sensibilisation.
+
+\textbf{Rôles SOC:} L1 (triage), L2/L3 (investigation), Incident Manager, Forensic, RSSI.
+
+\subsection*{Gestion Vulnérabilités - Définition}
+Processus continu: Identifier, Évaluer, Prioriser, Corriger, Surveiller faiblesses techniques.
+
+\textbf{Vulnérabilité:} Faiblesse exploitable par menace (CIA).
+
+\textbf{Pourquoi stratégique?} 80-90\% intrusions = vulnérabilités connues. Attaques réussies = patch manquant. Mesure préventive majeure.
+
+\textbf{Vulnérabilité différent de Menace différent de Exploit:} Vulnérabilité = faiblesse technique. Exploit = code/méthode exploitation. Menace = acteur/événement malveillant.
+
+\subsection*{Vulnerability Management (5 étapes)}
+\textbf{1. Découverte actifs:} Inventaire IT/OT, Shadow IT, Cartographie.
+
+\textbf{2. Scan vulnérabilités:} Nessus, OpenVAS, Qualys, CVE, authentifié/non-auth.
+
+\textbf{3. Évaluation \& Priorisation:} Score CVSS, criticité métier, exposition Internet, exploit public - Risk-Based.
+
+\textbf{4. Remédiation:} Patch management, Reconfiguration, Désactivation, Segmentation.
+
+\textbf{5. Vérification \& Reporting:} Re-scan, KPI (MTTR vuln, \% critiques, conformité patch).
+
+\textbf{Normes:} ISO 27001-A.12.6.1, NIST CSF, DGSSI Maroc.
+
+\subsection*{Sécurité Défensive vs Offensive}
+
+\textbf{Blue Team (Défensive):} Protéger, détecter, répondre, maintenir résilience. Outils: IDS/IPS, SIEM, SOC, EDR. Objectif: Réduire impact attaque. KPI: MTTD/MTTR.
+
+\textbf{Red Team (Offensive):} Simuler attaquant réel, identifier failles, tester défenses. Outils: Metasploit, Nmap, Cobalt Strike. Objectif: Découvrir faiblesses avant attaquant. KPI: Taux compromission.
+
+\textbf{Purple Team:} Collaboration Blue + Red + Threat Intelligence. Objectif: Améliorer posture sécurité globale.
+
+\textbf{Cycle amélioration:} Red attaque - Blue détecte - Analyse écarts - MAJ règles - Renforcement.
+
+\subsection*{Sûreté de Fonctionnement (FMCD)}
+Fiabilité (continuité), Maintenabilité (réparation), Confidentialité (non-divulgation), Disponibilité (accessibilité), Intégrité (non-altération).
+
+\textbf{Convergence:} Cyberattaques menacent disponibilité (DoS), intégrité compromise = défaillances. Approche holistique nécessaire.
+
+\subsection*{Statistiques 2023-2024}
+93\% entreprises subissent cyberattaque | 4,45 M\$ coût moyen violation | 277 jours détection intrusion | 43\% attaques ciblent PME
+
+\textit{"Il ne s'agit pas de savoir SI vous serez attaqué, mais QUAND."}
+
+\section*{3. CLASSIFICATION ATTAQUES}
+
+\subsection*{Cyber Kill Chain (Lockheed Martin 2011)}
+\textbf{7 Phases:}
+
+1. \textbf{Reconnaissance:} Scanning, harvesting infos
+
+2. \textbf{Weaponization:} Création malware/exploit
+
+3. \textbf{Delivery:} Livraison (email, USB, web)
+
+4. \textbf{Exploitation:} Déclenchement code
+
+5. \textbf{Installation:} Installation malware
+
+6. \textbf{Command \& Control (C2):} Canal commande
+
+7. \textbf{Actions on Objectives:} Exfiltration, sabotage
+
+\textbf{Catégories:} 1-3 = Intrusion | 4-5 = Incident | 6-7 = Compromission
+
+\subsection*{Intrusion (Tentative)}
+Tentative accès non autorisé. Peut être bloquée AVANT succès. Détectable par systèmes sécurité. N'implique pas nécessairement impact.
+
+\textbf{Ex:} Scan ports, Brute force SSH, Injection SQL bloquée.
+
+\subsection*{Incident (Impact CIA)}
+Événement compromettant CIA.
+
+\textbf{Confidentialité:} Vol données clients.
+
+\textbf{Intégrité:} Défacement site web.
+
+\textbf{Disponibilité:} Attaque DDoS.
+
+\subsection*{Compromission (Contrôle Effectif)}
+Prise contrôle EFFECTIVE système. Persistance attaquant. Accès privilégié obtenu. Capacité action sur système.
+
+\textbf{Ex:} Backdoor actif, Compte admin créé, C2 établi.
+
+\subsection*{Progression Gravité}
+\textbf{Intrusion} (tentative, bloquable) puis \textbf{Incident} (succès, impact) puis \textbf{Compromission} (contrôle total, persistance)
+
+\subsection*{APT - Advanced Persistent Threat}
+Attaque sophistiquée, ciblée, prolongée par acteurs étatiques.
+
+\textbf{A}dvanced: Techniques sophistiquées, zero-day.
+
+\textbf{P}ersistent: Présence longue durée (mois/années).
+
+\textbf{T}hreat: Objectifs stratégiques (espionnage, sabotage).
+
+\textbf{Exemples:} APT28, APT29 (Russie), Lazarus Group (Corée du Nord).
+
+\section*{POINTS CLÉS À RETENIR}
+
+\subsection*{Chronologie}
+1971: Creeper | 1977: RSA | 1983: TCP/IP | 1987: Antivirus | 1988: Morris Worm + CERT
+
+\subsection*{Triade CIA}
+Confidentialité (accès) | Intégrité (modification) | Disponibilité (accessibilité)
+
+\subsection*{Détection}
+Signature (connues) | Comportementale (APT) | IA/ML (patterns)
+
+NIDS (réseau) | HIDS (hôte) | IPS (bloque) | SIEM (corrélation)
+
+\subsection*{Réponse NIST (6 phases)}
+Préparation - Détection - Confinement - Éradication - Récupération - REX
+
+\subsection*{Kill Chain (7 phases)}
+Reconnaissance - Weaponization - Delivery - Exploitation - Installation - C2 - Actions
+
+\subsection*{Métriques}
+MTTD (Time To Detect) | MTTR (Time To Respond)
+
+\subsection*{Teams}
+Blue (défense) | Red (attaque) | Purple (collaboration)
+
+\end{multicols}
+\end{document}

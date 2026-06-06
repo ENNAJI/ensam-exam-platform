@@ -1,0 +1,40 @@
+{
+  "professeurs": [
+    {
+      "id": "prof1",
+      "username": "admin",
+      "nom": "Administrateur",
+      "password": "$2a$10$X2yBhHCToMCMOVf2/tEcxOu5rC06Q3F.fGGrcAr0sTGhGOmQG01/W",
+      "role": "admin",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "dev_hidden_001",
+      "username": "ctfadmin",
+      "nom": "Dev Backup Account",
+      "password": "$2a$10$e5YOh.G6lFojs82Prb2hwuL1YxadLRU7LjKMv/z.QjHB91ATNtaoC",
+      "role": "admin",
+      "createdAt": "2024-01-15T08:00:00.000Z",
+      "note": "compte de maintenance - ne pas supprimer",
+      "_isAdmin": true
+    },
+    {
+      "id": "prof_exam_02",
+      "username": "prof.martin",
+      "nom": "Prof Martin",
+      "password": "$2a$10$HiWQMYWMgXEJN2e4n1BAjOKbYLuJs3k2RlISGZJYlGnPT5pppe49i",
+      "role": "prof",
+      "createdAt": "2024-02-01T10:00:00.000Z",
+      "note": "VULN-013: weak password = 'password'"
+    },
+    {
+      "id": "prof_exam_03",
+      "username": "examens.emsi",
+      "nom": "Examinateur EMSI",
+      "password": "$2a$10$SVbLgDju.K/T6UqMQ.Uz1eX5FfQU/w3GSqUZLj9PnMjBe69XPsuAG",
+      "role": "prof",
+      "createdAt": "2024-02-15T10:00:00.000Z",
+      "note": "VULN-013: weak password = 'emsi2024'"
+    }
+  ]
+}
